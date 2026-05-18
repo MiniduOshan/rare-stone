@@ -84,10 +84,7 @@
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
                 <button onclick="openModal('inquiryModal', 'Secure Advisory: <?= htmlspecialchars($gem['title']); ?> (<?= htmlspecialchars($gem['carats']); ?>, <?= htmlspecialchars($gem['origin']); ?>)')" class="w-full sm:w-1/2 py-4 bg-white text-black font-medium text-xs uppercase tracking-[0.2em] rounded-full hover:bg-gray-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300 text-center">
-                    Connect With Concierge
-                </button>
-                <button onclick="openModal('inquiryModal', 'Private Viewing Appointment: <?= htmlspecialchars($gem['title']); ?>')" class="w-full sm:w-1/2 py-4 border border-gray-600 text-white font-medium text-xs uppercase tracking-[0.2em] rounded-full hover:border-white transition-all duration-300 text-center">
-                    Book Private Salon Viewing
+                    Inquiry Now
                 </button>
             </div>
 

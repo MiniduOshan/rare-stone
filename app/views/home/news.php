@@ -1,7 +1,7 @@
 <!-- EDITORIAL HEADER SECTION -->
-<section class="pt-40 pb-16 px-8 md:px-16 max-w-7xl mx-auto relative z-20 border-b border-borderGray mb-16">
+<section class="pt-28 pb-8 px-8 md:px-16 max-w-7xl mx-auto relative z-20 border-b border-borderGray mb-8">
     <div class="max-w-3xl space-y-4">
-        <h1 class="font-serif text-5xl md:text-7xl text-white font-light tracking-tight leading-tight">
+        <h1 class="font-serif text-5xl md:text-6xl text-white font-light tracking-tight leading-tight">
             Editorial & <span class="italic text-gradient">Insight</span>
         </h1>
         <p class="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl tracking-wide">
