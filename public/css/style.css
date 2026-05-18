@@ -1,0 +1,82 @@
+/* Custom Styles for AETHERIA Luxury Landing Page */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+    background-color: #08080a;
+}
+
+/* Custom Gradients and Glows */
+.text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #a5a5b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bg-radial-gradient {
+    background: radial-gradient(circle at center, rgba(30, 32, 45, 0.4) 0%, rgba(8, 8, 10, 0.95) 70%, #08080a 100%);
+}
+
+/* Navbar glassmorphism transition */
+.navbar-scrolled {
+    background-color: rgba(8, 8, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Slow Pulse Animation for Hero Gem */
+@keyframes pulseSlow {
+    0%, 100% {
+        transform: scale(1.05);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulseSlow 10s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Modal Backdrops */
+.modal-backdrop {
+    transition: opacity 0.4s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #08080a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222228;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #44444e;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : SITE_NAME; ?></title>
+    <meta name="description" content="Discover Sri Lanka's most exclusive marketplace for investment-grade gemstones, master-cut sapphires, and historic bespoke jewelry.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
+
+    <!-- Google Fonts: Cormorant Garamond & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS CDN (for rapid responsive flex/grid and utilities) & Custom CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#08080a',
+                        surface: '#111115',
+                        borderGray: 'rgba(255, 255, 255, 0.12)',
+                        accentText: '#e5e5e5',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS for specific premium aesthetics & animations -->
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/style.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-dark text-gray-300 font-sans antialiased selection:bg-white selection:text-black">
+
+    <!-- Premium Navigation Bar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-8 md:px-16 border-b border-transparent">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="<?= BASE_URL; ?>" class="flex items-center space-x-3 group">
+                <div class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center text-white group-hover:border-white transition-colors duration-300">
+                    <i data-lucide="gem" class="w-4 h-4"></i>
+                </div>
+                <span class="tracking-[0.3em] font-light text-white text-base md:text-lg uppercase">Aetheria</span>
+            </a>
+
+            <!-- Center Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-10 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
+                <a href="#marketplace" class="hover:text-white transition-colors duration-300">Marketplace</a>
+                <a href="#acquisitions" class="hover:text-white transition-colors duration-300">Gemstones</a>
+                <a href="#heritage" class="hover:text-white transition-colors duration-300">Heritage</a>
+                <a href="#news" class="hover:text-white transition-colors duration-300">News</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-6 text-xs tracking-[0.15em] uppercase font-light">
+                <a href="#discovery-map" class="hidden lg:flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
+                    <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                    <span>Discover</span>
+                </a>
+                
+                <span class="hidden lg:inline text-gray-700">|</span>
+
+                <button onclick="openModal('inquiryModal')" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    Inquire
+                </button>
+
+                <button onclick="openModal('loginModal')" class="px-6 py-2.5 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                    Login
+                </button>
+            </div>
+
+        </div>
+    </header>
