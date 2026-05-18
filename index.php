@@ -18,6 +18,9 @@ switch ($route) {
     case 'heritage':
         $controller->heritage();
         break;
+    case 'news':
+        $controller->news();
+        break;
     case 'home':
     default:
         $controller->index();

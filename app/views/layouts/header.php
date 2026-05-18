@@ -70,12 +70,7 @@
                 
                 <a href="<?= BASE_URL; ?>/index.php?route=heritage" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Heritage</a>
                 
-                <div class="relative group py-2">
-                    <a href="<?= BASE_URL; ?>/#news" class="flex items-center space-x-1 hover:text-white transition-colors duration-300">
-                        <span>News</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 group-hover:text-white transition-colors"></i>
-                    </a>
-                </div>
+                <a href="<?= BASE_URL; ?>/index.php?route=news" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">News</a>
             </nav>
 
             <!-- Right Actions -->
@@ -96,7 +91,7 @@
                 </button>
 
                 <button onclick="openModal('loginModal')" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
-                    Login
+                    Logout
                 </button>
             </div>
 

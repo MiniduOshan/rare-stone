@@ -34,6 +34,18 @@ class HomeController extends Controller {
     }
 
     /**
+     * Display the News & Editorial page
+     */
+    public function news() {
+        $data = [
+            'pageTitle' => 'Editorial & Insight | AETHERIA',
+            'activeNav' => 'news'
+        ];
+
+        $this->render('home/news', $data);
+    }
+
+    /**
      * Handle inquiry modal submission or data request
      */
     public function inquire() {
