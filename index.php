@@ -15,6 +15,9 @@ switch ($route) {
     case 'newsletter':
         $controller->newsletter();
         break;
+    case 'heritage':
+        $controller->heritage();
+        break;
     case 'home':
     default:
         $controller->index();

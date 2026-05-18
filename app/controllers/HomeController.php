@@ -9,16 +9,28 @@ class HomeController extends Controller {
      */
     public function index() {
         $allGemstones = Gemstone::getCuratedAcquisitions();
-        // For the main display, let's show the top 3 featured items exactly as on the design
         $featuredGemstones = array_slice($allGemstones, 0, 3);
 
         $data = [
             'pageTitle' => 'AETHERIA | Rare & Exceptional Gemstones',
             'featuredGemstones' => $featuredGemstones,
-            'allGemstones' => $allGemstones
+            'allGemstones' => $allGemstones,
+            'activeNav' => 'home'
         ];
 
         $this->render('home/index', $data);
+    }
+
+    /**
+     * Display the Heritage page
+     */
+    public function heritage() {
+        $data = [
+            'pageTitle' => 'Our Heritage & Philosophy | AETHERIA',
+            'activeNav' => 'heritage'
+        ];
+
+        $this->render('home/heritage', $data);
     }
 
     /**
@@ -31,7 +43,6 @@ class HomeController extends Controller {
             $email = isset($_POST['client_email']) ? trim($_POST['client_email']) : '';
             $notes = isset($_POST['client_notes']) ? trim($_POST['client_notes']) : '';
 
-            // Return JSON response for sleek AJAX experience
             header('Content-Type: application/json');
             echo json_encode([
                 'status' => 'success',

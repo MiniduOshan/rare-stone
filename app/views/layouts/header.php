@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- TailwindCSS CDN (for rapid responsive flex/grid and utilities) & Custom CSS -->
+    <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,7 +24,7 @@
                         dark: '#08080a',
                         surface: '#111115',
                         borderGray: 'rgba(255, 255, 255, 0.12)',
-                        accentText: '#e5e5e5',
+                        gold: '#d4af37',
                     },
                     fontFamily: {
                         serif: ['"Cormorant Garamond"', 'serif'],
@@ -35,7 +35,7 @@
         }
     </script>
     
-    <!-- Custom CSS for specific premium aesthetics & animations -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/style.css">
 
     <!-- Lucide Icons -->
@@ -56,27 +56,46 @@
             </a>
 
             <!-- Center Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-10 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
-                <a href="#marketplace" class="hover:text-white transition-colors duration-300">Marketplace</a>
-                <a href="#acquisitions" class="hover:text-white transition-colors duration-300">Gemstones</a>
-                <a href="#heritage" class="hover:text-white transition-colors duration-300">Heritage</a>
-                <a href="#news" class="hover:text-white transition-colors duration-300">News</a>
+            <nav class="hidden md:flex items-center space-x-8 lg:space-x-10 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
+                <a href="<?= BASE_URL; ?>/#marketplace" class="hover:text-white transition-colors duration-300">Marketplace</a>
+                
+                <div class="relative group py-2">
+                    <a href="<?= BASE_URL; ?>/#acquisitions" class="flex items-center space-x-1 hover:text-white transition-colors duration-300">
+                        <span>Jewelry</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 group-hover:text-white transition-colors"></i>
+                    </a>
+                </div>
+
+                <a href="<?= BASE_URL; ?>/#discovery-map" class="hover:text-white transition-colors duration-300">Sellers</a>
+                
+                <a href="<?= BASE_URL; ?>/index.php?route=heritage" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Heritage</a>
+                
+                <div class="relative group py-2">
+                    <a href="<?= BASE_URL; ?>/#news" class="flex items-center space-x-1 hover:text-white transition-colors duration-300">
+                        <span>News</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 group-hover:text-white transition-colors"></i>
+                    </a>
+                </div>
             </nav>
 
             <!-- Right Actions -->
-            <div class="flex items-center space-x-6 text-xs tracking-[0.15em] uppercase font-light">
-                <a href="#discovery-map" class="hidden lg:flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
+            <div class="flex items-center space-x-4 lg:space-x-6 text-[10px] lg:text-xs tracking-[0.15em] uppercase font-light">
+                <a href="<?= BASE_URL; ?>/#discovery-map" class="hidden lg:flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
                     <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                     <span>Discover</span>
                 </a>
                 
                 <span class="hidden lg:inline text-gray-700">|</span>
 
-                <button onclick="openModal('inquiryModal')" class="text-gray-400 hover:text-white transition-colors duration-300">
+                <button onclick="openModal('inquiryModal')" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white transition-all duration-300">
                     Inquire
                 </button>
 
-                <button onclick="openModal('loginModal')" class="px-6 py-2.5 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                <button onclick="openModal('inquiryModal', 'Application for Vetted Gemstone Seller Network')" class="px-5 py-2 bg-gold text-black font-medium rounded-full hover:bg-[#ebd275] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+                    Sell Gem
+                </button>
+
+                <button onclick="openModal('loginModal')" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
                     Login
                 </button>
             </div>
