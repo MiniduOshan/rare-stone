@@ -21,6 +21,18 @@ switch ($route) {
     case 'news':
         $controller->news();
         break;
+    case 'article':
+        $controller->article();
+        break;
+    case 'gemstones':
+        $controller->gemstones();
+        break;
+    case 'gem':
+        $controller->gem();
+        break;
+    case 'discover':
+        $controller->discover();
+        break;
     case 'home':
     default:
         $controller->index();

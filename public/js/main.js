@@ -94,28 +94,7 @@ function closeModal(modalId) {
     }
 }
 
-let currentSelectedGem = null;
 
-function openGemModal(gem) {
-    currentSelectedGem = gem;
-    document.getElementById('modalGemImg').src = `${BASE_URL}/public/images/${gem.image}`;
-    document.getElementById('modalGemStatus').textContent = gem.status;
-    document.getElementById('modalGemTitle').textContent = gem.title;
-    document.getElementById('modalGemSubtitle').textContent = `${gem.origin} - ${gem.carats} | ${gem.cut}`;
-    document.getElementById('modalGemDesc').textContent = gem.description;
-    
-    openModal('gemModal');
-}
-
-function initiateGemInquiry() {
-    closeModal('gemModal');
-    if (currentSelectedGem) {
-        document.getElementById('stone_id').value = currentSelectedGem.id;
-        openModal('inquiryModal', `Inquiring about: ${currentSelectedGem.title} (${currentSelectedGem.carats}, ${currentSelectedGem.origin})`);
-    } else {
-        openModal('inquiryModal');
-    }
-}
 
 function toggleAllGems(e) {
     e.preventDefault();

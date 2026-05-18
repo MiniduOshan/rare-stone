@@ -38,13 +38,16 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/style.css">
 
+    <!-- Leaflet CSS for Map Discovery -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-dark text-gray-300 font-sans antialiased selection:bg-white selection:text-black">
 
     <!-- Premium Navigation Bar -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-8 md:px-16 border-b border-transparent">
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-8 md:px-16 border-b border-transparent bg-dark/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
             <!-- Logo -->
@@ -52,21 +55,14 @@
                 <div class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center text-white group-hover:border-white transition-colors duration-300">
                     <i data-lucide="gem" class="w-4 h-4"></i>
                 </div>
-                <span class="tracking-[0.3em] font-light text-white text-base md:text-lg uppercase">Aetheria</span>
+                <span class="tracking-[0.3em] font-light text-white text-base md:text-lg uppercase">Rare Stones</span>
             </a>
 
             <!-- Center Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-8 lg:space-x-10 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
-                <a href="<?= BASE_URL; ?>/#marketplace" class="hover:text-white transition-colors duration-300">Marketplace</a>
+            <nav class="hidden md:flex items-center space-x-8 lg:space-x-12 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
+                <a href="<?= BASE_URL; ?>/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Marketplace</a>
                 
-                <div class="relative group py-2">
-                    <a href="<?= BASE_URL; ?>/#acquisitions" class="flex items-center space-x-1 hover:text-white transition-colors duration-300">
-                        <span>Jewelry</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 group-hover:text-white transition-colors"></i>
-                    </a>
-                </div>
-
-                <a href="<?= BASE_URL; ?>/#discovery-map" class="hover:text-white transition-colors duration-300">Sellers</a>
+                <a href="<?= BASE_URL; ?>/index.php?route=gemstones" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Gem Stones</a>
                 
                 <a href="<?= BASE_URL; ?>/index.php?route=heritage" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Heritage</a>
                 
@@ -75,7 +71,7 @@
 
             <!-- Right Actions -->
             <div class="flex items-center space-x-4 lg:space-x-6 text-[10px] lg:text-xs tracking-[0.15em] uppercase font-light">
-                <a href="<?= BASE_URL; ?>/#discovery-map" class="hidden lg:flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
+                <a href="<?= BASE_URL; ?>/index.php?route=discover" class="hidden lg:flex items-center space-x-2 transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">
                     <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                     <span>Discover</span>
                 </a>

@@ -76,4 +76,20 @@ class Gemstone {
             ]
         ];
     }
+
+    /**
+     * Get a specific gemstone by ID
+     * 
+     * @param int $id
+     * @return array
+     */
+    public static function getById($id) {
+        $gems = self::getCuratedAcquisitions();
+        foreach ($gems as $gem) {
+            if ($gem['id'] == $id) {
+                return $gem;
+            }
+        }
+        return $gems[0];
+    }
 }
