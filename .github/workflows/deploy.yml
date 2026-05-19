@@ -1,3 +1,4 @@
+```yml
 name: Deploy to DigitalOcean Droplet
 
 on:
@@ -27,45 +28,41 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: lint
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Prepare SSH key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DO_SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/do_key
+          echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" > ~/.ssh/do_key
           chmod 600 ~/.ssh/do_key
-          ssh-keyscan -H "${{ secrets.DO_SSH_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.DO_SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH connection
         run: |
-          ssh -i ~/.ssh/do_key -o StrictHostKeyChecking=no root@${{ secrets.DO_SSH_HOST }} "echo SSH SUCCESS"
+          ssh -i ~/.ssh/do_key \
+          -o StrictHostKeyChecking=no \
+          root@${{ secrets.DO_SSH_HOST }} \
+          "echo SSH SUCCESS"
 
-      - name: Sync files to droplet
-        env:
-          SSH_USER: ${{ secrets.DO_SSH_USER }}
-          SSH_HOST: ${{ secrets.DO_SSH_HOST }}
+      - name: Deploy files
         run: |
-          rsync -az --delete \
+          rsync -avz --delete \
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '.env' \
             --exclude 'setup_db.php' \
-            --exclude '.DS_Store' \
-            -e "ssh -i ~/.ssh/do_key -o StrictHostKeyChecking=yes" \
-            ./ "${SSH_USER}@${SSH_HOST}:/var/www/rare-stone/"
+            -e "ssh -i ~/.ssh/do_key -o StrictHostKeyChecking=no" \
+            ./ root@${{ secrets.DO_SSH_HOST }}:/var/www/rare-stone/
 
-      - name: Set permissions
-        env:
-          SSH_HOST: ${{ secrets.DO_SSH_HOST }}
+      - name: Fix permissions
         run: |
-          ssh -i ~/.ssh/do_key root@${{ secrets.DO_SSH_HOST }} "
+          ssh -i ~/.ssh/do_key \
+          root@${{ secrets.DO_SSH_HOST }} "
             chown -R www-data:www-data /var/www/rare-stone &&
             chmod -R 755 /var/www/rare-stone &&
             systemctl restart apache2
           "
+```
