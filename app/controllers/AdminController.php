@@ -200,6 +200,26 @@ class AdminController {
     }
 
     /**
+     * Set a specific article as headline
+     */
+    public function headline() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            if ($id > 0) {
+                if (Article::setHeadline($id)) {
+                    $_SESSION['admin_success'] = 'Headline article updated successfully.';
+                } else {
+                    $_SESSION['admin_error'] = 'Failed to set headline article.';
+                }
+            } else {
+                $_SESSION['admin_error'] = 'Invalid article ID provided.';
+            }
+        }
+        header('Location: ' . BASE_URL . '/admin/#news');
+        exit;
+    }
+
+    /**
      * Change Heritage Article Panel
      */
     public function heritage() {

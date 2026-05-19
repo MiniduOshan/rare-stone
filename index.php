@@ -127,6 +127,14 @@ switch ($route) {
             exit;
         }
         break;
+    case 'admin_headline':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->headline();
+        } else {
+            header('Location: ' . BASE_URL . '/admin/#news');
+            exit;
+        }
+        break;
     case 'admin_heritage':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->heritage();

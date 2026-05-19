@@ -16,7 +16,15 @@
     $featured = null;
     $others = [];
     if (!empty($articles)) {
-        $featured = $articles[0];
+        foreach ($articles as $art) {
+            if (isset($art['is_headline']) && $art['is_headline'] == 1) {
+                $featured = $art;
+                break;
+            }
+        }
+        if (!$featured) {
+            $featured = $articles[0];
+        }
         $others = $articles;
     }
     ?>

@@ -152,4 +152,28 @@ class Article {
             return false;
         }
     }
+
+    /**
+     * Set a specific article as the headline
+     * 
+     * @param int $id
+     * @return bool
+     */
+    public static function setHeadline($id) {
+        try {
+            $db = Database::getConnection();
+            $db->beginTransaction();
+            // Remove headline from all
+            $db->exec("UPDATE `articles` SET `is_headline` = 0");
+            // Set for specific
+            $stmt = $db->prepare("UPDATE `articles` SET `is_headline` = 1 WHERE `id` = :id");
+            $stmt->execute(['id' => $id]);
+            $db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $db->rollBack();
+            error_log("Error in Article::setHeadline: " . $e->getMessage());
+            return false;
+        }
+    }
 }
