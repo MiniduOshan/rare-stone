@@ -58,4 +58,14 @@ jobs:
             --exclude 'setup_db.php' \
             --exclude '.DS_Store' \
             -e "ssh -i ~/.ssh/do_key -o StrictHostKeyChecking=yes" \
-            ./ "${SSH_USER}@${SSH_HOST}:~/"
+            ./ "${SSH_USER}@${SSH_HOST}:/var/www/rare-stone/"
+
+      - name: Set permissions
+        env:
+          SSH_HOST: ${{ secrets.DO_SSH_HOST }}
+        run: |
+          ssh -i ~/.ssh/do_key root@${{ secrets.DO_SSH_HOST }} "
+            chown -R www-data:www-data /var/www/rare-stone &&
+            chmod -R 755 /var/www/rare-stone &&
+            systemctl restart apache2
+          "
