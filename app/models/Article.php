@@ -10,6 +10,7 @@ class Article {
      */
     public static function getAll() {
         try {
+            self::ensureHeadlineColumnExists();
             $db = Database::getConnection();
             $stmt = $db->query("SELECT * FROM `articles` ORDER BY `created_at` DESC");
             return $stmt->fetchAll();
@@ -154,6 +155,27 @@ class Article {
     }
 
     /**
+     * Check and ensure the is_headline column exists in the articles table.
+     * Self-heals the database schema if tables were created before this column was introduced.
+     */
+    public static function ensureHeadlineColumnExists() {
+        try {
+            $db = Database::getConnection();
+            
+            // Check if column exists
+            $stmt = $db->query("SHOW COLUMNS FROM `articles` LIKE 'is_headline'");
+            $column = $stmt->fetch();
+            if (!$column) {
+                // Column is missing, add it!
+                $db->exec("ALTER TABLE `articles` ADD COLUMN `is_headline` TINYINT(1) DEFAULT 0");
+                error_log("Self-healed database schema: added 'is_headline' column to 'articles' table.");
+            }
+        } catch (PDOException $e) {
+            error_log("Failed to ensure 'is_headline' column exists: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Set a specific article as the headline
      * 
      * @param int $id
@@ -161,6 +183,8 @@ class Article {
      */
     public static function setHeadline($id) {
         try {
+            self::ensureHeadlineColumnExists();
+            
             $db = Database::getConnection();
             $db->beginTransaction();
             // Remove headline from all
