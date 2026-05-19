@@ -20,8 +20,8 @@
                 <h4 class="text-white uppercase tracking-[0.2em] text-[10px] font-medium">Explore Vaults</h4>
                 <ul class="space-y-3 font-light text-gray-400">
                     <li><a href="<?= BASE_URL; ?>/" class="hover:text-white transition-colors">The Vault Catalog</a></li>
-                    <li><a href="<?= BASE_URL; ?>/index.php?route=gemstones" class="hover:text-white transition-colors">All Gem Stones</a></li>
-                    <li><a href="<?= BASE_URL; ?>/index.php?route=discover" class="hover:text-white transition-colors">Branches</a></li>
+                    <li><a href="<?= BASE_URL; ?>/gemstones/" class="hover:text-white transition-colors">All Gem Stones</a></li>
+                    <li><a href="<?= BASE_URL; ?>/discover/" class="hover:text-white transition-colors">Branches</a></li>
                     <li><button onclick="openModal('inquiryModal', 'Private Viewing Appointment')" class="hover:text-white transition-colors text-left">Book Viewing Appointment</button></li>
                 </ul>
             </div>
@@ -30,8 +30,8 @@
             <div class="md:col-span-3 space-y-4">
                 <h4 class="text-white uppercase tracking-[0.2em] text-[10px] font-medium">The Brand</h4>
                 <ul class="space-y-3 font-light text-gray-400">
-                    <li><a href="<?= BASE_URL; ?>/index.php?route=heritage" class="hover:text-white transition-colors">Our Heritage</a></li>
-                    <li><a href="<?= BASE_URL; ?>/index.php?route=news" class="hover:text-white transition-colors">Editorial & Insight</a></li>
+                    <li><a href="<?= BASE_URL; ?>/heritage/" class="hover:text-white transition-colors">Our Heritage</a></li>
+                    <li><a href="<?= BASE_URL; ?>/news/" class="hover:text-white transition-colors">Editorial & Insight</a></li>
                     <li><button onclick="openModal('inquiryModal', 'Private Consultation Request')" class="hover:text-white transition-colors text-left">Private Consultation</button></li>
                 </ul>
             </div>

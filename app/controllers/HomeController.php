@@ -31,11 +31,19 @@ class HomeController extends Controller {
      * Display dedicated gemstone view page
      */
     public function gem() {
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
-        $gem = Gemstone::getById($id);
+        $gemSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+        $gemId = isset($_GET['id']) ? trim($_GET['id']) : '';
+
+        if ($gemSlug !== '') {
+            $gem = Gemstone::getBySlug($gemSlug);
+        } elseif ($gemId !== '' && ctype_digit($gemId)) {
+            $gem = Gemstone::getById((int) $gemId);
+        } else {
+            $gem = Gemstone::getBySlug($gemId);
+        }
 
         if (!$gem) {
-            header('Location: ' . BASE_URL . '/index.php?route=gemstones');
+            header('Location: ' . BASE_URL . '/gemstones/');
             exit;
         }
 
@@ -56,6 +64,11 @@ class HomeController extends Controller {
      */
     public function gemstones() {
         $allGemstones = Gemstone::getCuratedAcquisitions();
+
+        foreach ($allGemstones as &$gem) {
+            $gem['slug'] = Gemstone::buildSlug($gem);
+        }
+        unset($gem);
 
         $data = [
             'pageTitle' => 'Vault Gem Stones | Rare Stones',
@@ -91,7 +104,7 @@ class HomeController extends Controller {
         
         // Filter out internal configuration pages
         $articles = array_filter($allArticles, function($art) {
-            return !in_array($art['slug'], ['heritage-philosophies', 'discover-page']);
+            return !in_array($art['slug'], ['heritage-philosophies', 'discover-page', 'contact-details']);
         });
         
         // Re-index array
@@ -110,13 +123,40 @@ class HomeController extends Controller {
      * Display the Dedicated Article Reader page
      */
     public function article() {
+        $articleSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
         $articleId = isset($_GET['id']) ? trim($_GET['id']) : '';
-        $article = Article::getBySlug($articleId);
+
+        if ($articleSlug !== '') {
+            $article = Article::getBySlug($articleSlug);
+        } elseif ($articleId !== '' && ctype_digit($articleId)) {
+            $article = Article::getById((int) $articleId);
+        } else {
+            $article = Article::getBySlug($articleId);
+        }
 
         if (!$article) {
             // Redirect back if article not found
-            header('Location: ' . BASE_URL . '/index.php?route=news');
+            header('Location: ' . BASE_URL . '/news/');
             exit;
+        }
+
+        $effectiveSlug = $article['slug'] ?? $articleSlug;
+
+        if ($effectiveSlug === 'contact-details') {
+            $contacts = json_decode($article['content'], true);
+            if (!is_array($contacts)) {
+                $contacts = [];
+            }
+
+            $data = [
+                'pageTitle' => 'Private Client Concierge | Rare Stones',
+                'activeNav' => 'discover',
+                'article' => $article,
+                'contacts' => $contacts
+            ];
+
+            $this->render('home/contact', $data);
+            return;
         }
 
         $data = [
@@ -151,7 +191,7 @@ class HomeController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['action']) && $_POST['action'] === 'guest') {
                 User::loginAsGuest();
-                header('Location: ' . BASE_URL . '/index.php?route=home');
+                header('Location: ' . BASE_URL . '/');
                 exit;
             }
 
@@ -161,9 +201,9 @@ class HomeController extends Controller {
             $user = User::login($email, $password);
             if ($user) {
                 if ($user['role'] === 'admin') {
-                    header('Location: ' . BASE_URL . '/index.php?route=admin');
+                    header('Location: ' . BASE_URL . '/admin/');
                 } else {
-                    header('Location: ' . BASE_URL . '/index.php?route=home');
+                    header('Location: ' . BASE_URL . '/');
                 }
                 exit;
             } else {
@@ -199,7 +239,7 @@ class HomeController extends Controller {
                 if ($registered) {
                     // Log in immediately
                     User::login($email, $password);
-                    header('Location: ' . BASE_URL . '/index.php?route=home');
+                    header('Location: ' . BASE_URL . '/');
                     exit;
                 } else {
                     $error = 'Email is already registered. Please login or use another email.';
@@ -221,7 +261,7 @@ class HomeController extends Controller {
      */
     public function logout() {
         User::logout();
-        header('Location: ' . BASE_URL . '/index.php?route=home');
+        header('Location: ' . BASE_URL . '/');
         exit;
     }
 

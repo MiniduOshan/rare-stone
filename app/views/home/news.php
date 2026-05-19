@@ -17,7 +17,7 @@
     $others = [];
     if (!empty($articles)) {
         $featured = $articles[0];
-        $others = array_slice($articles, 1);
+        $others = $articles;
     }
     ?>
 
@@ -26,7 +26,7 @@
         
         <!-- Left Column: Featured Main Article -->
         <div class="lg:col-span-7 space-y-6 lg:border-r lg:border-borderGray lg:pr-16">
-            <a href="<?= BASE_URL; ?>/index.php?route=article&id=<?= urlencode($featured['slug']); ?>" class="block relative aspect-[16/10] bg-surface rounded-2xl overflow-hidden border border-borderGray shadow-2xl group cursor-pointer">
+            <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/" class="block relative aspect-[16/10] bg-surface rounded-2xl overflow-hidden border border-borderGray shadow-2xl group cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                 <?php 
                 $imgSrc = $featured['image'];
@@ -49,7 +49,7 @@
             </div>
 
             <h2 class="font-serif text-3xl md:text-4xl text-white font-light leading-tight hover:text-gray-200 transition-colors">
-                <a href="<?= BASE_URL; ?>/index.php?route=article&id=<?= urlencode($featured['slug']); ?>"><?= htmlspecialchars($featured['title']); ?></a>
+                <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/"><?= htmlspecialchars($featured['title']); ?></a>
             </h2>
 
             <p class="text-sm text-gray-400 font-light leading-relaxed tracking-wide">
@@ -57,7 +57,7 @@
             </p>
 
             <div class="pt-2">
-                <a href="<?= BASE_URL; ?>/index.php?route=article&id=<?= urlencode($featured['slug']); ?>" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-white border-b-2 border-white pb-1 group hover:text-gray-300 hover:border-gray-300 transition-all">
+                <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-white border-b-2 border-white pb-1 group hover:text-gray-300 hover:border-gray-300 transition-all">
                     <span>Read Analysis</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
                 </a>
@@ -69,7 +69,8 @@
             
             <?php if (!empty($others)): ?>
                 <?php foreach ($others as $art): ?>
-                <a href="<?= BASE_URL; ?>/index.php?route=article&id=<?= urlencode($art['slug']); ?>" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer border-b border-borderGray/50 pb-8 last:border-0 block">
+                    <?php if ($featured && $art['slug'] === $featured['slug']) continue; ?>
+                <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer border-b border-borderGray/50 pb-8 last:border-0 block">
                     <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
                         <?php 
                         $secImgSrc = $art['image'];

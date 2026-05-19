@@ -3,7 +3,7 @@
     
     <!-- Back link & Meta -->
     <div class="flex items-center justify-between pb-4 border-b border-borderGray">
-        <a href="<?= BASE_URL; ?>/index.php?route=news" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-gray-400 hover:text-white transition-colors">
+        <a href="<?= BASE_URL; ?>/news/" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-gray-400 hover:text-white transition-colors">
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
             <span>Back to Editorial Overview</span>
         </a>

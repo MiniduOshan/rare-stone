@@ -76,7 +76,7 @@
                 <p class="text-xs text-gray-400 mt-1 font-light">Publish new insight articles, market reports, and global collecting guides.</p>
             </div>
             
-            <a href="<?= BASE_URL; ?>/index.php?route=news" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
+            <a href="<?= BASE_URL; ?>/news/" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
                 <i data-lucide="eye" class="w-4 h-4 text-gold"></i>
                 <span>View Public Editorial</span>
             </a>
@@ -105,7 +105,7 @@
                     <span>Publish Insight</span>
                 </h2>
 
-                <form action="<?= BASE_URL; ?>/index.php?route=admin_news" method="POST" class="space-y-4">
+                <form action="<?= BASE_URL; ?>/admin/news/" method="POST" class="space-y-4">
                     <!-- Title -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Title</label>
@@ -214,7 +214,7 @@
 
                                         <!-- View action -->
                                         <td class="px-6 py-4 text-center">
-                                            <a href="<?= BASE_URL; ?>/index.php?route=article&id=<?= urlencode($art['slug']); ?>" target="_blank" class="text-gold hover:text-white underline transition-colors">
+                                            <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" target="_blank" class="text-gold hover:text-white underline transition-colors">
                                                 Read
                                             </a>
                                         </td>

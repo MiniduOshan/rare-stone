@@ -16,7 +16,8 @@ class AdminController {
         if (file_exists($viewPath)) {
             require_once $viewPath;
         } else {
-            die("Admin dashboard view not found: " . $viewPath);
+            error_log("Admin dashboard view not found: " . $viewPath);
+            die("A required admin page component is missing.");
         }
     }
 
@@ -141,6 +142,7 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = isset($_POST['title']) ? trim($_POST['title']) : '';
             $origin = isset($_POST['origin']) ? trim($_POST['origin']) : '';
+            $location = isset($_POST['location']) ? trim($_POST['location']) : '';
             $carats = isset($_POST['carats']) ? trim($_POST['carats']) : '';
             $cut = isset($_POST['cut']) ? trim($_POST['cut']) : '';
             $status = isset($_POST['status']) ? trim($_POST['status']) : '';
@@ -148,10 +150,10 @@ class AdminController {
             $description = isset($_POST['description']) ? trim($_POST['description']) : '';
             $price_tier = isset($_POST['price_tier']) ? trim($_POST['price_tier']) : '';
 
-            if (empty($title) || empty($origin) || empty($carats) || empty($cut) || empty($status) || empty($image) || empty($description) || empty($price_tier)) {
+            if (empty($title) || empty($origin) || empty($location) || empty($carats) || empty($cut) || empty($status) || empty($image) || empty($description) || empty($price_tier)) {
                 $_SESSION['admin_error'] = 'All fields are required to register a new gemstone.';
             } else {
-                $added = Gemstone::add($title, $origin, $carats, $cut, $status, $image, $description, $price_tier);
+                $added = Gemstone::add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
                 if ($added) {
                     $_SESSION['admin_success'] = 'Gemstone listing successfully added to the vault.';
                 } else {
@@ -159,7 +161,7 @@ class AdminController {
                 }
             }
         }
-        header('Location: ' . BASE_URL . '/index.php?route=admin#gems');
+        header('Location: ' . BASE_URL . '/admin/#gems');
         exit;
     }
 
@@ -193,7 +195,7 @@ class AdminController {
                 }
             }
         }
-        header('Location: ' . BASE_URL . '/index.php?route=admin#news');
+        header('Location: ' . BASE_URL . '/admin/#news');
         exit;
     }
 
@@ -222,7 +224,7 @@ class AdminController {
                 }
             }
         }
-        header('Location: ' . BASE_URL . '/index.php?route=admin#heritage');
+        header('Location: ' . BASE_URL . '/admin/#heritage');
         exit;
     }
 
@@ -237,7 +239,7 @@ class AdminController {
             Feedback::updateStatus($id, $status);
         }
 
-        header('Location: ' . BASE_URL . '/index.php?route=admin#feedbacks');
+        header('Location: ' . BASE_URL . '/admin/#feedbacks');
         exit;
     }
 
@@ -270,7 +272,7 @@ class AdminController {
                 }
             }
         }
-        header('Location: ' . BASE_URL . '/index.php?route=admin#discover');
+        header('Location: ' . BASE_URL . '/admin/#discover');
         exit;
     }
 
@@ -303,7 +305,7 @@ class AdminController {
                 }
             }
         }
-        header('Location: ' . BASE_URL . '/index.php?route=admin#contact');
+        header('Location: ' . BASE_URL . '/admin/#contact');
         exit;
     }
 }

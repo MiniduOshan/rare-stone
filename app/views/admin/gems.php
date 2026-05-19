@@ -76,7 +76,7 @@
                 <p class="text-xs text-gray-400 mt-1 font-light">Add new curated gemstone acquisitions and manage vault entries.</p>
             </div>
             
-            <a href="<?= BASE_URL; ?>/index.php?route=gemstones" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
+            <a href="<?= BASE_URL; ?>/gemstones/" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
                 <i data-lucide="eye" class="w-4 h-4 text-gold"></i>
                 <span>View Public Catalog</span>
             </a>
@@ -105,40 +105,43 @@
                     <span>Register New Gemstone</span>
                 </h2>
 
-                <form action="<?= BASE_URL; ?>/index.php?route=admin_gems" method="POST" class="space-y-4">
+                <form action="<?= BASE_URL; ?>/admin/gems/" method="POST" class="space-y-4">
                     <!-- Title -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Gem Title</label>
                         <input type="text" name="title" required placeholder="e.g. Ceylon Blue Sapphire" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
 
-                    <!-- Origin & Carats Row -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Origin Source</label>
                             <input type="text" name="origin" required placeholder="e.g. Sri Lanka" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Carat Weight</label>
-                            <input type="text" name="carats" required placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Selling Area / Branch</label>
+                            <input type="text" name="location" required placeholder="e.g. Ratnapura Branch" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
-                    <!-- Cut & Status Row -->
                     <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Carat Weight</label>
+                            <input type="text" name="carats" required placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Optical Cut</label>
                             <input type="text" name="cut" required placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Status Tag</label>
-                            <select name="status" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
-                                <option value="INQUIRE">INQUIRE</option>
-                                <option value="UPON REQUEST">UPON REQUEST</option>
-                                <option value="PRIVATE SALE">PRIVATE SALE</option>
-                                <option value="RESERVED">RESERVED</option>
-                            </select>
-                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Status Tag</label>
+                        <select name="status" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <option value="INQUIRE">INQUIRE</option>
+                            <option value="UPON REQUEST">UPON REQUEST</option>
+                            <option value="PRIVATE SALE">PRIVATE SALE</option>
+                            <option value="RESERVED">RESERVED</option>
+                        </select>
                     </div>
 
                     <!-- Image path & Price Tier Row -->
@@ -206,6 +209,7 @@
                                         <td class="px-6 py-4">
                                             <div class="text-gray-300"><?= htmlspecialchars($gem['carats']); ?></div>
                                             <div class="text-gray-500 font-light"><?= htmlspecialchars($gem['origin']); ?></div>
+                                                <div class="text-gray-500 font-light"><?= htmlspecialchars($gem['location'] ?? $gem['origin']); ?></div>
                                         </td>
 
                                         <!-- Price -->

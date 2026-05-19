@@ -54,7 +54,7 @@
                 Exceptional rare pieces, recently verified and added to our private vault network.
             </p>
         </div>
-        <a href="<?= BASE_URL; ?>/index.php?route=gemstones" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-white group hover:text-gray-300 transition-colors">
+        <a href="<?= BASE_URL; ?>/gemstones/" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-medium text-white group hover:text-gray-300 transition-colors">
             <span>Explore Entire Vault</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
         </a>
@@ -63,7 +63,7 @@
     <!-- Featured Grid (Top 3) -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
         <?php foreach ($featuredGemstones as $gem): ?>
-            <a href="<?= BASE_URL; ?>/index.php?route=gem&id=<?= $gem['id']; ?>" class="gem-card block group cursor-pointer">
+            <a href="<?= BASE_URL; ?>/gem/<?= urlencode(Gemstone::buildSlug($gem)); ?>/" class="gem-card block group cursor-pointer">
                 <!-- Aspect Ratio Image Box -->
                 <div class="relative aspect-[4/5] bg-surface rounded-xl overflow-hidden mb-5 border border-borderGray group-hover:border-gray-500 transition-all duration-500 shadow-2xl flex items-center justify-center p-8">
                     <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
@@ -84,7 +84,7 @@
 
                 <!-- Subtitle / Origin -->
                 <div class="text-xs font-light text-gray-500 font-sans tracking-wider">
-                    <?= htmlspecialchars($gem['origin']); ?> - <?= htmlspecialchars($gem['carats']); ?>
+                    <?= htmlspecialchars($gem['origin']); ?> - <?= htmlspecialchars(Gemstone::getDisplayLocation($gem)); ?>
                 </div>
             </a>
         <?php endforeach; ?>
@@ -251,7 +251,7 @@
                         const alertBox = document.getElementById('feedbackAlert');
                         const formData = new FormData(form);
 
-                        fetch('<?= BASE_URL; ?>/index.php?route=feedback', {
+                        fetch('<?= BASE_URL; ?>/feedback/', {
                             method: 'POST',
                             body: formData
                         })
@@ -293,7 +293,7 @@
                         </div>
 
                         <div class="pt-2">
-                            <a href="<?= BASE_URL; ?>/index.php?route=login" class="inline-flex items-center space-x-2 px-8 py-4 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all">
+                            <a href="<?= BASE_URL; ?>/login/" class="inline-flex items-center space-x-2 px-8 py-4 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all">
                                 <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
                                 <span>Circle Member Entry</span>
                             </a>
@@ -321,7 +321,7 @@
             Use our interactive discovery map to explore our private viewing salons and view rare collections in your immediate vicinity or next travel destination.
         </p>
         <div class="pt-4">
-            <a href="<?= BASE_URL; ?>/index.php?route=discover" class="inline-block px-10 py-4 bg-white text-black font-medium text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
+            <a href="<?= BASE_URL; ?>/discover/" class="inline-block px-10 py-4 bg-white text-black font-medium text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
                 Open Map Discovery
             </a>
         </div>

@@ -39,6 +39,25 @@ class Article {
     }
 
     /**
+     * Get a specific article by its numeric ID
+     *
+     * @param int $id
+     * @return array|null
+     */
+    public static function getById($id) {
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("SELECT * FROM `articles` WHERE `id` = :id");
+            $stmt->execute(['id' => $id]);
+            $article = $stmt->fetch();
+            return $article ? $article : null;
+        } catch (PDOException $e) {
+            error_log("Error in Article::getById: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Add a new article / news item
      * 
      * @param string $slug

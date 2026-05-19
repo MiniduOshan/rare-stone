@@ -76,7 +76,7 @@
                 <p class="text-xs text-gray-400 mt-1 font-light">Manage your global vault branches and the Discover page content.</p>
             </div>
             
-            <a href="<?= BASE_URL; ?>/index.php?route=discover" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
+            <a href="<?= BASE_URL; ?>/discover/" target="_blank" class="px-4 py-2 bg-white/5 border border-borderGray rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-all flex items-center space-x-1.5 font-light">
                 <i data-lucide="eye" class="w-4 h-4 text-gold"></i>
                 <span>View Public Discover Page</span>
             </a>
@@ -105,7 +105,7 @@
                 <span>Modify Discover Details</span>
             </h2>
 
-            <form action="<?= BASE_URL; ?>/index.php?route=admin_discover" method="POST" class="space-y-6 relative z-10">
+            <form action="<?= BASE_URL; ?>/admin/discover/" method="POST" class="space-y-6 relative z-10">
                 <!-- Title & Subtitle Row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>

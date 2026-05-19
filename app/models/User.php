@@ -8,6 +8,18 @@ class User {
      */
     public static function initSession() {
         if (session_status() == PHP_SESSION_NONE) {
+            $cookieParams = [
+                'lifetime' => SESSION_LIFETIME,
+                'path' => '/',
+                'domain' => '',
+                'secure' => SESSION_COOKIE_SECURE,
+                'httponly' => SESSION_COOKIE_HTTPONLY,
+                'samesite' => SESSION_COOKIE_SAMESITE,
+            ];
+            session_name(SESSION_NAME);
+            session_set_cookie_params($cookieParams);
+            ini_set('session.use_strict_mode', '1');
+            ini_set('session.use_only_cookies', '1');
             session_start();
         }
     }
@@ -28,6 +40,7 @@ class User {
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
+				session_regenerate_id(true);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email'] = $user['email'];
@@ -124,6 +137,11 @@ class User {
      */
     public static function logout() {
         self::initSession();
+        $_SESSION = [];
+		if (ini_get('session.use_cookies')) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+		}
         session_unset();
         session_destroy();
     }

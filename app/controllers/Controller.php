@@ -18,19 +18,22 @@ class Controller {
         if (file_exists($headerPath)) {
             require_once $headerPath;
         } else {
-            die("Header view not found: " . $headerPath);
+            error_log("Header view not found: " . $headerPath);
+            die("A required page component is missing.");
         }
 
         if (file_exists($viewPath)) {
             require_once $viewPath;
         } else {
-            die("View file not found: " . $viewPath);
+            error_log("View file not found: " . $viewPath);
+            die("A required page component is missing.");
         }
 
         if (file_exists($footerPath)) {
             require_once $footerPath;
         } else {
-            die("Footer view not found: " . $footerPath);
+            error_log("Footer view not found: " . $footerPath);
+            die("A required page component is missing.");
         }
     }
 }

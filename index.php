@@ -13,12 +13,66 @@ require_once APP_ROOT . '/controllers/AdminController.php';
 $homeController = new HomeController();
 $adminController = new AdminController();
 
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '';
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+$scriptDir = str_replace('\\', '/', dirname($scriptName));
+if ($scriptDir === '/' || $scriptDir === '.') {
+    $scriptDir = '';
+}
+
+if ($scriptDir !== '' && strpos($requestPath, $scriptDir) === 0) {
+    $requestPath = substr($requestPath, strlen($scriptDir));
+}
+
+$requestPath = trim($requestPath, '/');
+$pathSegments = $requestPath === '' ? [] : array_values(array_filter(explode('/', $requestPath), 'strlen'));
+if (isset($pathSegments[0]) && $pathSegments[0] === 'index.php') {
+    array_shift($pathSegments);
+}
+
+if (!isset($_GET['route']) || trim($_GET['route']) === '') {
+    $_GET['route'] = $pathSegments[0] ?? 'home';
+}
+
+if (!isset($_GET['slug']) && isset($pathSegments[1])) {
+    $_GET['slug'] = $pathSegments[1];
+}
+
 $route = isset($_GET['route']) ? trim($_GET['route']) : 'home';
+
+if ($route === 'gem' && isset($_GET['slug']) && trim($_GET['slug']) !== '' && isset($pathSegments[0]) && $pathSegments[0] === 'index.php') {
+    $cleanGemPath = rtrim(BASE_URL, '/') . '/gem/' . rawurlencode(trim($_GET['slug'])) . '/';
+    header('Location: ' . $cleanGemPath);
+    exit;
+}
+
+$publicRoutePaths = [
+    'home' => '/',
+    'gemstones' => '/gemstones/',
+    'heritage' => '/heritage/',
+    'news' => '/news/',
+    'article' => '/article/' . rawurlencode($_GET['slug'] ?? '') . '/',
+    'discover' => '/discover/',
+    'login' => '/login/',
+    'logout' => '/logout/',
+    'register' => '/register/',
+    'gem' => '/gem/' . rawurlencode($_GET['slug'] ?? '') . '/',
+];
+
+if (isset($_GET['route']) && isset($publicRoutePaths[$route])) {
+    $currentBase = trim($requestPath, '/');
+    $expectedPath = trim($publicRoutePaths[$route], '/');
+
+    if ($expectedPath !== '' && $currentBase !== $expectedPath) {
+        header('Location: ' . rtrim(BASE_URL, '/') . $publicRoutePaths[$route]);
+        exit;
+    }
+}
 
 // Protect admin routes
 if (strpos($route, 'admin') === 0) {
     if (!User::isAdmin()) {
-        header('Location: ' . BASE_URL . '/index.php?route=login');
+        header('Location: ' . BASE_URL . '/login/');
         exit;
     }
 }
@@ -69,7 +123,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->news();
         } else {
-            header('Location: ' . BASE_URL . '/index.php?route=admin#news');
+            header('Location: ' . BASE_URL . '/admin/#news');
             exit;
         }
         break;
@@ -77,7 +131,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->heritage();
         } else {
-            header('Location: ' . BASE_URL . '/index.php?route=admin#heritage');
+            header('Location: ' . BASE_URL . '/admin/#heritage');
             exit;
         }
         break;
@@ -85,7 +139,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->gems();
         } else {
-            header('Location: ' . BASE_URL . '/index.php?route=admin#gems');
+            header('Location: ' . BASE_URL . '/admin/#gems');
             exit;
         }
         break;
@@ -96,7 +150,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->discover();
         } else {
-            header('Location: ' . BASE_URL . '/index.php?route=admin#discover');
+            header('Location: ' . BASE_URL . '/admin/#discover');
             exit;
         }
         break;
@@ -104,7 +158,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->contact();
         } else {
-            header('Location: ' . BASE_URL . '/index.php?route=admin#contact');
+            header('Location: ' . BASE_URL . '/admin/#contact');
             exit;
         }
         break;

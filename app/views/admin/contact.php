@@ -109,7 +109,7 @@
                 $facebook = $contacts['facebook'] ?? '';
             ?>
 
-            <form action="<?= BASE_URL; ?>/index.php?route=admin_contact" method="POST" class="space-y-6 relative z-10">
+            <form action="<?= BASE_URL; ?>/admin/contact/" method="POST" class="space-y-6 relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="message-circle" class="w-3 h-3 text-[#25D366]"></i> <span>WhatsApp Number</span></label>

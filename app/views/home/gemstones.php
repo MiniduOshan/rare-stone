@@ -35,7 +35,7 @@
                 if (stripos($gem['title'], 'emerald') !== false) $cat = 'emerald';
                 if (stripos($gem['title'], 'diamond') !== false) $cat = 'diamond';
             ?>
-            <a href="<?= BASE_URL; ?>/index.php?route=gem&id=<?= $gem['id']; ?>" class="gem-card-item block group cursor-pointer" data-category="<?= $cat; ?>">
+            <a href="<?= BASE_URL; ?>/gem/<?= urlencode(Gemstone::buildSlug($gem)); ?>/" class="gem-card-item block group cursor-pointer" data-category="<?= $cat; ?>">
                 <div class="relative aspect-[4/5] bg-surface rounded-xl overflow-hidden mb-4 border border-borderGray group-hover:border-gray-500 transition-all duration-500 shadow-2xl flex items-center justify-center p-6">
                     <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                     <?php 
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="flex justify-between text-xs font-light text-gray-500 font-sans tracking-wider pt-1">
-                    <span><?= htmlspecialchars($gem['origin']); ?> - <?= htmlspecialchars($gem['carats']); ?></span>
+                    <span><?= htmlspecialchars($gem['origin']); ?> - <?= htmlspecialchars(Gemstone::getDisplayLocation($gem)); ?></span>
                     <span class="text-gold font-normal"><?= htmlspecialchars($gem['price_tier']); ?></span>
                 </div>
             </a>

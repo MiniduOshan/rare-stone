@@ -72,16 +72,16 @@
             <nav class="hidden md:flex items-center space-x-8 lg:space-x-12 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
                 <a href="<?= BASE_URL; ?>/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Marketplace</a>
                 
-                <a href="<?= BASE_URL; ?>/index.php?route=gemstones" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Gem Stones</a>
+                <a href="<?= BASE_URL; ?>/gemstones/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Gem Stones</a>
                 
-                <a href="<?= BASE_URL; ?>/index.php?route=heritage" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Heritage</a>
+                <a href="<?= BASE_URL; ?>/heritage/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Heritage</a>
                 
-                <a href="<?= BASE_URL; ?>/index.php?route=news" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">News</a>
+                <a href="<?= BASE_URL; ?>/news/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">News</a>
             </nav>
 
             <!-- Right Actions -->
             <div class="hidden md:flex items-center space-x-4 lg:space-x-6 text-[10px] lg:text-xs tracking-[0.15em] uppercase font-light">
-                <a href="<?= BASE_URL; ?>/index.php?route=discover" class="hidden lg:flex items-center space-x-2 transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">
+                <a href="<?= BASE_URL; ?>/discover/" class="hidden lg:flex items-center space-x-2 transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">
                     <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                     <span>Discover</span>
                 </a>
@@ -96,18 +96,18 @@
 
                 <?php if (User::isLoggedIn()): ?>
                     <?php if (User::isAdmin()): ?>
-                        <a href="<?= BASE_URL; ?>/index.php?route=admin" class="px-4 py-2 border border-gold rounded-full text-gold hover:bg-gold hover:text-black transition-all duration-300 flex items-center space-x-1.5 font-medium">
+                        <a href="<?= BASE_URL; ?>/admin/" class="px-4 py-2 border border-gold rounded-full text-gold hover:bg-gold hover:text-black transition-all duration-300 flex items-center space-x-1.5 font-medium">
                             <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
                             <span>Dashboard</span>
                         </a>
                     <?php else: ?>
                         <span class="text-gray-400 hidden xl:inline normal-case font-normal">Circle: <strong><?= htmlspecialchars(User::getCurrentUser()['name']); ?></strong></span>
                     <?php endif; ?>
-                    <a href="<?= BASE_URL; ?>/index.php?route=logout" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                    <a href="<?= BASE_URL; ?>/logout/" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
                         Logout
                     </a>
                 <?php else: ?>
-                    <a href="<?= BASE_URL; ?>/index.php?route=login" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                    <a href="<?= BASE_URL; ?>/login/" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
                         Client Entrance
                     </a>
                 <?php endif; ?>
@@ -127,10 +127,10 @@
         <!-- Navigation Links -->
         <nav class="flex flex-col space-y-6 text-sm tracking-[0.2em] uppercase font-light text-gray-400">
             <a href="<?= BASE_URL; ?>/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white font-normal' : ''; ?>">Marketplace</a>
-            <a href="<?= BASE_URL; ?>/index.php?route=gemstones" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white font-normal' : ''; ?>">Gem Stones</a>
-            <a href="<?= BASE_URL; ?>/index.php?route=heritage" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white font-normal' : ''; ?>">Heritage</a>
-            <a href="<?= BASE_URL; ?>/index.php?route=news" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white font-normal' : ''; ?>">News</a>
-            <a href="<?= BASE_URL; ?>/index.php?route=discover" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">Discover</a>
+            <a href="<?= BASE_URL; ?>/gemstones/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white font-normal' : ''; ?>">Gem Stones</a>
+            <a href="<?= BASE_URL; ?>/heritage/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white font-normal' : ''; ?>">Heritage</a>
+            <a href="<?= BASE_URL; ?>/news/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white font-normal' : ''; ?>">News</a>
+            <a href="<?= BASE_URL; ?>/discover/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">Discover</a>
         </nav>
 
         <!-- Actions -->
@@ -141,18 +141,18 @@
 
             <?php if (User::isLoggedIn()): ?>
                 <?php if (User::isAdmin()): ?>
-                    <a href="<?= BASE_URL; ?>/index.php?route=admin" class="w-full py-3.5 border border-gold rounded-full text-center text-gold hover:bg-gold hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs flex items-center justify-center space-x-1.5 font-medium">
+                    <a href="<?= BASE_URL; ?>/admin/" class="w-full py-3.5 border border-gold rounded-full text-center text-gold hover:bg-gold hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs flex items-center justify-center space-x-1.5 font-medium">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         <span>Dashboard</span>
                     </a>
                 <?php else: ?>
                     <div class="text-gray-400 text-center py-2 text-xs">Circle: <strong><?= htmlspecialchars(User::getCurrentUser()['name']); ?></strong></div>
                 <?php endif; ?>
-                <a href="<?= BASE_URL; ?>/index.php?route=logout" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
+                <a href="<?= BASE_URL; ?>/logout/" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
                     Logout
                 </a>
             <?php else: ?>
-                <a href="<?= BASE_URL; ?>/index.php?route=login" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
+                <a href="<?= BASE_URL; ?>/login/" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
                     Client Entrance
                 </a>
             <?php endif; ?>

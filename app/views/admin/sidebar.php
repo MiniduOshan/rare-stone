@@ -88,7 +88,7 @@ $activeTab = $activeTab ?? 'feedbacks';
             </div>
         </button>
 
-        <a href="<?= BASE_URL; ?>/index.php?route=logout" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-xs text-red-400 hover:bg-red-950/20 transition-all uppercase tracking-wider">
+        <a href="<?= BASE_URL; ?>/logout/" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-xs text-red-400 hover:bg-red-950/20 transition-all uppercase tracking-wider">
             <i data-lucide="log-out" class="w-4 h-4"></i>
             <span>Logout Portal</span>
         </a>

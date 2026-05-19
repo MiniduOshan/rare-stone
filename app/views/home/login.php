@@ -24,7 +24,7 @@
         <?php endif; ?>
 
         <!-- Standard Login Form -->
-        <form action="<?= BASE_URL; ?>/index.php?route=login" method="POST" class="space-y-6">
+        <form action="<?= BASE_URL; ?>/login/" method="POST" class="space-y-6">
             <div>
                 <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">Client ID / Email</label>
                 <input type="email" name="email" required placeholder="name@client.com" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 font-light transition-colors">
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Guest Session Action Form -->
-        <form action="<?= BASE_URL; ?>/index.php?route=login" method="POST">
+        <form action="<?= BASE_URL; ?>/login/" method="POST">
             <input type="hidden" name="action" value="guest">
             <button type="submit" class="w-full py-4 border border-gray-800 rounded-full text-xs text-gray-300 font-medium tracking-[0.2em] uppercase hover:border-gray-500 hover:text-white transition-all">
                 Browse as Guest
@@ -57,7 +57,7 @@
 
         <div class="mt-8 text-center text-xs text-gray-500 font-light tracking-wide">
             Not a member of our exclusive list? <br class="hidden sm:inline">
-            <a href="<?= BASE_URL; ?>/index.php?route=register" class="text-gold hover:text-white underline transition-colors font-medium mt-1 inline-block">Apply for Client Circle</a>
+            <a href="<?= BASE_URL; ?>/register/" class="text-gold hover:text-white underline transition-colors font-medium mt-1 inline-block">Apply for Client Circle</a>
         </div>
     </div>
 </section>

@@ -29,7 +29,7 @@
             
             <!-- Breadcrumbs & Status Tag -->
             <div class="flex items-center justify-between border-b border-borderGray pb-6">
-                <a href="<?= BASE_URL; ?>/index.php?route=gemstones" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-light text-gray-400 hover:text-white transition-colors">
+                <a href="<?= BASE_URL; ?>/gemstones/" class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] font-light text-gray-400 hover:text-white transition-colors">
                     <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
                     <span>Back to Vault Catalog</span>
                 </a>
@@ -44,7 +44,7 @@
                     <?= htmlspecialchars($gem['title']); ?>
                 </h1>
                 <p class="text-sm uppercase tracking-[0.2em] text-gray-400 font-light">
-                    <?= htmlspecialchars($gem['origin']); ?> Provenance
+                    <?= htmlspecialchars(Gemstone::getDisplayLocation($gem)); ?>
                 </p>
             </div>
 
@@ -68,6 +68,10 @@
                     <div class="flex justify-between border-b border-gray-800/80 pb-3">
                         <span class="text-gray-500 uppercase tracking-wider font-light">Origin Source</span>
                         <span class="text-white font-medium tracking-wide"><?= htmlspecialchars($gem['origin']); ?></span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-800/80 pb-3">
+                        <span class="text-gray-500 uppercase tracking-wider font-light">Selling Area / Branch</span>
+                        <span class="text-white font-medium tracking-wide"><?= htmlspecialchars(Gemstone::getDisplayLocation($gem)); ?></span>
                     </div>
                     <div class="flex justify-between border-b border-gray-800/80 pb-3">
                         <span class="text-gray-500 uppercase tracking-wider font-light">Optical Cut</span>
@@ -219,7 +223,7 @@
                         const alertBox = document.getElementById('feedbackAlert');
                         const formData = new FormData(form);
 
-                        fetch('<?= BASE_URL; ?>/index.php?route=feedback', {
+                        fetch('<?= BASE_URL; ?>/feedback/', {
                             method: 'POST',
                             body: formData
                         })
@@ -261,7 +265,7 @@
                         </div>
 
                         <div class="pt-2">
-                            <a href="<?= BASE_URL; ?>/index.php?route=login" class="inline-flex items-center space-x-2 px-8 py-4 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all">
+                            <a href="<?= BASE_URL; ?>/login/" class="inline-flex items-center space-x-2 px-8 py-4 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all">
                                 <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
                                 <span>Circle Member Entry</span>
                             </a>

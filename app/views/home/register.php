@@ -24,7 +24,7 @@
         <?php endif; ?>
 
         <!-- Registration Form -->
-        <form action="<?= BASE_URL; ?>/index.php?route=register" method="POST" class="space-y-6">
+        <form action="<?= BASE_URL; ?>/register/" method="POST" class="space-y-6">
             <div>
                 <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">Full Name</label>
                 <input type="text" name="name" required placeholder="Lord Julian Alistair" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 font-light transition-colors">
@@ -45,7 +45,7 @@
 
         <div class="mt-8 text-center text-xs text-gray-500 font-light tracking-wide">
             Already registered with a private key? <br class="hidden sm:inline">
-            <a href="<?= BASE_URL; ?>/index.php?route=login" class="text-gold hover:text-white underline transition-colors font-medium mt-1 inline-block">Secure Client Entrance</a>
+            <a href="<?= BASE_URL; ?>/login/" class="text-gold hover:text-white underline transition-colors font-medium mt-1 inline-block">Secure Client Entrance</a>
         </div>
     </div>
 </section>
