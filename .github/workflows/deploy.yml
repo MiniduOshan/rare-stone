@@ -34,20 +34,23 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Prepare SSH key
+        shell: bash
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" > ~/.ssh/do_key
+          echo '${{ secrets.DO_SSH_PRIVATE_KEY }}' > ~/.ssh/do_key
           chmod 600 ~/.ssh/do_key
           ssh-keyscan -H ${{ secrets.DO_SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH connection
+        shell: bash
         run: |
           ssh -i ~/.ssh/do_key \
-          -o StrictHostKeyChecking=no \
-          root@${{ secrets.DO_SSH_HOST }} \
-          "echo SSH SUCCESS"
+            -o StrictHostKeyChecking=no \
+            root@${{ secrets.DO_SSH_HOST }} \
+            "echo SSH SUCCESS"
 
       - name: Deploy files
+        shell: bash
         run: |
           rsync -avz --delete \
             --exclude '.git/' \
@@ -58,11 +61,11 @@ jobs:
             ./ root@${{ secrets.DO_SSH_HOST }}:/var/www/rare-stone/
 
       - name: Fix permissions
+        shell: bash
         run: |
           ssh -i ~/.ssh/do_key \
-          root@${{ secrets.DO_SSH_HOST }} "
-            chown -R www-data:www-data /var/www/rare-stone &&
-            chmod -R 755 /var/www/rare-stone &&
-            systemctl restart apache2
-          "
+            root@${{ secrets.DO_SSH_HOST }} \
+            "chown -R www-data:www-data /var/www/rare-stone && \
+            chmod -R 755 /var/www/rare-stone && \
+            systemctl restart apache2"
 ```
