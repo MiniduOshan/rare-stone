@@ -1,16 +1,28 @@
+<?php
+// Fallbacks if not set in DB
+$headline = !empty($article['title']) ? $article['title'] : 'Rare Stones Vaults';
+$subtitleText = !empty($article['subtitle']) ? $article['subtitle'] : 'Explore our exclusive island-wide private viewing salons and secure gemological vaults.';
+$branchesJson = !empty($article['content']) ? $article['content'] : json_encode([
+    [ 'lat' => 6.9271, 'lng' => 79.8612, 'name' => 'Rare Stones - Colombo Gallery', 'city' => 'Colombo, Sri Lanka', 'listings' => '42 active lots' ],
+    [ 'lat' => 6.6828, 'lng' => 80.3992, 'name' => 'Rare Stones - Ratnapura Source', 'city' => 'Ratnapura, Sri Lanka', 'listings' => '34 active lots' ],
+    [ 'lat' => 6.0329, 'lng' => 80.2168, 'name' => 'Rare Stones - Galle Atelier', 'city' => 'Galle, Sri Lanka', 'listings' => '18 active lots' ],
+    [ 'lat' => 6.4750, 'lng' => 79.9958, 'name' => 'Rare Stones - Beruwala Syndicate', 'city' => 'Beruwala, Sri Lanka', 'listings' => '26 active lots' ]
+]);
+$branches = json_decode($branchesJson, true);
+?>
 <!-- MAP DISCOVERY SPLIT VIEW -->
-<section class="pt-20 h-screen w-full flex flex-col md:flex-row overflow-hidden relative z-20">
+<section class="pt-[72px] md:pt-[88px] h-screen w-full flex flex-col md:flex-row overflow-hidden relative z-20">
     
     <!-- Left Sidebar: Network & Branches List -->
-    <div class="w-full md:w-[420px] bg-dark border-r border-borderGray flex flex-col flex-shrink-0 h-[calc(100vh-5rem)] z-10">
+    <div class="w-full md:w-[420px] bg-dark border-r border-borderGray flex flex-col flex-shrink-0 h-[45%] md:h-full z-10">
         
         <!-- Sidebar Header & Search -->
         <div class="p-8 border-b border-borderGray space-y-4">
             <h1 class="font-serif text-3xl md:text-4xl text-white font-light tracking-wide">
-                Rare Stones Vaults
+                <?= htmlspecialchars($headline); ?>
             </h1>
             <p class="text-xs text-gray-400 font-light leading-relaxed">
-                Explore our exclusive island-wide private viewing salons and secure gemological vaults.
+                <?= htmlspecialchars($subtitleText); ?>
             </p>
 
             <!-- Search Input -->
@@ -27,52 +39,21 @@
 
         <!-- Scrollable Branches List -->
         <div class="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar" id="branchesList">
-            
-            <!-- Branch 1 -->
-            <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(6.9271, 79.8612, 'Rare Stones - Colombo Gallery')">
-                <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1">Rare Stones - Colombo Gallery</h3>
-                <p class="text-xs text-gray-500 font-light mb-6">Colombo, Sri Lanka</p>
-                <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
-                    <span class="text-gray-400 font-sans">Flagship Vault & Exchange</span>
-                    <span class="bg-dark border border-gray-800 text-gray-300 px-2.5 py-1 rounded">42 active lots</span>
+            <?php foreach ($branches as $index => $branch): ?>
+                <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(<?= $branch['lat'] ?>, <?= $branch['lng'] ?>, '<?= htmlspecialchars(addslashes($branch['name'])) ?>')">
+                    <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1"><?= htmlspecialchars($branch['name']) ?></h3>
+                    <p class="text-xs text-gray-500 font-light mb-6"><?= htmlspecialchars($branch['city']) ?></p>
+                    <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
+                        <span class="text-gray-400 font-sans">Verified Branch</span>
+                        <span class="bg-dark border border-gray-800 text-gray-300 px-2.5 py-1 rounded"><?= htmlspecialchars($branch['listings']) ?></span>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Branch 2 -->
-            <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(6.6828, 80.3992, 'Rare Stones - Ratnapura Source')">
-                <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1">Rare Stones - Ratnapura Source</h3>
-                <p class="text-xs text-gray-500 font-light mb-6">Ratnapura, Sri Lanka</p>
-                <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
-                    <span class="text-gray-400 font-sans">Sapphires & Rubies Source</span>
-                    <span class="bg-dark border border-gray-800 text-gray-300 px-2.5 py-1 rounded">34 active lots</span>
-                </div>
-            </div>
-
-            <!-- Branch 3 -->
-            <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(6.0329, 80.2168, 'Rare Stones - Galle Atelier')">
-                <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1">Rare Stones - Galle Atelier</h3>
-                <p class="text-xs text-gray-500 font-light mb-6">Galle, Sri Lanka</p>
-                <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
-                    <span class="text-gray-400 font-sans">Bespoke High Jewelry Atelier</span>
-                    <span class="bg-dark border border-gray-800 text-gray-300 px-2.5 py-1 rounded">18 active lots</span>
-                </div>
-            </div>
-
-            <!-- Branch 4 -->
-            <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(6.4750, 79.9958, 'Rare Stones - Beruwala Syndicate')">
-                <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1">Rare Stones - Beruwala Syndicate</h3>
-                <p class="text-xs text-gray-500 font-light mb-6">Beruwala, Sri Lanka</p>
-                <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
-                    <span class="text-gray-400 font-sans">Precious Gem Trading Syndicate</span>
-                    <span class="bg-dark border border-gray-800 text-gray-300 px-2.5 py-1 rounded">26 active lots</span>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </div>
 
     <!-- Right Map Container -->
-    <div class="flex-1 h-[calc(100vh-5rem)] relative z-0">
+    <div class="flex-1 h-[55%] md:h-full relative z-0">
         <div id="map" class="w-full h-full"></div>
     </div>
 
@@ -115,12 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -50]
     });
 
-    const locations = [
-        { lat: 6.9271, lng: 79.8612, name: 'Rare Stones - Colombo Gallery', city: 'Colombo, Sri Lanka', listings: '42 active lots' },
-        { lat: 6.6828, lng: 80.3992, name: 'Rare Stones - Ratnapura Source', city: 'Ratnapura, Sri Lanka', listings: '34 active lots' },
-        { lat: 6.0329, lng: 80.2168, name: 'Rare Stones - Galle Atelier', city: 'Galle, Sri Lanka', listings: '18 active lots' },
-        { lat: 6.4750, lng: 79.9958, name: 'Rare Stones - Beruwala Syndicate', city: 'Beruwala, Sri Lanka', listings: '26 active lots' }
-    ];
+    const locations = <?= $branchesJson; ?>;
 
     locations.forEach(loc => {
         const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon }).addTo(map);

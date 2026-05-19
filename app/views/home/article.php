@@ -35,7 +35,15 @@
 <!-- FEATURED IMAGE ALIGNED PERFECTLY WITH CONTENT COLUMN -->
 <section class="px-8 md:px-16 max-w-4xl mx-auto relative z-20 mb-12">
     <div class="aspect-[16/9] w-full rounded-3xl overflow-hidden border border-borderGray bg-surface shadow-2xl relative">
-        <img src="<?= BASE_URL; ?>/public/images/<?= htmlspecialchars($article['image']); ?>" alt="<?= htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
+        <?php 
+        $imgSrc = $article['image'];
+        if (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) {
+            $imgUrl = $imgSrc;
+        } else {
+            $imgUrl = BASE_URL . '/public/images/' . $imgSrc;
+        }
+        ?>
+        <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
     </div>
 </section>
 

@@ -61,74 +61,90 @@
             <h3 class="font-serif text-3xl text-white mb-2 italic">Private Client Concierge</h3>
             <p id="inquiryModalSubtitle" class="text-xs text-gray-400 mb-8 font-light leading-relaxed">Connect directly with our senior gemologists and private client advisors through your preferred secure communication channel.</p>
             
+            <?php
+            require_once APP_ROOT . '/models/Article.php';
+            $contactArticle = Article::getBySlug('contact-details');
+            $contacts = $contactArticle ? json_decode($contactArticle['content'], true) : [];
+            
+            $whatsapp = $contacts['whatsapp'] ?? '+94 77 123 4567';
+            $phone = $contacts['phone'] ?? '+94 11 234 5678';
+            $email = $contacts['email'] ?? 'concierge@rarestones.lk';
+            $instagram = $contacts['instagram'] ?? 'rarestones.ceylon';
+            $facebook = $contacts['facebook'] ?? 'Rare Stones Ceylon';
+            
+            // Clean phone for link
+            $waLink = preg_replace('/[^0-9]/', '', $whatsapp);
+            $phoneLink = preg_replace('/[^0-9+]/', '', $phone);
+            ?>
+
             <!-- Direct Contact Directory in Classic Dark Theme -->
             <div class="space-y-4">
                 
                 <!-- WhatsApp VIP Line -->
-                <a href="https://wa.me/94771234567" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#25D366] transition-all group block">
+                <a href="https://wa.me/<?= htmlspecialchars($waLink); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#25D366] transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center text-[#25D366] group-hover:scale-110 transition-transform">
                             <i data-lucide="message-circle" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">WhatsApp Concierge</div>
-                            <div class="text-sm font-light text-gray-200">+94 77 123 4567</div>
+                            <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($whatsapp); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-1 rounded-full uppercase tracking-wider font-medium">VIP 24/7</span>
                 </a>
 
                 <!-- Direct Phone Line -->
-                <a href="tel:+94112345678" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-gold transition-all group block">
+                <a href="tel:<?= htmlspecialchars($phoneLink); ?>" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-gold transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
                             <i data-lucide="phone-call" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Colombo Flagship Vault</div>
-                            <div class="text-sm font-light text-gray-200">+94 11 234 5678</div>
+                            <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($phone); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] text-gray-500 uppercase tracking-widest">Direct Line</span>
                 </a>
 
                 <!-- Secure Email -->
-                <a href="mailto:concierge@rarestones.lk" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-white transition-all group block">
+                <a href="mailto:<?= htmlspecialchars($email); ?>" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-white transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                             <i data-lucide="mail" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Secure Email Advisory</div>
-                            <div class="text-sm font-light text-gray-200">concierge@rarestones.lk</div>
+                            <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($email); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] text-gray-500 uppercase tracking-widest">Encrypted</span>
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://instagram.com" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#E1306C] transition-all group block">
+                <a href="https://instagram.com/<?= htmlspecialchars($instagram); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#E1306C] transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-[#E1306C]/10 border border-[#E1306C]/30 flex items-center justify-center text-[#E1306C] group-hover:scale-110 transition-transform">
                             <i data-lucide="instagram" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Instagram Previews</div>
-                            <div class="text-sm font-light text-gray-200">@rarestones.ceylon</div>
+                            <div class="text-sm font-light text-gray-200">@<?= htmlspecialchars($instagram); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] text-gray-500 uppercase tracking-widest">Daily Catalog</span>
                 </a>
 
                 <!-- Facebook -->
-                <a href="https://facebook.com" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#1877F2] transition-all group block">
+                <a href="https://facebook.com/<?= htmlspecialchars($facebook); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#1877F2] transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/30 flex items-center justify-center text-[#1877F2] group-hover:scale-110 transition-transform">
                             <i data-lucide="facebook" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Facebook Official Page</div>
-                            <div class="text-sm font-light text-gray-200">Rare Stones Ceylon</div>
+                            <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($facebook); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] text-gray-500 uppercase tracking-widest">Community</span>

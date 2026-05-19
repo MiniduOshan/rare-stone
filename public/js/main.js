@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Modal Controls
-function openModal(modalId, subtitleText = null) {
+window.openModal = function(modalId, subtitleText = null) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('hidden');
@@ -83,7 +83,7 @@ function openModal(modalId, subtitleText = null) {
     }
 }
 
-function closeModal(modalId) {
+window.closeModal = function(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add('hidden');
@@ -94,21 +94,52 @@ function closeModal(modalId) {
     }
 }
 
-
-
-function toggleAllGems(e) {
+window.toggleAllGems = function(e) {
     e.preventDefault();
     const grid = document.getElementById('expanded-grid');
     const btn = document.getElementById('viewAllBtn');
     
-    if (grid.classList.contains('hidden')) {
+    if (grid && grid.classList.contains('hidden')) {
         grid.classList.remove('hidden');
-        btn.innerHTML = `<span>Show Less</span> <i data-lucide="arrow-up" class="w-3.5 h-3.5 inline-block"></i>`;
-        lucide.createIcons();
+        if (btn) btn.innerHTML = `<span>Show Less</span> <i data-lucide="arrow-up" class="w-3.5 h-3.5 inline-block"></i>`;
+        if (window.lucide) lucide.createIcons();
     } else {
-        grid.classList.add('hidden');
-        btn.innerHTML = `<span>View All</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5 inline-block"></i>`;
-        lucide.createIcons();
-        document.getElementById('acquisitions').scrollIntoView({ behavior: 'smooth' });
+        if (grid) grid.classList.add('hidden');
+        if (btn) btn.innerHTML = `<span>View All</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5 inline-block"></i>`;
+        if (window.lucide) lucide.createIcons();
+        const acq = document.getElementById('acquisitions');
+        if (acq) acq.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Mobile Menu Controls
+window.toggleMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+    
+    if (menu) {
+        const isOpen = !menu.classList.contains('translate-x-full');
+        if (isOpen) {
+            window.closeMobileMenu();
+        } else {
+            menu.classList.remove('translate-x-full');
+            if (openIcon) openIcon.classList.add('hidden');
+            if (closeIcon) closeIcon.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+}
+
+window.closeMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+    
+    if (menu) {
+        menu.classList.add('translate-x-full');
+        if (openIcon) openIcon.classList.remove('hidden');
+        if (closeIcon) closeIcon.classList.add('hidden');
+        document.body.style.overflow = '';
     }
 }

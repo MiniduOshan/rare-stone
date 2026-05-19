@@ -30,3 +30,9 @@ php_errors.log
 /tmp/
 /cache/
 *.cache
+
+# Environment files
+.env
+.env.local
+.env.*.local
+setup_db.php

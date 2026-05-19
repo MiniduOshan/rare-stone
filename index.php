@@ -2,39 +2,115 @@
 
 // Front Controller / Entry Point
 require_once dirname(__FILE__) . '/app/config/config.php';
-require_once APP_ROOT . '/controllers/HomeController.php';
+require_once APP_ROOT . '/models/User.php';
 
-$controller = new HomeController();
+// Initialize session globally
+User::initSession();
+
+require_once APP_ROOT . '/controllers/HomeController.php';
+require_once APP_ROOT . '/controllers/AdminController.php';
+
+$homeController = new HomeController();
+$adminController = new AdminController();
 
 $route = isset($_GET['route']) ? trim($_GET['route']) : 'home';
 
+// Protect admin routes
+if (strpos($route, 'admin') === 0) {
+    if (!User::isAdmin()) {
+        header('Location: ' . BASE_URL . '/index.php?route=login');
+        exit;
+    }
+}
+
 switch ($route) {
+    case 'login':
+        $homeController->login();
+        break;
+    case 'logout':
+        $homeController->logout();
+        break;
+    case 'register':
+        $homeController->register();
+        break;
+    case 'feedback':
+        $homeController->feedback();
+        break;
     case 'inquire':
-        $controller->inquire();
+        $homeController->inquire();
         break;
     case 'newsletter':
-        $controller->newsletter();
+        $homeController->newsletter();
         break;
     case 'heritage':
-        $controller->heritage();
+        $homeController->heritage();
         break;
     case 'news':
-        $controller->news();
+        $homeController->news();
         break;
     case 'article':
-        $controller->article();
+        $homeController->article();
         break;
     case 'gemstones':
-        $controller->gemstones();
+        $homeController->gemstones();
         break;
     case 'gem':
-        $controller->gem();
+        $homeController->gem();
         break;
     case 'discover':
-        $controller->discover();
+        $homeController->discover();
         break;
+        
+    // Administrative Routes
+    case 'admin':
+        $adminController->index();
+        break;
+    case 'admin_news':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->news();
+        } else {
+            header('Location: ' . BASE_URL . '/index.php?route=admin#news');
+            exit;
+        }
+        break;
+    case 'admin_heritage':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->heritage();
+        } else {
+            header('Location: ' . BASE_URL . '/index.php?route=admin#heritage');
+            exit;
+        }
+        break;
+    case 'admin_gems':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->gems();
+        } else {
+            header('Location: ' . BASE_URL . '/index.php?route=admin#gems');
+            exit;
+        }
+        break;
+    case 'admin_feedback_status':
+        $adminController->feedbackStatus();
+        break;
+    case 'admin_discover':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->discover();
+        } else {
+            header('Location: ' . BASE_URL . '/index.php?route=admin#discover');
+            exit;
+        }
+        break;
+    case 'admin_contact':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->contact();
+        } else {
+            header('Location: ' . BASE_URL . '/index.php?route=admin#contact');
+            exit;
+        }
+        break;
+        
     case 'home':
     default:
-        $controller->index();
+        $homeController->index();
         break;
 }

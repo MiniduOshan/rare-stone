@@ -1,95 +1,92 @@
 <?php
 
+require_once APP_ROOT . '/models/Database.php';
+
 class Gemstone {
     /**
-     * Get list of curated gemstone acquisitions
+     * Get list of curated gemstone acquisitions from DB
      * 
      * @return array
      */
     public static function getCuratedAcquisitions() {
-        return [
-            [
-                'id' => 1,
-                'title' => 'Ceylon Blue Sapphire',
-                'origin' => 'Sri Lanka',
-                'carats' => '8.12 ct',
-                'cut' => 'Cushion Cut',
-                'status' => 'UPON REQUEST',
-                'image' => 'ceylon-blue-sapphire.jpg',
-                'description' => 'Unheated, certified royal blue sapphire exhibiting flawless clarity and mesmerizing color saturation.',
-                'price_tier' => 'Investment Grade'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Padparadscha Sapphire',
-                'origin' => 'Sri Lanka',
-                'carats' => '5.24 ct',
-                'cut' => 'Radiant Cut',
-                'status' => 'PRIVATE SALE',
-                'image' => 'padparadscha-sapphire.jpg',
-                'description' => 'A magnificent blend of lotus blossom pink and sunset orange, possessing rare natural purity.',
-                'price_tier' => 'Exclusive'
-            ],
-            [
-                'id' => 3,
-                'title' => 'Ratnapura Ruby',
-                'origin' => 'Sri Lanka',
-                'carats' => '4.85 ct',
-                'cut' => 'Natural Rough / Polished',
-                'status' => 'INQUIRE',
-                'image' => 'ratnapura-ruby.jpg',
-                'description' => 'A pristine pigeon blood ruby from the legendary mines of Ratnapura. Unrivaled fluorescence.',
-                'price_tier' => 'Museum Specimen'
-            ],
-            [
-                'id' => 4,
-                'title' => 'Kashmir Velvet Sapphire',
-                'origin' => 'Kashmir',
-                'carats' => '10.50 ct',
-                'cut' => 'Emerald Cut',
-                'status' => 'RESERVED',
-                'image' => 'kashmir-sapphire.jpg',
-                'description' => 'Legendary cornflower blue velvet sapphire with historical provenance and GIA monograph.',
-                'price_tier' => 'Heritage Collection'
-            ],
-            [
-                'id' => 5,
-                'title' => 'Muzo Emerald Flawless',
-                'origin' => 'Colombia',
-                'carats' => '7.35 ct',
-                'cut' => 'Octagonal Step Cut',
-                'status' => 'UPON REQUEST',
-                'image' => 'muzo-emerald.jpg',
-                'description' => 'An exceptionally clean Colombian emerald with vibrant bluish-green glow and no oil enhancement.',
-                'price_tier' => 'Investment Grade'
-            ],
-            [
-                'id' => 6,
-                'title' => 'Golconda Type IIa Diamond',
-                'origin' => 'Golconda, India',
-                'carats' => '12.08 ct',
-                'cut' => 'Antique Pear',
-                'status' => 'PRIVATE SALE',
-                'image' => 'golconda-diamond.jpg',
-                'description' => 'Flawless D-color Type IIa diamond of historical importance, exhibiting the characteristic limpid transparency.',
-                'price_tier' => 'Private Vault'
-            ]
-        ];
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->query("SELECT * FROM `gemstones` ORDER BY `id` DESC");
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log("Error in getCuratedAcquisitions: " . $e->getMessage());
+            return [];
+        }
     }
 
     /**
-     * Get a specific gemstone by ID
+     * Get a specific gemstone by ID from DB
      * 
      * @param int $id
-     * @return array
+     * @return array|null
      */
     public static function getById($id) {
-        $gems = self::getCuratedAcquisitions();
-        foreach ($gems as $gem) {
-            if ($gem['id'] == $id) {
-                return $gem;
-            }
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("SELECT * FROM `gemstones` WHERE `id` = :id");
+            $stmt->execute(['id' => $id]);
+            $gem = $stmt->fetch();
+            return $gem ? $gem : null;
+        } catch (PDOException $e) {
+            error_log("Error in getById: " . $e->getMessage());
+            return null;
         }
-        return $gems[0];
+    }
+
+    /**
+     * Add a new gemstone to the database
+     * 
+     * @param string $title
+     * @param string $origin
+     * @param string $carats
+     * @param string $cut
+     * @param string $status
+     * @param string $image
+     * @param string $description
+     * @param string $price_tier
+     * @return bool
+     */
+    public static function add($title, $origin, $carats, $cut, $status, $image, $description, $price_tier) {
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("INSERT INTO `gemstones` 
+                (`title`, `origin`, `carats`, `cut`, `status`, `image`, `description`, `price_tier`) 
+                VALUES (:title, :origin, :carats, :cut, :status, :image, :description, :price_tier)");
+            return $stmt->execute([
+                'title' => $title,
+                'origin' => $origin,
+                'carats' => $carats,
+                'cut' => $cut,
+                'status' => $status,
+                'image' => $image,
+                'description' => $description,
+                'price_tier' => $price_tier
+            ]);
+        } catch (PDOException $e) {
+            error_log("Error in add Gemstone: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete a gemstone
+     * 
+     * @param int $id
+     * @return bool
+     */
+    public static function delete($id) {
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("DELETE FROM `gemstones` WHERE `id` = :id");
+            return $stmt->execute(['id' => $id]);
+        } catch (PDOException $e) {
+            error_log("Error in delete Gemstone: " . $e->getMessage());
+            return false;
+        }
     }
 }

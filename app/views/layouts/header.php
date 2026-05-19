@@ -14,6 +14,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Suppress Tailwind CDN warnings in console -->
+    <script>
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -47,7 +57,7 @@
 <body class="bg-dark text-gray-300 font-sans antialiased selection:bg-white selection:text-black">
 
     <!-- Premium Navigation Bar -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-8 md:px-16 border-b border-transparent bg-dark/80 backdrop-blur-md">
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 px-6 md:py-6 md:px-16 border-b border-transparent bg-dark/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
             <!-- Logo -->
@@ -70,7 +80,7 @@
             </nav>
 
             <!-- Right Actions -->
-            <div class="flex items-center space-x-4 lg:space-x-6 text-[10px] lg:text-xs tracking-[0.15em] uppercase font-light">
+            <div class="hidden md:flex items-center space-x-4 lg:space-x-6 text-[10px] lg:text-xs tracking-[0.15em] uppercase font-light">
                 <a href="<?= BASE_URL; ?>/index.php?route=discover" class="hidden lg:flex items-center space-x-2 transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">
                     <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                     <span>Discover</span>
@@ -82,14 +92,69 @@
                     Inquire
                 </button>
 
-                <button onclick="openModal('inquiryModal', 'Application for Vetted Gemstone Seller Network')" class="px-5 py-2 bg-gold text-black font-medium rounded-full hover:bg-[#ebd275] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
-                    Sell Gem
-                </button>
 
-                <button onclick="openModal('loginModal')" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
-                    Logout
-                </button>
+
+                <?php if (User::isLoggedIn()): ?>
+                    <?php if (User::isAdmin()): ?>
+                        <a href="<?= BASE_URL; ?>/index.php?route=admin" class="px-4 py-2 border border-gold rounded-full text-gold hover:bg-gold hover:text-black transition-all duration-300 flex items-center space-x-1.5 font-medium">
+                            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    <?php else: ?>
+                        <span class="text-gray-400 hidden xl:inline normal-case font-normal">Circle: <strong><?= htmlspecialchars(User::getCurrentUser()['name']); ?></strong></span>
+                    <?php endif; ?>
+                    <a href="<?= BASE_URL; ?>/index.php?route=logout" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                        Logout
+                    </a>
+                <?php else: ?>
+                    <a href="<?= BASE_URL; ?>/index.php?route=login" class="px-5 py-2 border border-gray-600 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300">
+                        Client Entrance
+                    </a>
+                <?php endif; ?>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden flex items-center justify-center p-2 text-gray-400 hover:text-white transition-colors duration-300 focus:outline-none" aria-label="Toggle Menu" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" id="menu-icon-open" class="w-6 h-6"></i>
+                <i data-lucide="x" id="menu-icon-close" class="w-6 h-6 hidden"></i>
+            </button>
 
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-dark/98 backdrop-blur-lg flex flex-col justify-between pt-28 pb-12 px-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden overflow-y-auto">
+        <!-- Navigation Links -->
+        <nav class="flex flex-col space-y-6 text-sm tracking-[0.2em] uppercase font-light text-gray-400">
+            <a href="<?= BASE_URL; ?>/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white font-normal' : ''; ?>">Marketplace</a>
+            <a href="<?= BASE_URL; ?>/index.php?route=gemstones" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white font-normal' : ''; ?>">Gem Stones</a>
+            <a href="<?= BASE_URL; ?>/index.php?route=heritage" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white font-normal' : ''; ?>">Heritage</a>
+            <a href="<?= BASE_URL; ?>/index.php?route=news" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white font-normal' : ''; ?>">News</a>
+            <a href="<?= BASE_URL; ?>/index.php?route=discover" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'discover') ? 'text-gold font-normal' : 'text-gray-400 hover:text-white'; ?>">Discover</a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex flex-col space-y-4 pt-8 border-t border-gray-900">
+            <button onclick="closeMobileMenu(); openModal('inquiryModal')" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white transition-all duration-300 tracking-[0.15em] uppercase text-xs">
+                Inquire
+            </button>
+
+            <?php if (User::isLoggedIn()): ?>
+                <?php if (User::isAdmin()): ?>
+                    <a href="<?= BASE_URL; ?>/index.php?route=admin" class="w-full py-3.5 border border-gold rounded-full text-center text-gold hover:bg-gold hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs flex items-center justify-center space-x-1.5 font-medium">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </a>
+                <?php else: ?>
+                    <div class="text-gray-400 text-center py-2 text-xs">Circle: <strong><?= htmlspecialchars(User::getCurrentUser()['name']); ?></strong></div>
+                <?php endif; ?>
+                <a href="<?= BASE_URL; ?>/index.php?route=logout" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
+                    Logout
+                </a>
+            <?php else: ?>
+                <a href="<?= BASE_URL; ?>/index.php?route=login" class="w-full py-3.5 border border-gray-600 rounded-full text-center text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 tracking-[0.15em] uppercase text-xs">
+                    Client Entrance
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
