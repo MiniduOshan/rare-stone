@@ -113,7 +113,9 @@ if (strtolower(DB_DRIVER) === 'sqlite') {
 
 // Session Configuration
 define('SESSION_NAME', rare_stones_env('SESSION_NAME', 'RARESTONESSESSID'));
-define('SESSION_COOKIE_SECURE', rare_stones_bool_env('SESSION_COOKIE_SECURE', APP_ENV === 'production'));
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+           (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+define('SESSION_COOKIE_SECURE', rare_stones_bool_env('SESSION_COOKIE_SECURE', $isHttps));
 define('SESSION_COOKIE_HTTPONLY', true);
 define('SESSION_COOKIE_SAMESITE', rare_stones_env('SESSION_COOKIE_SAMESITE', 'Lax'));
 define('SESSION_LIFETIME', (int) rare_stones_env('SESSION_LIFETIME', 0));
