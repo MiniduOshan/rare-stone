@@ -74,9 +74,7 @@ class Gemstone {
     public static function getCuratedAcquisitions() {
         try {
             self::ensureLocationColumn();
-            $db = Database::getConnection();
-            $stmt = $db->query("SELECT * FROM `gemstones` ORDER BY `id` DESC");
-            return $stmt->fetchAll();
+            return Database::cachedQuery("SELECT * FROM `gemstones` ORDER BY `id` DESC");
         } catch (PDOException $e) {
             error_log("Error in getCuratedAcquisitions: " . $e->getMessage());
             return [];
@@ -193,4 +191,53 @@ class Gemstone {
             return false;
         }
     }
+
+    /**
+     * Update an existing gemstone
+     * 
+     * @param int $id
+     * @param string $title
+     * @param string $origin
+     * @param string $location
+     * @param string $carats
+     * @param string $cut
+     * @param string $status
+     * @param string $image
+     * @param string $description
+     * @param string $price_tier
+     * @return bool
+     */
+    public static function update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier) {
+        try {
+            self::ensureLocationColumn();
+            $db = Database::getConnection();
+            $stmt = $db->prepare("UPDATE `gemstones` SET 
+                `title` = :title, 
+                `origin` = :origin, 
+                `location` = :location, 
+                `carats` = :carats, 
+                `cut` = :cut, 
+                `status` = :status, 
+                `image` = :image, 
+                `description` = :description, 
+                `price_tier` = :price_tier 
+                WHERE `id` = :id");
+            return $stmt->execute([
+                'id' => $id,
+                'title' => $title,
+                'origin' => $origin,
+                'location' => $location,
+                'carats' => $carats,
+                'cut' => $cut,
+                'status' => $status,
+                'image' => $image,
+                'description' => $description,
+                'price_tier' => $price_tier
+            ]);
+        } catch (PDOException $e) {
+            error_log("Error in update Gemstone: " . $e->getMessage());
+            return false;
+        }
+    }
 }
+

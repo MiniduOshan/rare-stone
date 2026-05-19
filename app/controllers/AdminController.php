@@ -4,6 +4,7 @@ require_once APP_ROOT . '/models/User.php';
 require_once APP_ROOT . '/models/Gemstone.php';
 require_once APP_ROOT . '/models/Article.php';
 require_once APP_ROOT . '/models/Feedback.php';
+require_once APP_ROOT . '/helpers/Security.php';
 
 class AdminController {
     
@@ -19,6 +20,33 @@ class AdminController {
             error_log("Admin dashboard view not found: " . $viewPath);
             die("A required admin page component is missing.");
         }
+    }
+
+    /**
+     * Helper to upload image file and return new name, otherwise fallback
+     */
+    protected function handleImageUpload($key, $fallback) {
+        if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
+            $tmpPath = $_FILES[$key]['tmp_name'];
+            $originalName = $_FILES[$key]['name'];
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (in_array($extension, $allowedExtensions)) {
+                $newFilename = uniqid('upload_', true) . '.' . $extension;
+                $targetDir = APP_ROOT . '/../public/images';
+                
+                if (!file_exists($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+                
+                $targetPath = $targetDir . '/' . $newFilename;
+                if (move_uploaded_file($tmpPath, $targetPath)) {
+                    return $newFilename;
+                }
+            }
+        }
+        return $fallback;
     }
 
     /**
@@ -136,28 +164,44 @@ class AdminController {
     }
 
     /**
-     * Add Gemstones Panel
+     * Add/Edit Gemstones Panel
      */
     public function gems() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = isset($_POST['title']) ? trim($_POST['title']) : '';
-            $origin = isset($_POST['origin']) ? trim($_POST['origin']) : '';
-            $location = isset($_POST['location']) ? trim($_POST['location']) : '';
-            $carats = isset($_POST['carats']) ? trim($_POST['carats']) : '';
-            $cut = isset($_POST['cut']) ? trim($_POST['cut']) : '';
-            $status = isset($_POST['status']) ? trim($_POST['status']) : '';
-            $image = isset($_POST['image']) ? trim($_POST['image']) : '';
-            $description = isset($_POST['description']) ? trim($_POST['description']) : '';
-            $price_tier = isset($_POST['price_tier']) ? trim($_POST['price_tier']) : '';
+            $id = Security::sanitizeInt($_POST['id'] ?? 0, 0);
+            $title = Security::sanitizeString($_POST['title'] ?? '', 200);
+            $origin = Security::sanitizeString($_POST['origin'] ?? '', 200);
+            $location = Security::sanitizeString($_POST['location'] ?? '', 200);
+            $carats = Security::sanitizeString($_POST['carats'] ?? '', 50);
+            $cut = Security::sanitizeString($_POST['cut'] ?? '', 100);
+            $status = Security::sanitizeString($_POST['status'] ?? '', 50);
+            $image = Security::sanitizeString($_POST['image'] ?? '', 500);
+            $description = Security::sanitizeString($_POST['description'] ?? '', 5000);
+            $price_tier = Security::sanitizeString($_POST['price_tier'] ?? '', 100);
+
+            // Validate status against whitelist
+            $allowedStatuses = ['INQUIRE', 'UPON REQUEST', 'PRIVATE SALE', 'RESERVED'];
+            if (!in_array($status, $allowedStatuses)) $status = 'INQUIRE';
+
+            $image = $this->handleImageUpload('image_file', $image);
 
             if (empty($title) || empty($origin) || empty($location) || empty($carats) || empty($cut) || empty($status) || empty($image) || empty($description) || empty($price_tier)) {
-                $_SESSION['admin_error'] = 'All fields are required to register a new gemstone.';
+                $_SESSION['admin_error'] = 'All fields are required to save the gemstone.';
             } else {
-                $added = Gemstone::add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
-                if ($added) {
-                    $_SESSION['admin_success'] = 'Gemstone listing successfully added to the vault.';
+                if ($id > 0) {
+                    $updated = Gemstone::update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
+                    if ($updated) {
+                        $_SESSION['admin_success'] = 'Gemstone listing successfully updated.';
+                    } else {
+                        $_SESSION['admin_error'] = 'Failed to update gemstone in database.';
+                    }
                 } else {
-                    $_SESSION['admin_error'] = 'Failed to register gemstone in database.';
+                    $added = Gemstone::add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
+                    if ($added) {
+                        $_SESSION['admin_success'] = 'Gemstone listing successfully added to the vault.';
+                    } else {
+                        $_SESSION['admin_error'] = 'Failed to register gemstone in database.';
+                    }
                 }
             }
         }
@@ -166,18 +210,21 @@ class AdminController {
     }
 
     /**
-     * Add News / Editorial Panel
+     * Add/Edit News / Editorial Panel
      */
     public function news() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = isset($_POST['title']) ? trim($_POST['title']) : '';
-            $subtitle = isset($_POST['subtitle']) ? trim($_POST['subtitle']) : '';
-            $meta = isset($_POST['meta']) ? trim($_POST['meta']) : '';
-            $image = isset($_POST['image']) ? trim($_POST['image']) : '';
-            $author = isset($_POST['author']) ? trim($_POST['author']) : '';
-            $author_role = isset($_POST['author_role']) ? trim($_POST['author_role']) : '';
-            $content = isset($_POST['content']) ? trim($_POST['content']) : '';
-            $slug = isset($_POST['slug']) ? trim($_POST['slug']) : '';
+            $id = Security::sanitizeInt($_POST['id'] ?? 0, 0);
+            $title = Security::sanitizeString($_POST['title'] ?? '', 300);
+            $subtitle = Security::sanitizeString($_POST['subtitle'] ?? '', 500);
+            $meta = Security::sanitizeString($_POST['meta'] ?? '', 300);
+            $image = Security::sanitizeString($_POST['image'] ?? '', 500);
+            $author = Security::sanitizeString($_POST['author'] ?? '', 100);
+            $author_role = Security::sanitizeString($_POST['author_role'] ?? '', 100);
+            $content = Security::sanitizeHtml($_POST['content'] ?? '', 50000);
+            $slug = Security::sanitizeSlug($_POST['slug'] ?? '', 200);
+
+            $image = $this->handleImageUpload('image_file', $image);
 
             // Auto-generate slug if not provided
             if (empty($slug)) {
@@ -187,11 +234,20 @@ class AdminController {
             if (empty($title) || empty($meta) || empty($author) || empty($content)) {
                 $_SESSION['admin_error'] = 'Title, Meta details, Author, and Article Content are required.';
             } else {
-                $added = Article::add($slug, $meta, $title, $subtitle, $image, $author, $author_role, $content);
-                if ($added) {
-                    $_SESSION['admin_success'] = 'Editorial insight article successfully published.';
+                if ($id > 0) {
+                    $updated = Article::update($id, $slug, $meta, $title, $subtitle, $image, $author, $author_role, $content);
+                    if ($updated) {
+                        $_SESSION['admin_success'] = 'Editorial insight article successfully updated.';
+                    } else {
+                        $_SESSION['admin_error'] = 'Failed to update article. Slug might already exist.';
+                    }
                 } else {
-                    $_SESSION['admin_error'] = 'Failed to save article. Slug might already exist.';
+                    $added = Article::add($slug, $meta, $title, $subtitle, $image, $author, $author_role, $content);
+                    if ($added) {
+                        $_SESSION['admin_success'] = 'Editorial insight article successfully published.';
+                    } else {
+                        $_SESSION['admin_error'] = 'Failed to save article. Slug might already exist.';
+                    }
                 }
             }
         }
@@ -226,11 +282,13 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('heritage-philosophies');
             if ($article) {
-                $title = isset($_POST['title']) ? trim($_POST['title']) : '';
-                $subtitle = isset($_POST['subtitle']) ? trim($_POST['subtitle']) : '';
-                $image = isset($_POST['image']) ? trim($_POST['image']) : '';
-                $author = isset($_POST['quote']) ? trim($_POST['quote']) : ''; // Quote field is stored in author
-                $content = isset($_POST['content']) ? trim($_POST['content']) : '';
+                $title = Security::sanitizeString($_POST['title'] ?? '', 300);
+                $subtitle = Security::sanitizeString($_POST['subtitle'] ?? '', 500);
+                $image = Security::sanitizeString($_POST['image'] ?? '', 500);
+                $author = Security::sanitizeString($_POST['quote'] ?? '', 500); // Quote field is stored in author
+                $content = Security::sanitizeHtml($_POST['content'] ?? '', 50000);
+
+                $image = $this->handleImageUpload('image_file', $image);
 
                 if (empty($title) || empty($content)) {
                     $_SESSION['admin_error'] = 'Title and Heritage content are required.';
@@ -252,8 +310,8 @@ class AdminController {
      * Moderate Customer Feedbacks Status
      */
     public function feedbackStatus() {
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $status = isset($_GET['status']) ? trim($_GET['status']) : '';
+        $id = Security::sanitizeInt($_GET['id'] ?? 0, 0);
+        $status = Security::sanitizeString($_GET['status'] ?? '', 20);
 
         if ($id > 0 && in_array($status, ['approved', 'rejected'])) {
             Feedback::updateStatus($id, $status);
@@ -270,9 +328,9 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('discover-page');
             if ($article) {
-                $title = isset($_POST['title']) ? trim($_POST['title']) : '';
-                $subtitle = isset($_POST['subtitle']) ? trim($_POST['subtitle']) : '';
-                $content = isset($_POST['content']) ? trim($_POST['content']) : ''; // JSON string of branches
+                $title = Security::sanitizeString($_POST['title'] ?? '', 300);
+                $subtitle = Security::sanitizeString($_POST['subtitle'] ?? '', 500);
+                $content = isset($_POST['content']) ? trim($_POST['content']) : ''; // JSON — validated below
 
                 if (empty($title) || empty($content)) {
                     $_SESSION['admin_error'] = 'Title and Branches JSON content are required.';
@@ -303,11 +361,11 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('contact-details');
             if ($article) {
-                $whatsapp = isset($_POST['whatsapp']) ? trim($_POST['whatsapp']) : '';
-                $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
-                $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-                $instagram = isset($_POST['instagram']) ? trim($_POST['instagram']) : '';
-                $facebook = isset($_POST['facebook']) ? trim($_POST['facebook']) : '';
+                $whatsapp = Security::sanitizeString($_POST['whatsapp'] ?? '', 50);
+                $phone = Security::sanitizeString($_POST['phone'] ?? '', 50);
+                $email = Security::sanitizeEmail($_POST['email'] ?? '');
+                $instagram = Security::sanitizeString($_POST['instagram'] ?? '', 200);
+                $facebook = Security::sanitizeString($_POST['facebook'] ?? '', 200);
 
                 $contacts = [
                     'whatsapp' => $whatsapp,
@@ -327,5 +385,324 @@ class AdminController {
         }
         header('Location: ' . BASE_URL . '/admin/#contact');
         exit;
+    }
+
+    /**
+     * Generate and download a full project backup ZIP
+     * Includes: MySQL DB export, uploaded images, all project files
+     */
+    public function backup() {
+        // --- Rate Limit: max 2 backups per 24 hours ---
+        $maxAttempts = 2;
+        $windowSeconds = 86400; // 24 hours
+        $now = time();
+
+        if (!isset($_SESSION['backup_timestamps'])) {
+            $_SESSION['backup_timestamps'] = [];
+        }
+
+        // Purge entries older than 24 hours
+        $_SESSION['backup_timestamps'] = array_values(array_filter(
+            $_SESSION['backup_timestamps'],
+            function ($ts) use ($now, $windowSeconds) {
+                return ($now - $ts) < $windowSeconds;
+            }
+        ));
+
+        if (count($_SESSION['backup_timestamps']) >= $maxAttempts) {
+            // Calculate when the earliest attempt expires
+            $oldest = min($_SESSION['backup_timestamps']);
+            $resetAt = $oldest + $windowSeconds;
+            $remaining = $resetAt - $now;
+            $hours = floor($remaining / 3600);
+            $minutes = ceil(($remaining % 3600) / 60);
+
+            $_SESSION['admin_error'] = "Backup limit reached (max {$maxAttempts} per 24 hours). Try again in {$hours}h {$minutes}m.";
+            header('Location: ' . BASE_URL . '/admin/');
+            exit;
+        }
+
+        // Record this attempt
+        $_SESSION['backup_timestamps'][] = $now;
+
+        // Increase limits for large backups
+        @set_time_limit(600);
+        @ini_set('memory_limit', '512M');
+
+        $projectRoot = dirname(dirname(APP_ROOT));
+        $storageDir = $projectRoot . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'backups';
+
+        // Ensure storage/backups directory exists
+        if (!is_dir($storageDir)) {
+            if (!@mkdir($storageDir, 0755, true)) {
+                $_SESSION['admin_error'] = 'Failed to create backup storage directory.';
+                header('Location: ' . BASE_URL . '/admin/');
+                exit;
+            }
+        }
+
+        // Generate timestamped filename
+        $timestamp = date('Y-m-d_H-i-s');
+        $zipFilename = 'backup_' . $timestamp . '.zip';
+        $zipPath = $storageDir . DIRECTORY_SEPARATOR . $zipFilename;
+        $sqlFilename = 'database_' . $timestamp . '.sql';
+        $sqlPath = $storageDir . DIRECTORY_SEPARATOR . $sqlFilename;
+
+        try {
+            // --- 1. Export MySQL Database ---
+            $sqlExported = $this->exportDatabase($sqlPath);
+            if (!$sqlExported) {
+                throw new Exception('Database export failed. Check server logs for details.');
+            }
+
+            // --- 2. Create ZIP Archive ---
+            $zip = new ZipArchive();
+            $result = $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+            if ($result !== true) {
+                throw new Exception('Could not create ZIP archive. Error code: ' . $result);
+            }
+
+            // Add SQL export
+            $zip->addFile($sqlPath, $sqlFilename);
+
+            // Directories/files to exclude from backup
+            $excludeDirs = [
+                'vendor',
+                'node_modules',
+                'storage' . DIRECTORY_SEPARATOR . 'cache',
+                'storage' . DIRECTORY_SEPARATOR . 'backups',
+                '.git',
+            ];
+
+            // --- 3. Add all project files recursively ---
+            $this->addDirectoryToZip($zip, $projectRoot, $projectRoot, $excludeDirs);
+
+            $zip->close();
+
+            // --- 4. Verify ZIP was created ---
+            if (!file_exists($zipPath) || filesize($zipPath) === 0) {
+                throw new Exception('ZIP archive was not created or is empty.');
+            }
+
+            // --- 5. Stream download with secure headers ---
+            // Clean any previous output buffers
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename="' . $zipFilename . '"');
+            header('Content-Length: ' . filesize($zipPath));
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+            header('X-Content-Type-Options: nosniff');
+
+            readfile($zipPath);
+
+            // --- 6. Cleanup temporary files ---
+            @unlink($sqlPath);
+            @unlink($zipPath);
+
+            exit;
+
+        } catch (Exception $e) {
+            error_log('Backup failed: ' . $e->getMessage());
+
+            // Cleanup on failure
+            if (file_exists($sqlPath)) @unlink($sqlPath);
+            if (file_exists($zipPath)) @unlink($zipPath);
+
+            $_SESSION['admin_error'] = 'Backup generation failed: ' . $e->getMessage();
+            header('Location: ' . BASE_URL . '/admin/');
+            exit;
+        }
+    }
+
+    /**
+     * Export MySQL database using mysqldump or PDO fallback
+     * Uses config constants (DB_HOST, DB_USER, DB_PASS, DB_NAME) from environment
+     *
+     * @param string $sqlPath Full path for the output .sql file
+     * @return bool
+     */
+    protected function exportDatabase($sqlPath) {
+        $dbHost = DB_HOST;
+        $dbUser = DB_USER;
+        $dbPass = DB_PASS;
+        $dbName = DB_NAME;
+
+        // Attempt mysqldump first (faster, more reliable for large DBs)
+        $mysqldumpPath = $this->findMysqldump();
+        if ($mysqldumpPath) {
+            $cmd = sprintf(
+                '%s --host=%s --user=%s %s --single-transaction --routines --triggers %s > %s 2>&1',
+                escapeshellarg($mysqldumpPath),
+                escapeshellarg($dbHost),
+                escapeshellarg($dbUser),
+                $dbPass !== '' ? '--password=' . escapeshellarg($dbPass) : '',
+                escapeshellarg($dbName),
+                escapeshellarg($sqlPath)
+            );
+
+            exec($cmd, $output, $returnCode);
+
+            if ($returnCode === 0 && file_exists($sqlPath) && filesize($sqlPath) > 0) {
+                return true;
+            }
+            error_log('mysqldump failed (exit code ' . $returnCode . '): ' . implode("\n", $output));
+        }
+
+        // Fallback: PDO-based SQL export
+        return $this->exportDatabaseViaPDO($sqlPath);
+    }
+
+    /**
+     * Locate mysqldump binary on common paths (Linux/Windows)
+     *
+     * @return string|null
+     */
+    protected function findMysqldump() {
+        $paths = [
+            'mysqldump',                               // system PATH
+            '/usr/bin/mysqldump',                      // Linux default
+            '/usr/local/bin/mysqldump',                // Linux alt
+            '/usr/local/mysql/bin/mysqldump',          // macOS Homebrew
+            'C:\\xampp\\mysql\\bin\\mysqldump.exe',     // Windows XAMPP
+            'C:\\wamp64\\bin\\mysql\\mysql8.0.31\\bin\\mysqldump.exe', // WAMP
+        ];
+
+        foreach ($paths as $path) {
+            // For the first entry, check if it's on PATH
+            if ($path === 'mysqldump') {
+                $which = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'where mysqldump 2>nul' : 'which mysqldump 2>/dev/null';
+                exec($which, $out, $ret);
+                if ($ret === 0 && !empty($out[0])) {
+                    return trim($out[0]);
+                }
+                continue;
+            }
+            if (file_exists($path) && is_executable($path)) {
+                return $path;
+            }
+            // Windows: also check without is_executable since it may not work correctly
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && file_exists($path)) {
+                return $path;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Export database via PDO (fallback when mysqldump is unavailable)
+     *
+     * @param string $sqlPath
+     * @return bool
+     */
+    protected function exportDatabaseViaPDO($sqlPath) {
+        try {
+            require_once APP_ROOT . '/models/Database.php';
+            $pdo = Database::getConnection();
+
+            $handle = fopen($sqlPath, 'w');
+            if (!$handle) {
+                return false;
+            }
+
+            fwrite($handle, "-- Rare Stones Database Backup\n");
+            fwrite($handle, "-- Generated: " . date('Y-m-d H:i:s') . "\n");
+            fwrite($handle, "-- Database: " . DB_NAME . "\n");
+            fwrite($handle, "SET NAMES utf8mb4;\n");
+            fwrite($handle, "SET FOREIGN_KEY_CHECKS = 0;\n\n");
+
+            // Get all tables
+            $tables = $pdo->query('SHOW TABLES')->fetchAll(PDO::FETCH_COLUMN);
+
+            foreach ($tables as $table) {
+                // Table structure
+                $createStmt = $pdo->query('SHOW CREATE TABLE `' . $table . '`')->fetch();
+                $createSql = $createStmt['Create Table'] ?? $createStmt[1] ?? '';
+
+                fwrite($handle, "\n-- Table: `{$table}`\n");
+                fwrite($handle, "DROP TABLE IF EXISTS `{$table}`;\n");
+                fwrite($handle, $createSql . ";\n\n");
+
+                // Table data
+                $rows = $pdo->query('SELECT * FROM `' . $table . '`')->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($rows)) {
+                    $columns = array_keys($rows[0]);
+                    $colList = '`' . implode('`, `', $columns) . '`';
+
+                    foreach ($rows as $row) {
+                        $values = array_map(function($val) use ($pdo) {
+                            if ($val === null) return 'NULL';
+                            return $pdo->quote($val);
+                        }, array_values($row));
+
+                        fwrite($handle, "INSERT INTO `{$table}` ({$colList}) VALUES (" . implode(', ', $values) . ");\n");
+                    }
+                    fwrite($handle, "\n");
+                }
+            }
+
+            fwrite($handle, "SET FOREIGN_KEY_CHECKS = 1;\n");
+            fclose($handle);
+
+            return file_exists($sqlPath) && filesize($sqlPath) > 0;
+
+        } catch (Exception $e) {
+            error_log('PDO database export failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Recursively add a directory's contents to a ZipArchive
+     *
+     * @param ZipArchive $zip
+     * @param string $dir           Current directory to scan
+     * @param string $projectRoot   Project root for relative path calculation
+     * @param array  $excludeDirs   Relative dir paths to skip
+     */
+    protected function addDirectoryToZip(ZipArchive $zip, $dir, $projectRoot, $excludeDirs) {
+        $iterator = new DirectoryIterator($dir);
+
+        foreach ($iterator as $item) {
+            if ($item->isDot()) {
+                continue;
+            }
+
+            $fullPath = $item->getPathname();
+            $relativePath = str_replace(
+                ['/', '\\'],
+                DIRECTORY_SEPARATOR,
+                substr($fullPath, strlen($projectRoot) + 1)
+            );
+
+            // Normalise to forward slashes for zip internal paths
+            $zipInternalPath = str_replace('\\', '/', $relativePath);
+
+            // Check exclusion list
+            $skip = false;
+            foreach ($excludeDirs as $excludeDir) {
+                $normalizedExclude = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $excludeDir);
+                if (strpos($relativePath, $normalizedExclude) === 0) {
+                    $skip = true;
+                    break;
+                }
+            }
+            if ($skip) {
+                continue;
+            }
+
+            if ($item->isDir()) {
+                $zip->addEmptyDir($zipInternalPath);
+                $this->addDirectoryToZip($zip, $fullPath, $projectRoot, $excludeDirs);
+            } elseif ($item->isFile() && $item->isReadable()) {
+                $zip->addFile($fullPath, $zipInternalPath);
+            }
+        }
     }
 }

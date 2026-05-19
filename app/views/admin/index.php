@@ -245,49 +245,47 @@
             </header>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <!-- Add Form -->
-                <section class="lg:col-span-5 bg-surface border border-borderGray p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                <!-- Add/Edit Form -->
+                <section id="gem-form-section" class="lg:col-span-7 bg-surface border border-borderGray p-8 rounded-3xl shadow-2xl relative overflow-hidden">
                     <h2 class="font-serif text-2xl text-white font-light mb-6 flex items-center space-x-2">
-                        <i data-lucide="plus-circle" class="w-5 h-5 text-gold"></i>
-                        <span>Register New Gemstone</span>
+                        <i id="gem-form-icon" data-lucide="plus-circle" class="w-5 h-5 text-gold"></i>
+                        <span id="gem-form-title">Register New Gemstone</span>
                     </h2>
 
-                    <form action="<?= BASE_URL; ?>/?route=admin_gems" method="POST" class="space-y-4">
+                    <form id="gemstone-form" action="<?= BASE_URL; ?>/?route=admin_gems" method="POST" enctype="multipart/form-data" class="space-y-4">
+                        <input type="hidden" name="id" id="gem-id" value="0">
+
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Gem Title</label>
-                            <input type="text" name="title" required placeholder="e.g. Ceylon Blue Sapphire" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" id="gem-title" required placeholder="e.g. Ceylon Blue Sapphire" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Origin Source</label>
-                                <input type="text" name="origin" required placeholder="e.g. Sri Lanka" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="origin" id="gem-origin" required placeholder="e.g. Sri Lanka" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Selling Area / Branch</label>
-                                <input type="text" name="location" required placeholder="e.g. Ratnapura Branch" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="location" id="gem-location" required placeholder="e.g. Ratnapura Branch" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Carat Weight</label>
-                                <input type="text" name="carats" required placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="carats" id="gem-carats" required placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Optical Cut</label>
-                                <input type="text" name="cut" required placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="cut" id="gem-cut" required placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Optical Cut</label>
-                                <input type="text" name="cut" required placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
-                            </div>
+                        <div class="grid grid-cols-1 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Status Tag</label>
-                                <select name="status" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <select name="status" id="gem-status" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                                     <option value="INQUIRE">INQUIRE</option>
                                     <option value="UPON REQUEST">UPON REQUEST</option>
                                     <option value="PRIVATE SALE">PRIVATE SALE</option>
@@ -298,29 +296,38 @@
 
                         <div class="grid grid-cols-1 gap-4">
                             <div>
-                                <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Image URL or Local Filename</label>
-                                <input type="text" name="image" required placeholder="ceylon-blue-sapphire.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Image Selection (Paste URL or Upload File)</label>
+                                <div class="space-y-2">
+                                    <input type="text" name="image" id="gem-image" placeholder="Paste URL/Filename (e.g. ceylon-blue-sapphire.jpg)" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                    <input type="file" name="image_file" accept="image/*" class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Valuation Tier</label>
-                                <input type="text" name="price_tier" required placeholder="e.g. Investment Grade" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="price_tier" id="gem-price_tier" required placeholder="e.g. Investment Grade" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Detailed Monograph Description</label>
-                            <textarea name="description" required rows="3" placeholder="Enter micro-level gemological details..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none"></textarea>
+                            <textarea name="description" id="gem-description" required rows="3" placeholder="Enter micro-level gemological details..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-3.5 rounded-full hover:bg-gray-200 transition-all shadow-lg flex items-center justify-center space-x-2">
-                            <i data-lucide="save" class="w-3.5 h-3.5"></i>
-                            <span>Register Listing</span>
-                        </button>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <button type="button" id="btn-cancel-gem-edit" onclick="cancelGemEdit()" class="hidden px-5 py-3.5 bg-dark border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 rounded-full text-xs font-semibold tracking-wider uppercase transition-all flex items-center space-x-1.5">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                                <span>Cancel</span>
+                            </button>
+                            <button type="submit" id="btn-submit-gem" class="flex-1 bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-3.5 rounded-full hover:bg-gray-200 transition-all shadow-lg flex items-center justify-center space-x-2">
+                                <i id="gem-submit-icon" data-lucide="save" class="w-3.5 h-3.5"></i>
+                                <span id="gem-form-submit-text">Register Listing</span>
+                            </button>
+                        </div>
                     </form>
                 </section>
 
                 <!-- Gem Inventory List -->
-                <section class="lg:col-span-7 bg-surface border border-borderGray rounded-3xl shadow-2xl overflow-hidden">
+                <section class="lg:col-span-5 bg-surface border border-borderGray rounded-3xl shadow-2xl overflow-hidden">
                     <div class="p-6 border-b border-borderGray">
                         <h2 class="text-sm font-medium uppercase tracking-wider text-white">Active Vault Inventory</h2>
                     </div>
@@ -329,48 +336,45 @@
                         <table class="w-full text-left text-xs font-light">
                             <thead class="bg-dark/60 text-[10px] uppercase tracking-widest text-gray-400 border-b border-borderGray">
                                 <tr>
-                                    <th class="px-6 py-4">Acquisition Name</th>
-                                    <th class="px-6 py-4">Specification</th>
-                                    <th class="px-6 py-4">Valuation</th>
-                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-4 py-4">Gem</th>
+                                    <th class="px-4 py-4 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-borderGray/50">
                                 <?php if (!empty($gems)): ?>
                                     <?php foreach ($gems as $gem): ?>
                                         <tr class="hover:bg-white/5 transition-colors">
-                                            <td class="px-6 py-4 flex items-center space-x-3">
-                                                    <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
-                                                        <?php 
-                                                        $imgSrc = $gem['image'];
-                                                        $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
-                                                        ?>
-                                                        <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-contain">
-                                                    </div>
-                                                    <div>
-                                                        <div class="font-medium text-white text-sm"><?= htmlspecialchars($gem['title']); ?></div>
-                                                        <div class="text-[10px] text-gray-500"><?= htmlspecialchars($gem['cut']); ?></div>
-                                                    </div>
+                                            <td class="px-4 py-4 flex items-center space-x-3">
+                                                <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
+                                                    <?php 
+                                                    $imgSrc = $gem['image'];
+                                                    $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                                                    ?>
+                                                    <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-contain">
+                                                </div>
+                                                <div class="max-w-[160px] md:max-w-[200px]">
+                                                    <div class="font-medium text-white text-sm truncate"><?= htmlspecialchars($gem['title']); ?></div>
+                                                    <div class="text-[10px] text-gray-500 truncate"><?= htmlspecialchars($gem['cut']); ?></div>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4">
-                                                <div class="text-gray-300"><?= htmlspecialchars($gem['carats']); ?></div>
-                                                <div class="text-gray-500 font-light text-[10px]"><?= htmlspecialchars($gem['origin']); ?></div>
-                                                <div class="text-gray-500 font-light text-[10px]"><?= htmlspecialchars($gem['location'] ?? $gem['origin']); ?></div>
-                                            </td>
-                                            <td class="px-6 py-4 text-gold font-medium">
-                                                <?= htmlspecialchars($gem['price_tier']); ?>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <span class="inline-block px-2 py-0.5 text-[9px] uppercase tracking-wider bg-dark border border-gray-800 rounded text-gray-300 font-medium">
-                                                    <?= htmlspecialchars($gem['status']); ?>
-                                                </span>
+                                            <td class="px-4 py-4 text-right">
+                                                <div class="flex items-center justify-end space-x-1.5">
+                                                    <!-- Edit -->
+                                                    <button data-gem="<?= htmlspecialchars(json_encode($gem), ENT_QUOTES, 'UTF-8'); ?>" onclick="editGem(this)" title="Edit Gemstone" class="w-8 h-8 inline-flex items-center justify-center bg-white/5 border border-borderGray hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-all duration-200">
+                                                        <i data-lucide="edit-3" class="w-3.5 h-3.5 text-gold"></i>
+                                                    </button>
+
+                                                    <!-- Delete -->
+                                                    <button onclick="deleteGem(<?= $gem['id']; ?>)" title="Delete Gemstone" class="w-8 h-8 inline-flex items-center justify-center bg-red-950/40 border border-red-800/50 hover:bg-red-850 hover:text-white text-red-400 rounded-lg transition-all duration-200">
+                                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="4" class="px-6 py-12 text-center text-gray-500 italic font-light">
+                                        <td colspan="2" class="px-4 py-12 text-center text-gray-500 italic font-light">
                                             No gemstones registered in the database inventory.
                                         </td>
                                     </tr>
@@ -397,62 +401,73 @@
             </header>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <section class="lg:col-span-5 bg-surface border border-borderGray p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                <section class="lg:col-span-7 bg-surface border border-borderGray p-8 rounded-3xl shadow-2xl relative overflow-hidden">
                     <h2 class="font-serif text-2xl text-white font-light mb-6 flex items-center space-x-2">
-                        <i data-lucide="plus-circle" class="w-5 h-5 text-gold"></i>
-                        <span>Publish Insight</span>
+                        <i id="news-form-icon" data-lucide="plus-circle" class="w-5 h-5 text-gold"></i>
+                        <span id="news-form-title">Publish Insight</span>
                     </h2>
 
-                    <form action="<?= BASE_URL; ?>/?route=admin_news" method="POST" class="space-y-4">
+                    <form action="<?= BASE_URL; ?>/?route=admin_news" method="POST" enctype="multipart/form-data" class="space-y-4">
+                        <input type="hidden" name="id" id="news-id" value="0">
+
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Title</label>
-                            <input type="text" name="title" required placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" id="news-title" required placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Subtitle / Excerpt</label>
-                            <input type="text" name="subtitle" required placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="subtitle" id="news-subtitle" required placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Meta Details</label>
-                                <input type="text" name="meta" required placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="meta" id="news-meta" required placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Custom URL Slug</label>
-                                <input type="text" name="slug" placeholder="e.g. ratnapura-mining-outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="slug" id="news-slug" placeholder="e.g. ratnapura-mining-outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Name</label>
-                                <input type="text" name="author" required placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="author" id="news-author" required placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Role</label>
-                                <input type="text" name="author_role" required placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="author_role" id="news-author-role" required placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Image URL or Local Filename</label>
-                            <input type="text" name="image" required placeholder="news-bracelet.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Image Selection (Paste URL or Upload File)</label>
+                            <div class="space-y-2">
+                                <input type="text" name="image" id="news-image" placeholder="Paste URL/Filename (e.g. news-bracelet.jpg)" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="file" name="image_file" accept="image/*" class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
+                            </div>
                         </div>
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Content (HTML Supported)</label>
-                            <textarea name="content" required rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
+                            <textarea name="content" id="news-content" required rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-3.5 rounded-full hover:bg-gray-200 transition-all shadow-lg flex items-center justify-center space-x-2">
-                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                            <span>Publish Article</span>
-                        </button>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <button type="button" id="btn-cancel-news-edit" onclick="cancelNewsEdit()" class="hidden px-5 py-3.5 bg-dark border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 rounded-full text-xs font-semibold tracking-wider uppercase transition-all flex items-center space-x-1.5">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                                <span>Cancel</span>
+                            </button>
+                            <button type="submit" id="btn-submit-news" class="flex-1 bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-3.5 rounded-full hover:bg-gray-200 transition-all shadow-lg flex items-center justify-center space-x-2">
+                                <i id="news-submit-icon" data-lucide="send" class="w-3.5 h-3.5"></i>
+                                <span id="news-form-submit-text">Publish Article</span>
+                            </button>
+                        </div>
                     </form>
                 </section>
 
-                <section class="lg:col-span-7 bg-surface border border-borderGray rounded-3xl shadow-2xl overflow-hidden">
+                <section class="lg:col-span-5 bg-surface border border-borderGray rounded-3xl shadow-2xl overflow-hidden">
                     <div class="p-6 border-b border-borderGray">
                         <h2 class="text-sm font-medium uppercase tracking-wider text-white">Active Editorial Inventory</h2>
                     </div>
@@ -461,64 +476,64 @@
                         <table class="w-full text-left text-xs font-light">
                             <thead class="bg-dark/60 text-[10px] uppercase tracking-widest text-gray-400 border-b border-borderGray">
                                 <tr>
-                                    <th class="px-6 py-4">Article</th>
-                                    <th class="px-6 py-4">Topic / Metadata</th>
-                                    <th class="px-6 py-4">Author</th>
-                                    <th class="px-6 py-4 text-center">Action</th>
+                                    <th class="px-4 py-4">Article</th>
+                                    <th class="px-4 py-4 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-borderGray/50">
                                 <?php if (!empty($newsArticles)): ?>
                                     <?php foreach ($newsArticles as $art): ?>
                                         <tr class="hover:bg-white/5 transition-colors">
-                                            <td class="px-6 py-4 flex items-center space-x-3">
-                                                    <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
-                                                        <?php 
-                                                        $imgSrc = $art['image'];
-                                                        $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
-                                                        ?>
-                                                        <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-cover">
-                                                    </div>
-                                                <div class="max-w-[200px]">
-                                                        <div class="font-medium text-white text-sm truncate"><?= htmlspecialchars($art['title']); ?></div>
-                                                        <div class="text-[10px] text-gray-500 truncate"><?= htmlspecialchars($art['subtitle']); ?></div>
+                                            <td class="px-4 py-4 flex items-center space-x-3">
+                                                <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
+                                                    <?php 
+                                                    $imgSrc = $art['image'];
+                                                    $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                                                    ?>
+                                                    <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-cover">
+                                                </div>
+                                                <div class="max-w-[160px] md:max-w-[200px]">
+                                                    <div class="font-medium text-white text-sm truncate"><?= htmlspecialchars($art['title']); ?></div>
+                                                    <div class="text-[10px] text-gray-500 truncate"><?= htmlspecialchars($art['subtitle']); ?></div>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4">
-                                                <div class="text-gray-300"><?= htmlspecialchars(explode('•', $art['meta'])[0] ?? 'Insight'); ?></div>
-                                                <div class="text-gray-500 font-light text-[10px]"><?= htmlspecialchars(trim(explode('•', $art['meta'])[1] ?? 'Recent')); ?></div>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <div class="text-white"><?= htmlspecialchars($art['author']); ?></div>
-                                                <div class="text-gray-500 font-light text-[10px]"><?= htmlspecialchars($art['author_role']); ?></div>
-                                            </td>
-                                            <td class="px-6 py-4 text-right">
-                                                <div class="flex flex-col items-end space-y-1.5">
+                                            <td class="px-4 py-4 text-right">
+                                                <div class="flex items-center justify-end space-x-1.5">
+                                                    <!-- Headline -->
                                                     <?php if (isset($art['is_headline']) && $art['is_headline']): ?>
-                                                        <span class="inline-flex items-center justify-center space-x-1 text-[9px] uppercase tracking-wider font-semibold bg-gold/10 border border-gold/45 text-gold px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap w-28">
-                                                            <i data-lucide="star" class="w-3 h-3 fill-gold text-gold"></i>
-                                                            <span>Headline</span>
+                                                        <span title="Current Headline" class="w-8 h-8 inline-flex items-center justify-center bg-gold/10 border border-gold/45 text-gold rounded-lg shadow-sm">
+                                                            <i data-lucide="star" class="w-3.5 h-3.5 fill-gold text-gold"></i>
                                                         </span>
                                                     <?php else: ?>
                                                         <form action="<?= BASE_URL; ?>/?route=admin_headline" method="POST" class="inline">
                                                             <input type="hidden" name="id" value="<?= $art['id']; ?>">
-                                                            <button type="submit" class="inline-flex items-center justify-center space-x-1 text-[9px] uppercase tracking-wider font-semibold bg-dark border border-gray-800 hover:border-gray-600 text-gray-400 hover:text-white px-2.5 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap w-28">
-                                                                <i data-lucide="star" class="w-3 h-3"></i>
-                                                                <span>Make Headline</span>
+                                                            <button type="submit" title="Make Headline" class="w-8 h-8 inline-flex items-center justify-center bg-dark border border-gray-800 hover:border-gray-650 text-gray-400 hover:text-white rounded-lg transition-all duration-200">
+                                                                <i data-lucide="star" class="w-3.5 h-3.5"></i>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
-                                                    <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" target="_blank" class="inline-flex items-center justify-center space-x-1 text-[9px] uppercase tracking-wider font-semibold bg-gold text-black hover:bg-gold/80 px-3 py-1 rounded-lg transition-all duration-200 shadow-md whitespace-nowrap w-28">
+
+                                                    <!-- Read -->
+                                                    <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" target="_blank" title="Read Article" class="w-8 h-8 inline-flex items-center justify-center bg-gold text-black hover:bg-gold/80 rounded-lg transition-all duration-200 shadow-md">
                                                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                                                        <span>Read</span>
                                                     </a>
+
+                                                    <!-- Edit -->
+                                                    <button data-article="<?= htmlspecialchars(json_encode($art), ENT_QUOTES, 'UTF-8'); ?>" onclick="editNews(this)" title="Edit Article" class="w-8 h-8 inline-flex items-center justify-center bg-white/5 border border-borderGray hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-all duration-200">
+                                                        <i data-lucide="edit-3" class="w-3.5 h-3.5 text-gold"></i>
+                                                    </button>
+
+                                                    <!-- Delete -->
+                                                    <button onclick="deleteNews(<?= $art['id']; ?>)" title="Delete Article" class="w-8 h-8 inline-flex items-center justify-center bg-red-950/40 border border-red-800/50 hover:bg-red-850 hover:text-white text-red-400 rounded-lg transition-all duration-200">
+                                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="4" class="px-6 py-12 text-center text-gray-500 italic font-light">
+                                        <td colspan="2" class="px-4 py-12 text-center text-gray-500 italic font-light">
                                             No editorial insights found in database.
                                         </td>
                                     </tr>
@@ -552,7 +567,7 @@
                     <span>Modify Brand Dossier</span>
                 </h2>
 
-                <form action="<?= BASE_URL; ?>/?route=admin_heritage" method="POST" class="space-y-6 relative z-10">
+                <form action="<?= BASE_URL; ?>/?route=admin_heritage" method="POST" enctype="multipart/form-data" class="space-y-6 relative z-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Network Headline Title</label>
@@ -566,8 +581,11 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Hero Image URL or Local Filename</label>
-                            <input type="text" name="image" required value="<?= htmlspecialchars($heritageArticle['image']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Hero Image Selection (Paste URL or Upload File)</label>
+                            <div class="space-y-2">
+                                <input type="text" name="image" id="heritage-image" value="<?= htmlspecialchars($heritageArticle['image']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="file" name="image_file" accept="image/*" class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1.5 px-2 focus:outline-none">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Philosophy Statement / Quote</label>
@@ -789,6 +807,165 @@
                 });
             }, 5000);
         });
+
+        // Edit Gemstone Function
+        function editGem(btn) {
+            const gem = JSON.parse(btn.getAttribute('data-gem'));
+            
+            // Populate form fields
+            document.getElementById('gem-id').value = gem.id;
+            document.getElementById('gem-title').value = gem.title || '';
+            document.getElementById('gem-origin').value = gem.origin || '';
+            document.getElementById('gem-location').value = gem.location || '';
+            document.getElementById('gem-carats').value = gem.carats || '';
+            document.getElementById('gem-cut').value = gem.cut || '';
+            document.getElementById('gem-status').value = gem.status || 'INQUIRE';
+            document.getElementById('gem-image').value = gem.image || '';
+            document.getElementById('gem-price_tier').value = gem.price_tier || '';
+            document.getElementById('gem-description').value = gem.description || '';
+            
+            // UI Updates
+            document.getElementById('gem-form-title').innerText = 'Edit Gemstone';
+            document.getElementById('gem-form-submit-text').innerText = 'Update Gemstone';
+            
+            // Change submit icon
+            const submitIcon = document.getElementById('gem-submit-icon');
+            if (submitIcon) {
+                submitIcon.setAttribute('data-lucide', 'check-circle');
+            }
+            // Change form icon
+            const formIcon = document.getElementById('gem-form-icon');
+            if (formIcon) {
+                formIcon.setAttribute('data-lucide', 'edit-3');
+            }
+            
+            // Show cancel button
+            document.getElementById('btn-cancel-gem-edit').classList.remove('hidden');
+            
+            // Re-render Lucide icons for the form
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            
+            // Scroll to form section
+            document.getElementById('gem-form-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cancel Gemstone Edit Function
+        function cancelGemEdit() {
+            // Reset form
+            document.getElementById('gemstone-form').reset();
+            document.getElementById('gem-id').value = '0';
+            
+            // UI Updates
+            document.getElementById('gem-form-title').innerText = 'Register New Gemstone';
+            document.getElementById('gem-form-submit-text').innerText = 'Register Listing';
+            
+            // Change submit icon
+            const submitIcon = document.getElementById('gem-submit-icon');
+            if (submitIcon) {
+                submitIcon.setAttribute('data-lucide', 'save');
+            }
+            // Change form icon
+            const formIcon = document.getElementById('gem-form-icon');
+            if (formIcon) {
+                formIcon.setAttribute('data-lucide', 'plus-circle');
+            }
+            
+            // Hide cancel button
+            document.getElementById('btn-cancel-gem-edit').classList.add('hidden');
+            
+            // Re-render Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        // Delete Gemstone Function
+        function deleteGem(id) {
+            if (confirm('Are you sure you want to permanently remove this gemstone listing from the vault?')) {
+                window.location.href = '<?= BASE_URL; ?>/?route=admin_delete_gem&id=' + id;
+            }
+        }
+
+        // Edit News Article Function
+        function editNews(btn) {
+            const art = JSON.parse(btn.getAttribute('data-article'));
+            
+            // Populate form fields
+            document.getElementById('news-id').value = art.id;
+            document.getElementById('news-title').value = art.title || '';
+            document.getElementById('news-subtitle').value = art.subtitle || '';
+            document.getElementById('news-meta').value = art.meta || '';
+            document.getElementById('news-slug').value = art.slug || '';
+            document.getElementById('news-author').value = art.author || '';
+            document.getElementById('news-author-role').value = art.author_role || '';
+            document.getElementById('news-image').value = art.image || '';
+            document.getElementById('news-content').value = art.content || '';
+            
+            // UI Updates
+            document.getElementById('news-form-title').innerText = 'Edit Insight';
+            document.getElementById('news-form-submit-text').innerText = 'Update Article';
+            
+            // Change submit icon
+            const submitIcon = document.getElementById('news-submit-icon');
+            if (submitIcon) {
+                submitIcon.setAttribute('data-lucide', 'check-circle');
+            }
+            // Change form icon
+            const formIcon = document.getElementById('news-form-icon');
+            if (formIcon) {
+                formIcon.setAttribute('data-lucide', 'edit-3');
+            }
+            
+            // Show cancel button
+            document.getElementById('btn-cancel-news-edit').classList.remove('hidden');
+            
+            // Re-render Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            
+            // Scroll to form parent
+            document.getElementById('news-id').closest('section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cancel News Edit Function
+        function cancelNewsEdit() {
+            // Reset form
+            document.getElementById('news-id').closest('form').reset();
+            document.getElementById('news-id').value = '0';
+            
+            // UI Updates
+            document.getElementById('news-form-title').innerText = 'Publish Insight';
+            document.getElementById('news-form-submit-text').innerText = 'Publish Article';
+            
+            // Change submit icon
+            const submitIcon = document.getElementById('news-submit-icon');
+            if (submitIcon) {
+                submitIcon.setAttribute('data-lucide', 'send');
+            }
+            // Change form icon
+            const formIcon = document.getElementById('news-form-icon');
+            if (formIcon) {
+                formIcon.setAttribute('data-lucide', 'plus-circle');
+            }
+            
+            // Hide cancel button
+            document.getElementById('btn-cancel-news-edit').classList.add('hidden');
+            
+            // Re-render Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        // Delete News Function
+        function deleteNews(id) {
+            if (confirm('Are you sure you want to permanently delete this editorial insight article?')) {
+                window.location.href = '<?= BASE_URL; ?>/?route=admin_delete_news&id=' + id;
+            }
+        }
     </script>
 </body>
 </html>

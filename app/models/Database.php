@@ -3,6 +3,12 @@
 class Database {
     private static $instance = null;
 
+    /** @var array In-memory query result cache (per-request) */
+    private static $queryCache = [];
+
+    /** @var int Maximum cache entries to prevent memory bloat */
+    private static $maxCacheSize = 100;
+
     /**
      * Get the PDO database connection instance
      * 
@@ -35,5 +41,47 @@ class Database {
             }
         }
         return self::$instance;
+    }
+
+    /**
+     * Execute a cacheable read query (SELECT). Results are cached in-memory
+     * for the duration of the request to avoid duplicate DB hits.
+     *
+     * @param string $sql       The SQL query
+     * @param array  $params    Bound parameters
+     * @param int    $ttl       Not used (in-memory only), kept for future file cache
+     * @return array
+     */
+    public static function cachedQuery($sql, $params = [], $ttl = 0) {
+        $cacheKey = md5($sql . serialize($params));
+
+        if (isset(self::$queryCache[$cacheKey])) {
+            return self::$queryCache[$cacheKey];
+        }
+
+        try {
+            $db = self::getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            $result = $stmt->fetchAll();
+
+            // Store in cache (evict oldest if full)
+            if (count(self::$queryCache) >= self::$maxCacheSize) {
+                array_shift(self::$queryCache);
+            }
+            self::$queryCache[$cacheKey] = $result;
+
+            return $result;
+        } catch (PDOException $e) {
+            error_log("Database cached query failed: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Invalidate all cached queries (call after INSERT/UPDATE/DELETE).
+     */
+    public static function clearCache() {
+        self::$queryCache = [];
     }
 }

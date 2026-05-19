@@ -3,9 +3,20 @@
 // Front Controller / Entry Point
 require_once dirname(__FILE__) . '/app/config/config.php';
 require_once APP_ROOT . '/models/User.php';
+require_once APP_ROOT . '/helpers/Security.php';
 
 // Initialize session globally
 User::initSession();
+
+// ─── Security Headers ────────────────────────────────────────────
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+}
 
 require_once APP_ROOT . '/controllers/HomeController.php';
 require_once APP_ROOT . '/controllers/AdminController.php';
@@ -38,7 +49,8 @@ if (!isset($_GET['slug']) && isset($pathSegments[1])) {
     $_GET['slug'] = $pathSegments[1];
 }
 
-$route = isset($_GET['route']) ? trim($_GET['route']) : 'home';
+// Sanitise route to alphanumeric + underscores only
+$route = preg_replace('/[^a-zA-Z0-9_]/', '', isset($_GET['route']) ? trim($_GET['route']) : 'home');
 
 if ($route === 'gem' && isset($_GET['slug']) && trim($_GET['slug']) !== '' && isset($pathSegments[0]) && $pathSegments[0] === 'index.php') {
     $cleanGemPath = rtrim(BASE_URL, '/') . '/gem/' . rawurlencode(trim($_GET['slug'])) . '/';
@@ -151,6 +163,35 @@ switch ($route) {
             exit;
         }
         break;
+    case 'admin_delete_gem':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            if (Gemstone::delete($id)) {
+                $_SESSION['admin_success'] = 'Gemstone listing successfully removed from the vault.';
+            } else {
+                $_SESSION['admin_error'] = 'Failed to remove gemstone from the vault.';
+            }
+        }
+        header('Location: ' . BASE_URL . '/admin/#gems');
+        exit;
+        break;
+    case 'admin_delete_news':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            $article = Article::getById($id);
+            if ($article && in_array($article['slug'], ['heritage-philosophies', 'discover-page', 'contact-details'])) {
+                $_SESSION['admin_error'] = 'Cannot delete internal system pages.';
+            } else {
+                if (Article::delete($id)) {
+                    $_SESSION['admin_success'] = 'Editorial insight article successfully deleted.';
+                } else {
+                    $_SESSION['admin_error'] = 'Failed to delete article.';
+                }
+            }
+        }
+        header('Location: ' . BASE_URL . '/admin/#news');
+        exit;
+        break;
     case 'admin_feedback_status':
         $adminController->feedbackStatus();
         break;
@@ -161,6 +202,9 @@ switch ($route) {
             header('Location: ' . BASE_URL . '/admin/#discover');
             exit;
         }
+        break;
+    case 'admin_backup':
+        $adminController->backup();
         break;
     case 'admin_contact':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
