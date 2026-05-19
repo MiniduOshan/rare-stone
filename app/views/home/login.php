@@ -33,7 +33,12 @@
                 <div class="flex justify-between items-baseline mb-2">
                     <label class="block text-xs uppercase tracking-widest text-gray-400 font-medium">Private Access Key</label>
                 </div>
-                <input type="password" name="password" required placeholder="••••••••••••" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 font-light transition-colors">
+                <div class="relative">
+                    <input type="password" id="login-password" name="password" required placeholder="••••••••••••" class="w-full bg-dark border border-gray-800 rounded-xl pl-4 pr-12 py-3 text-white text-sm focus:outline-none focus:border-gray-500 font-light transition-colors">
+                    <button type="button" onclick="togglePasswordVisibility('login-password', 'eye-icon-login')" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-white transition-colors">
+                        <i data-lucide="eye" id="eye-icon-login" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </div>
 
             <button type="submit" class="w-full bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-4 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:shadow-white/10">
