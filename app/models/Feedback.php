@@ -33,13 +33,13 @@ class Feedback {
      */
     public static function getApproved() {
         try {
-            $db = Database::getConnection();
-            $stmt = $db->query("SELECT f.*, u.name as user_name, u.email as user_email 
-                                FROM `feedbacks` f 
-                                JOIN `users` u ON f.user_id = u.id 
-                                WHERE f.status = 'approved' 
-                                ORDER BY f.created_at DESC");
-            return $stmt->fetchAll();
+            return Database::cachedQuery(
+                "SELECT f.*, u.name as user_name, u.email as user_email 
+                 FROM `feedbacks` f 
+                 JOIN `users` u ON f.user_id = u.id 
+                 WHERE f.status = 'approved' 
+                 ORDER BY f.created_at DESC"
+            );
         } catch (PDOException $e) {
             error_log("Error in Feedback::getApproved: " . $e->getMessage());
             return [];

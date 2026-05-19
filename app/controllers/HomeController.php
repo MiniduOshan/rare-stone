@@ -5,6 +5,7 @@ require_once APP_ROOT . '/models/Gemstone.php';
 require_once APP_ROOT . '/models/Article.php';
 require_once APP_ROOT . '/models/Feedback.php';
 require_once APP_ROOT . '/models/User.php';
+require_once APP_ROOT . '/helpers/Security.php';
 
 class HomeController extends Controller {
     /**
@@ -195,19 +196,32 @@ class HomeController extends Controller {
                 exit;
             }
 
-            $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-            $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-
-            $user = User::login($email, $password);
-            if ($user) {
-                if ($user['role'] === 'admin') {
-                    header('Location: ' . BASE_URL . '/admin/');
-                } else {
-                    header('Location: ' . BASE_URL . '/');
-                }
-                exit;
+            // Brute-force protection
+            if (!Security::canAttemptLogin()) {
+                $remaining = Security::loginLockoutRemaining();
+                $mins = (int) ceil($remaining / 60);
+                $error = "Too many login attempts. Please try again in {$mins} minute(s).";
             } else {
-                $error = 'Invalid credentials. Please verify your client ID and secure key.';
+                $email = Security::sanitizeEmail($_POST['email'] ?? '');
+                $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+
+                if ($email === '' || $password === '') {
+                    $error = 'Please enter a valid email and password.';
+                } else {
+                    Security::recordLoginAttempt();
+                    $user = User::login($email, $password);
+                    if ($user) {
+                        Security::resetLoginAttempts();
+                        if ($user['role'] === 'admin') {
+                            header('Location: ' . BASE_URL . '/admin/');
+                        } else {
+                            header('Location: ' . BASE_URL . '/');
+                        }
+                        exit;
+                    } else {
+                        $error = 'Invalid credentials. Please verify your client ID and secure key.';
+                    }
+                }
             }
         }
 
@@ -226,14 +240,14 @@ class HomeController extends Controller {
     public function register() {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-            $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+            $name = Security::sanitizeString($_POST['name'] ?? '', 100);
+            $email = Security::sanitizeEmail($_POST['email'] ?? '');
             $password = isset($_POST['password']) ? trim($_POST['password']) : '';
             
-            if (empty($name) || empty($email) || empty($password)) {
+            if (empty($name) || $email === '' || empty($password)) {
                 $error = 'All fields are required.';
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = 'Please enter a valid email address.';
+            } elseif (mb_strlen($password) < 6) {
+                $error = 'Password must be at least 6 characters.';
             } else {
                 $registered = User::register($name, $email, $password, 'customer');
                 if ($registered) {
@@ -277,14 +291,51 @@ class HomeController extends Controller {
                 exit;
             }
 
-            $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
-            $message = isset($_POST['message']) ? trim($_POST['message']) : '';
+            // --- Rate Limit: max 10 feedbacks per user per 24 hours ---
+            $maxFeedbacks = 10;
+            $windowSeconds = 86400; // 24 hours
+            $now = time();
+            $userId = $user['id'];
+            $sessionKey = 'feedback_timestamps_' . $userId;
+
+            if (!isset($_SESSION[$sessionKey])) {
+                $_SESSION[$sessionKey] = [];
+            }
+
+            // Purge entries older than 24 hours
+            $_SESSION[$sessionKey] = array_values(array_filter(
+                $_SESSION[$sessionKey],
+                function ($ts) use ($now, $windowSeconds) {
+                    return ($now - $ts) < $windowSeconds;
+                }
+            ));
+
+            if (count($_SESSION[$sessionKey]) >= $maxFeedbacks) {
+                $oldest = min($_SESSION[$sessionKey]);
+                $resetAt = $oldest + $windowSeconds;
+                $remaining = $resetAt - $now;
+                $hours = floor($remaining / 3600);
+                $minutes = ceil(($remaining % 3600) / 60);
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => "Daily feedback limit reached (max {$maxFeedbacks} per day). Try again in {$hours}h {$minutes}m."
+                ]);
+                exit;
+            }
+
+            $rating = Security::sanitizeInt($_POST['rating'] ?? 5, 1, 5);
+            $message = Security::sanitizeString($_POST['message'] ?? '', 2000);
 
             if (empty($message)) {
                 header('Content-Type: application/json');
                 echo json_encode(['status' => 'error', 'message' => 'Feedback message cannot be empty.']);
                 exit;
             }
+
+            // Record this feedback attempt
+            $_SESSION[$sessionKey][] = $now;
 
             $success = Feedback::add($user['id'], $rating, $message);
             header('Content-Type: application/json');
@@ -305,10 +356,16 @@ class HomeController extends Controller {
      */
     public function inquire() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $stoneId = isset($_POST['stone_id']) ? intval($_POST['stone_id']) : 0;
-            $name = isset($_POST['client_name']) ? trim($_POST['client_name']) : '';
-            $email = isset($_POST['client_email']) ? trim($_POST['client_email']) : '';
-            $notes = isset($_POST['client_notes']) ? trim($_POST['client_notes']) : '';
+            $stoneId = Security::sanitizeInt($_POST['stone_id'] ?? 0, 0);
+            $name = Security::sanitizeString($_POST['client_name'] ?? '', 100);
+            $email = Security::sanitizeEmail($_POST['client_email'] ?? '');
+            $notes = Security::sanitizeString($_POST['client_notes'] ?? '', 2000);
+
+            if ($name === '' || $email === '') {
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 'error', 'message' => 'Please provide your name and a valid email address.']);
+                exit;
+            }
 
             header('Content-Type: application/json');
             echo json_encode([
@@ -324,7 +381,7 @@ class HomeController extends Controller {
      */
     public function newsletter() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+            $email = Security::sanitizeEmail($_POST['email'] ?? '');
 
             header('Content-Type: application/json');
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {

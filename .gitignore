@@ -31,6 +31,9 @@ php_errors.log
 /cache/
 *.cache
 
+# Backup files
+/storage/backups/
+
 # Environment files
 .env
 .env.local
