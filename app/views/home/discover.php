@@ -51,7 +51,8 @@ $branchesJson = json_encode($branches);
         <!-- Scrollable Branches List -->
         <div class="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar" id="branchesList">
             <?php foreach ($branches as $index => $branch): ?>
-                <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group" onclick="focusMap(<?= $branch['lat'] ?>, <?= $branch['lng'] ?>, '<?= htmlspecialchars(addslashes($branch['name'])) ?>')">
+                <div class="branch-card p-6 bg-surface border border-borderGray rounded-2xl hover:border-gold transition-all cursor-pointer shadow-xl group"
+onclick='focusMap(<?= json_encode($branch["lat"]) ?>, <?= json_encode($branch["lng"]) ?>, <?= json_encode($branch["name"]) ?>)'>
                     <h3 class="font-serif text-xl text-white font-light group-hover:text-gold transition-colors mb-1"><?= htmlspecialchars($branch['name']) ?></h3>
                     <p class="text-xs text-gray-500 font-light mb-6"><?= htmlspecialchars($branch['city']) ?></p>
                     <div class="flex items-center justify-between text-[10px] tracking-[0.15em] uppercase font-medium">
