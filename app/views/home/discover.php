@@ -2,13 +2,24 @@
 // Fallbacks if not set in DB
 $headline = !empty($article['title']) ? $article['title'] : 'Rare Stones Vaults';
 $subtitleText = !empty($article['subtitle']) ? $article['subtitle'] : 'Explore our exclusive island-wide private viewing salons and secure gemological vaults.';
-$branchesJson = !empty($article['content']) ? $article['content'] : json_encode([
+
+$defaultBranches = [
     [ 'lat' => 6.9271, 'lng' => 79.8612, 'name' => 'Rare Stones - Colombo Gallery', 'city' => 'Colombo, Sri Lanka', 'listings' => '42 active lots' ],
     [ 'lat' => 6.6828, 'lng' => 80.3992, 'name' => 'Rare Stones - Ratnapura Source', 'city' => 'Ratnapura, Sri Lanka', 'listings' => '34 active lots' ],
     [ 'lat' => 6.0329, 'lng' => 80.2168, 'name' => 'Rare Stones - Galle Atelier', 'city' => 'Galle, Sri Lanka', 'listings' => '18 active lots' ],
     [ 'lat' => 6.4750, 'lng' => 79.9958, 'name' => 'Rare Stones - Beruwala Syndicate', 'city' => 'Beruwala, Sri Lanka', 'listings' => '26 active lots' ]
-]);
-$branches = json_decode($branchesJson, true);
+];
+
+$branches = null;
+if (!empty($article['content'])) {
+    $branches = json_decode($article['content'], true);
+}
+
+if (!is_array($branches)) {
+    $branches = $defaultBranches;
+}
+
+$branchesJson = json_encode($branches);
 ?>
 <!-- MAP DISCOVERY SPLIT VIEW -->
 <section class="pt-[72px] md:pt-[88px] h-screen w-full flex flex-col md:flex-row overflow-hidden relative z-20">

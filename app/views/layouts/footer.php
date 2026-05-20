@@ -64,7 +64,13 @@
             <?php
             require_once APP_ROOT . '/models/Article.php';
             $contactArticle = Article::getBySlug('contact-details');
-            $contacts = $contactArticle ? json_decode($contactArticle['content'], true) : [];
+            $contacts = [];
+            if ($contactArticle && !empty($contactArticle['content'])) {
+                $contacts = json_decode($contactArticle['content'], true);
+            }
+            if (!is_array($contacts)) {
+                $contacts = [];
+            }
             
             $whatsapp = $contacts['whatsapp'] ?? '+94 77 123 4567';
             $phone = $contacts['phone'] ?? '+94 11 234 5678';
