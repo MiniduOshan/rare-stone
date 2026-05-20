@@ -77,6 +77,9 @@ if ($route === 'admin' && isset($pathSegments[1])) {
         case 'delete-news':
             $route = 'admin_delete_news';
             break;
+        case 'delete-feedback':
+            $route = 'admin_delete_feedback';
+            break;
         case 'discover':
             $route = 'admin_discover';
             break;
@@ -231,6 +234,19 @@ switch ($route) {
         break;
     case 'admin_feedback_status':
         $adminController->feedbackStatus();
+        break;
+    case 'admin_delete_feedback':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            require_once APP_ROOT . '/models/Feedback.php';
+            if (Feedback::delete($id)) {
+                $_SESSION['admin_success'] = 'Client reflection successfully cleared from moderation queue.';
+            } else {
+                $_SESSION['admin_error'] = 'Failed to clear feedback listing.';
+            }
+        }
+        header('Location: ' . BASE_URL . '/admin/#feedbacks');
+        exit;
         break;
     case 'admin_discover':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

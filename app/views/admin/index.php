@@ -213,6 +213,12 @@
                                                         <span>Reject</span>
                                                     </a>
                                                 <?php endif; ?>
+                                                <a href="<?= BASE_URL; ?>/admin/delete-feedback/?id=<?= $fb['id']; ?>" 
+                                                   onclick="return confirm('Are you sure you want to permanently delete this client reflection?');"
+                                                   title="Clear Feedback"
+                                                   class="w-8 h-8 inline-flex items-center justify-center bg-red-950/40 border border-red-800/50 hover:bg-red-850 hover:text-white text-red-400 rounded-lg transition-all duration-200">
+                                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
