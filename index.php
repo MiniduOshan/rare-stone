@@ -52,6 +52,43 @@ if (!isset($_GET['slug']) && isset($pathSegments[1])) {
 // Sanitise route to alphanumeric + underscores only
 $route = preg_replace('/[^a-zA-Z0-9_]/', '', isset($_GET['route']) ? trim($_GET['route']) : 'home');
 
+// Map clean admin URLs (e.g. /admin/feedback-status/) to their respective controllers/actions
+if ($route === 'admin' && isset($pathSegments[1])) {
+    $subAction = $pathSegments[1];
+    switch ($subAction) {
+        case 'feedback-status':
+            $route = 'admin_feedback_status';
+            break;
+        case 'news':
+            $route = 'admin_news';
+            break;
+        case 'headline':
+            $route = 'admin_headline';
+            break;
+        case 'heritage':
+            $route = 'admin_heritage';
+            break;
+        case 'gems':
+            $route = 'admin_gems';
+            break;
+        case 'delete-gem':
+            $route = 'admin_delete_gem';
+            break;
+        case 'delete-news':
+            $route = 'admin_delete_news';
+            break;
+        case 'discover':
+            $route = 'admin_discover';
+            break;
+        case 'backup':
+            $route = 'admin_backup';
+            break;
+        case 'contact':
+            $route = 'admin_contact';
+            break;
+    }
+}
+
 if ($route === 'gem' && isset($_GET['slug']) && trim($_GET['slug']) !== '' && isset($pathSegments[0]) && $pathSegments[0] === 'index.php') {
     $cleanGemPath = rtrim(BASE_URL, '/') . '/gem/' . rawurlencode(trim($_GET['slug'])) . '/';
     header('Location: ' . $cleanGemPath);

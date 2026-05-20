@@ -207,7 +207,7 @@
                                                     </a>
                                                 <?php endif; ?>
                                                 <?php if ($fb['status'] !== 'rejected'): ?>
-                                                    <a href="<?= BASE_URL; ?>/?route=admin_feedback_status&id=<?= $fb['id']; ?>&status=rejected" 
+                                                    <a href="<?= BASE_URL; ?>/admin/feedback-status/?id=<?= $fb['id']; ?>&status=rejected" 
                                                        class="px-3 py-1.5 bg-red-950/40 border border-red-800/50 text-red-400 hover:bg-red-800 hover:text-white rounded-lg text-xs font-semibold transition-all flex items-center space-x-1">
                                                         <i data-lucide="x" class="w-3.5 h-3.5"></i>
                                                         <span>Reject</span>
