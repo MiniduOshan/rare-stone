@@ -73,33 +73,38 @@ onclick='focusMap(<?= json_encode($branch["lat"]) ?>, <?= json_encode($branch["l
 
 <!-- Leaflet Map JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 let map;
 let markers = {};
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize map centered on Sri Lanka with tap:false to eliminate Windows pointer vanishing bug
+document.addEventListener('DOMContentLoaded', function () {
+
     map = L.map('map', {
         zoomControl: true,
         attributionControl: false,
         tap: false
     }).setView([7.0, 80.5], 8);
 
-    // Add Dark Matter Tile Layer
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         subdomains: 'abcd',
         maxZoom: 19
     }).addTo(map);
 
-    // Add custom attribution control
     L.control.attribution({
         position: 'bottomright',
-        prefix: '<span style="color:#666; font-size:10px;">Leaflet | &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" style="color:#888;">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" style="color:#888;">CARTO</a></span>'
+        prefix: 'Leaflet | OpenStreetMap | CARTO'
     }).addTo(map);
 
-    // Custom gold pin marker with white center and glowing gold shadow
-    const pinSvg = `<svg viewBox="0 0 24 36" width="36" height="54" style="filter: drop-shadow(0px 0px 12px #ffd700); transform-origin: bottom center;"><path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 24 12 24s12-15 12-24c0-6.627-5.373-12-12-12z" fill="#ffd700"/><circle cx="12" cy="12" r="5.5" fill="#ffffff"/></svg>`;
-    
+    const pinSvg = `
+        <svg viewBox="0 0 24 36" width="36" height="54"
+             style="filter: drop-shadow(0px 0px 12px #ffd700); transform-origin: bottom center;">
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 24 12 24s12-15 12-24c0-6.627-5.373-12-12-12z"
+                  fill="#ffd700"/>
+            <circle cx="12" cy="12" r="5.5" fill="#ffffff"/>
+        </svg>
+    `;
+
     const pinIcon = L.divIcon({
         className: 'custom-svg-pin',
         html: pinSvg,
@@ -108,17 +113,38 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -50]
     });
 
-    const locations = <?= $branchesJson; ?>;
+    const locations = <?= json_encode(
+        $branches,
+        JSON_HEX_TAG |
+        JSON_HEX_APOS |
+        JSON_HEX_QUOT |
+        JSON_HEX_AMP
+    ); ?>;
 
-    locations.forEach(loc => {
-        const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon }).addTo(map);
+    locations.forEach(function (loc) {
+
+        const marker = L.marker([loc.lat, loc.lng], {
+            icon: pinIcon
+        }).addTo(map);
+
         marker.bindPopup(`
             <div class="p-4 bg-[#111115] text-white font-sans text-xs rounded-xl border border-gray-800 shadow-2xl min-w-[220px]">
                 <h4 class="font-serif text-xl font-light text-gold mb-1">${loc.name}</h4>
-                <p class="text-[11px] text-gray-400 mb-4">${loc.city}</p>
+
+                <p class="text-[11px] text-gray-400 mb-4">
+                    ${loc.city}
+                </p>
+
                 <div class="flex items-center justify-between pt-3 border-t border-gray-800/80">
-                    <span class="text-[10px] text-gray-500 uppercase tracking-widest">${loc.listings}</span>
-                    <button onclick="openModal('inquiryModal', 'Direct Branch Inquiry: ${loc.name}')" class="px-4 py-1.5 bg-white text-black text-[10px] uppercase tracking-widest font-semibold rounded hover:bg-gray-200 transition-colors">Connect</button>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest">
+                        ${loc.listings}
+                    </span>
+
+                    <button
+                        onclick="openModal('inquiryModal', 'Direct Branch Inquiry: ${loc.name}')"
+                        class="px-4 py-1.5 bg-white text-black text-[10px] uppercase tracking-widest font-semibold rounded hover:bg-gray-200 transition-colors">
+                        Connect
+                    </button>
                 </div>
             </div>
         `, {
@@ -126,55 +152,73 @@ document.addEventListener('DOMContentLoaded', () => {
             className: 'custom-popup'
         });
 
-        // Add click listener to sync sidebar selection
-        marker.on('click', () => {
+        marker.on('click', function () {
             highlightSidebarCard(loc.name);
         });
 
         markers[loc.name] = marker;
     });
 
-    // Re-render Lucide icons if needed
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 });
 
 function highlightSidebarCard(branchName) {
-    document.querySelectorAll('#branchesList .branch-card').forEach(card => {
-        const title = card.querySelector('h3').textContent;
-        if (title === branchName) {
-            card.classList.add('border-gold', '!bg-[#1a1a24]');
-            card.classList.remove('border-borderGray', 'bg-surface');
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-            card.classList.remove('border-gold', '!bg-[#1a1a24]');
-            card.classList.add('border-borderGray', 'bg-surface');
-        }
-    });
+
+    document.querySelectorAll('#branchesList .branch-card')
+        .forEach(function (card) {
+
+            const title = card.querySelector('h3').textContent;
+
+            if (title === branchName) {
+
+                card.classList.add('border-gold', '!bg-[#1a1a24]');
+                card.classList.remove('border-borderGray', 'bg-surface');
+
+                card.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+
+            } else {
+
+                card.classList.remove('border-gold', '!bg-[#1a1a24]');
+                card.classList.add('border-borderGray', 'bg-surface');
+            }
+        });
 }
 
 function focusMap(lat, lng, name) {
+
     highlightSidebarCard(name);
-    
+
     if (map && markers[name]) {
+
         map.flyTo([lat, lng], 11, {
             duration: 1.0
         });
 
-        // Ensure popup opens smoothly after map finishes panning
-        setTimeout(() => {
+        setTimeout(function () {
             markers[name].openPopup();
         }, 1050);
     }
 }
 
 function filterBranches() {
-    const query = document.getElementById('sellerSearch').value.toLowerCase();
-    const cards = document.querySelectorAll('#branchesList .branch-card');
-    
-    cards.forEach(card => {
+
+    const query =
+        document.getElementById('sellerSearch')
+        .value
+        .toLowerCase();
+
+    const cards =
+        document.querySelectorAll('#branchesList .branch-card');
+
+    cards.forEach(function (card) {
+
         const text = card.textContent.toLowerCase();
+
         if (text.includes(query)) {
             card.style.display = 'block';
         } else {
