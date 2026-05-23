@@ -30,10 +30,18 @@
     ?>
 
     <?php if ($featured): ?>
-    <div class="grid grid-cols-1 gap-16">
+    <?php
+        // prepare lists: remove featured from others, split for right column and below grid
+        $allOthers = array_filter($others, function($a) use ($featured) { return !isset($featured['slug']) || $a['slug'] !== $featured['slug']; });
+        $allOthers = array_values($allOthers);
+        $rightOthers = array_slice($allOthers, 0, 4);
+        $belowOthers = array_slice($allOthers, 4);
+    ?>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
         
-        <!-- Featured Main Article (full width) -->
-        <div class="col-span-1 space-y-6">
+        <!-- Left Column: Featured Main Article -->
+        <div class="lg:col-span-7 space-y-6">
             <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/" class="block relative aspect-[16/10] bg-surface rounded-2xl overflow-hidden border border-borderGray shadow-2xl group cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                 <?php 
@@ -72,13 +80,45 @@
             </div>
         </div>
 
-        <!-- Secondary Articles List (responsive grid below featured) -->
-        <div class="col-span-1 grid grid-cols-1 md:grid-cols-2 gap-12">
-            
-            <?php if (!empty($others)): ?>
-                <?php foreach ($others as $art): ?>
-                    <?php if ($featured && $art['slug'] === $featured['slug']) continue; ?>
-                <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer bg-surface rounded-xl overflow-hidden border border-borderGray p-4 hover:shadow-xl transition-shadow">
+        <!-- Right Column: Secondary Articles (condensed list) -->
+        <div class="lg:col-span-5 space-y-12">
+            <?php if (!empty($rightOthers)): ?>
+                <?php foreach ($rightOthers as $art): ?>
+                <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex items-start space-x-6 group cursor-pointer border-b border-borderGray/50 pb-8 last:border-0 block">
+                    <div class="relative w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
+                        <?php 
+                        $secImgSrc = $art['image'];
+                        if (strpos($secImgSrc, 'http') === 0 || strpos($secImgSrc, 'data:') === 0) {
+                            $secImgUrl = $secImgSrc;
+                        } else {
+                            $secImgUrl = BASE_URL . '/public/images/' . $secImgSrc;
+                        }
+                        ?>
+                        <img src="<?= htmlspecialchars($secImgUrl); ?>" alt="<?= htmlspecialchars($art['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+
+                    <div class="space-y-3 font-sans">
+                        <div class="flex items-center space-x-2 text-[9px] tracking-[0.2em] uppercase font-medium">
+                            <span class="text-gold"><?= htmlspecialchars(explode('•', $art['meta'])[0] ?? 'Insight'); ?></span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-500"><?= htmlspecialchars(trim(explode('•', $art['meta'])[1] ?? 'Recent')); ?></span>
+                        </div>
+
+                        <h3 class="font-serif text-xl text-white font-light leading-snug group-hover:text-gold transition-colors">
+                            <?= htmlspecialchars($art['title']); ?>
+                        </h3>
+
+                        <div class="inline-flex items-center space-x-1 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-400 group-hover:text-white transition-colors">
+                            <span>Read</span>
+                            <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="text-gray-500 italic font-light">More insights will be published soon.</div>
+            <?php endif; ?>
+        </div>
                     <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
                         <?php 
                         $secImgSrc = $art['image'];
@@ -116,6 +156,44 @@
         </div>
 
     </div>
+
+    <?php if (!empty($belowOthers)): ?>
+    <!-- Below Grid: remaining articles (fills width) -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <?php foreach ($belowOthers as $art): ?>
+            <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer bg-surface rounded-xl overflow-hidden border border-borderGray p-4 hover:shadow-xl transition-shadow">
+                <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
+                    <?php 
+                    $secImgSrc = $art['image'];
+                    if (strpos($secImgSrc, 'http') === 0 || strpos($secImgSrc, 'data:') === 0) {
+                        $secImgUrl = $secImgSrc;
+                    } else {
+                        $secImgUrl = BASE_URL . '/public/images/' . $secImgSrc;
+                    }
+                    ?>
+                    <img src="<?= htmlspecialchars($secImgUrl); ?>" alt="<?= htmlspecialchars($art['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                </div>
+
+                <div class="space-y-3 font-sans">
+                    <div class="flex items-center space-x-2 text-[9px] tracking-[0.2em] uppercase font-medium">
+                        <span class="text-gold"><?= htmlspecialchars(explode('•', $art['meta'])[0] ?? 'Insight'); ?></span>
+                        <span class="text-gray-600">•</span>
+                        <span class="text-gray-500"><?= htmlspecialchars(trim(explode('•', $art['meta'])[1] ?? 'Recent')); ?></span>
+                    </div>
+
+                    <h3 class="font-serif text-xl text-white font-light leading-snug group-hover:text-gold transition-colors">
+                        <?= htmlspecialchars($art['title']); ?>
+                    </h3>
+
+                    <div class="inline-flex items-center space-x-1 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-400 group-hover:text-white transition-colors">
+                        <span>Read</span>
+                        <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <?php else: ?>
         <div class="text-center py-20 text-gray-500 italic font-light">
             No editorial articles have been published yet.
