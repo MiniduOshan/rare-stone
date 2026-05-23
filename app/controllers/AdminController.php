@@ -79,6 +79,24 @@ class AdminController {
     }
 
     /**
+     * Normalise a gemstone image value into an array of image references.
+     */
+    protected function normalizeGemImages($imageValue) {
+        if (!is_string($imageValue) || trim($imageValue) === '') {
+            return [];
+        }
+
+        $decoded = json_decode($imageValue, true);
+        if (is_array($decoded)) {
+            return array_values(array_filter($decoded, function ($value) {
+                return is_string($value) && trim($value) !== '';
+            }));
+        }
+
+        return [trim($imageValue)];
+    }
+
+    /**
      * Dashboard Home: Feedback Moderation Queue & Master Layout
      */
     public function index() {
@@ -212,18 +230,33 @@ class AdminController {
             $allowedStatuses = ['INQUIRE', 'UPON REQUEST', 'PRIVATE SALE', 'RESERVED'];
             if (!in_array($status, $allowedStatuses)) $status = 'INQUIRE';
 
+            $existingImages = [];
+            if ($id > 0) {
+                $existingGem = Gemstone::getById($id);
+                if ($existingGem && !empty($existingGem['image'])) {
+                    $existingImages = $this->normalizeGemImages($existingGem['image']);
+                }
+            }
+
             // Support multiple image uploads from admin: prefer uploaded files, but preserve text fallback
-            $singleFallback = $image;
+            $postedImages = $this->normalizeGemImages($image);
             $uploadedMultiple = $this->handleMultipleUploads('image_files');
             // Also keep existing single-file handling for backwards-compat
             $singleUpload = $this->handleImageUpload('image_file', '');
 
-            $images = [];
-            if (!empty($singleFallback)) $images[] = $singleFallback;
+            $images = $existingImages;
+
+            if (!empty($postedImages)) {
+                foreach ($postedImages as $postedImage) {
+                    $images[] = $postedImage;
+                }
+            }
             if (!empty($singleUpload)) $images[] = $singleUpload;
             if (!empty($uploadedMultiple) && is_array($uploadedMultiple)) {
                 $images = array_merge($images, $uploadedMultiple);
             }
+
+            $images = array_values(array_filter(array_unique($images)));
 
             // Store images as a JSON array string (keeps backward compatibility if single)
             $image = json_encode(array_values($images));
