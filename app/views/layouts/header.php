@@ -62,10 +62,8 @@
             
             <!-- Logo -->
             <a href="<?= BASE_URL; ?>" class="flex items-center space-x-3 group">
-                <div class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center text-white group-hover:border-white transition-colors duration-300">
-                    <i data-lucide="gem" class="w-4 h-4"></i>
-                </div>
-                <span class="tracking-[0.3em] font-light text-white text-base md:text-lg uppercase">Rare Stones</span>
+                <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-10 w-10 object-contain shrink-0 group-hover:opacity-90 transition-opacity duration-300">
+                <span class="tracking-[0.22em] font-light text-white text-sm md:text-base uppercase whitespace-nowrap">Rare Stones</span>
             </a>
 
             <!-- Center Navigation Links -->

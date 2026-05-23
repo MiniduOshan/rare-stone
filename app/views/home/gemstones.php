@@ -39,8 +39,10 @@
                 <div class="relative aspect-[4/5] bg-surface rounded-xl overflow-hidden mb-4 border border-borderGray group-hover:border-gray-500 transition-all duration-500 shadow-2xl flex items-center justify-center p-6">
                     <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                     <?php 
-                    $imgSrc = $gem['image'];
-                    $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                    $imgSrc = $gem['image'] ?? '';
+                    $decoded = json_decode($imgSrc, true);
+                    if (is_array($decoded) && count($decoded) > 0) $useImg = $decoded[0]; else $useImg = $imgSrc;
+                    $imgUrl = (strpos((string)$useImg, 'http') === 0 || strpos((string)$useImg, 'data:') === 0) ? $useImg : BASE_URL . '/public/images/' . $useImg;
                     ?>
                     <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] z-0">
                 </div>

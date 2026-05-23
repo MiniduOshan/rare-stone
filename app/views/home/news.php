@@ -45,14 +45,24 @@
             <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/" class="block relative aspect-[16/10] bg-surface rounded-2xl overflow-hidden border border-borderGray shadow-2xl group cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                 <?php 
-                $imgSrc = $featured['image'];
-                if (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) {
-                    $imgUrl = $imgSrc;
+                $imgSrc = $featured['image'] ?? '';
+                $decoded = json_decode($imgSrc, true);
+                if (is_array($decoded) && count($decoded) > 0) {
+                    $imgUse = $decoded[0];
                 } else {
-                    $imgUrl = BASE_URL . '/public/images/' . $imgSrc;
+                    $imgUse = $imgSrc;
+                }
+                if (strpos((string)$imgUse, 'http') === 0 || strpos((string)$imgUse, 'data:') === 0) {
+                    $imgUrl = $imgUse;
+                } else {
+                    $imgUrl = !empty($imgUse) ? BASE_URL . '/public/images/' . $imgUse : '';
                 }
                 ?>
-                <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($featured['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 z-0">
+                <?php if (!empty($imgUrl)): ?>
+                    <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($featured['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 z-0">
+                <?php else: ?>
+                    <div class="w-full h-full flex items-center justify-center text-gray-500">No image</div>
+                <?php endif; ?>
             </a>
 
             <div class="flex items-center space-x-3 text-[10px] tracking-[0.2em] uppercase font-medium">
@@ -87,12 +97,10 @@
                 <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex items-start space-x-6 group cursor-pointer border-b border-borderGray/50 pb-8 last:border-0 block">
                     <div class="relative w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
                         <?php 
-                        $secImgSrc = $art['image'];
-                        if (strpos($secImgSrc, 'http') === 0 || strpos($secImgSrc, 'data:') === 0) {
-                            $secImgUrl = $secImgSrc;
-                        } else {
-                            $secImgUrl = BASE_URL . '/public/images/' . $secImgSrc;
-                        }
+                        $secImgSrc = $art['image'] ?? '';
+                        $secDecoded = json_decode($secImgSrc, true);
+                        if (is_array($secDecoded) && count($secDecoded) > 0) $secUse = $secDecoded[0]; else $secUse = $secImgSrc;
+                        $secImgUrl = (strpos((string)$secUse, 'http') === 0 || strpos((string)$secUse, 'data:') === 0) ? $secUse : BASE_URL . '/public/images/' . $secUse;
                         ?>
                         <img src="<?= htmlspecialchars($secImgUrl); ?>" alt="<?= htmlspecialchars($art['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                     </div>
@@ -129,12 +137,10 @@
             <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer bg-surface rounded-xl overflow-hidden border border-borderGray p-4 hover:shadow-xl transition-shadow">
                 <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
                     <?php 
-                    $secImgSrc = $art['image'];
-                    if (strpos($secImgSrc, 'http') === 0 || strpos($secImgSrc, 'data:') === 0) {
-                        $secImgUrl = $secImgSrc;
-                    } else {
-                        $secImgUrl = BASE_URL . '/public/images/' . $secImgSrc;
-                    }
+                    $secImgSrc = $art['image'] ?? '';
+                    $secDecoded = json_decode($secImgSrc, true);
+                    if (is_array($secDecoded) && count($secDecoded) > 0) $secUse = $secDecoded[0]; else $secUse = $secImgSrc;
+                    $secImgUrl = (strpos((string)$secUse, 'http') === 0 || strpos((string)$secUse, 'data:') === 0) ? $secUse : BASE_URL . '/public/images/' . $secUse;
                     ?>
                     <img src="<?= htmlspecialchars($secImgUrl); ?>" alt="<?= htmlspecialchars($art['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                 </div>

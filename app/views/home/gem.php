@@ -8,11 +8,25 @@
                 <div class="absolute inset-0 bg-radial-gradient opacity-80 z-0"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-50"></div>
                 
-                <?php 
-                $imgSrc = $gem['image'];
-                $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
-                ?>
-                <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.9)] relative z-20">
+                        <?php
+                        // Support multiple gem images saved as JSON array or a single image string
+                        $images = [];
+                        if (!empty($gem['image'])) {
+                            $try = json_decode($gem['image'], true);
+                            if (is_array($try)) {
+                                $images = $try;
+                            } else {
+                                $images = [$gem['image']];
+                            }
+                        }
+                        $featured = $images[0] ?? '';
+                        if (strpos((string)$featured, 'http') === 0 || strpos((string)$featured, 'data:') === 0) {
+                            $featuredUrl = $featured;
+                        } else {
+                            $featuredUrl = !empty($featured) ? BASE_URL . '/public/images/' . $featured : '';
+                        }
+                        ?>
+                        <img id="gemMainImage" src="<?= htmlspecialchars($featuredUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.9)] relative z-20">
                 
                 <!-- Ambient Backlight -->
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-gold/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
@@ -98,6 +112,17 @@
 
         </div>
 
+        <?php if (count($images) > 1): ?>
+            <div class="mt-4 grid grid-cols-4 gap-3">
+                <?php foreach ($images as $idx => $img):
+                    $url = (strpos((string)$img, 'http') === 0 || strpos((string)$img, 'data:') === 0) ? $img : BASE_URL . '/public/images/' . $img;
+                ?>
+                    <button type="button" class="rounded overflow-hidden border border-borderGray bg-dark p-0 focus:outline-none" onclick="setGemImage(<?= $idx; ?>)">
+                        <img src="<?= htmlspecialchars($url); ?>" alt="" class="w-full h-20 object-cover">
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -286,41 +311,67 @@
     </button>
     
     <div class="relative z-10 w-full max-w-7xl h-[85vh] p-4 flex items-center justify-center">
-        <img id="lightboxImg" src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform scale-95 opacity-0 transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) filter drop-shadow-[0_0_80px_rgba(255,255,255,0.15)]">
+        <img id="lightboxImg" src="<?= htmlspecialchars($featuredUrl ?? ''); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform scale-95 opacity-0 transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) filter drop-shadow-[0_0_80px_rgba(255,255,255,0.15)]">
     </div>
+    <?php if (count($images) > 1): ?>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl flex items-center justify-center gap-2">
+            <?php foreach ($images as $idx => $img):
+                $url = (strpos((string)$img, 'http') === 0 || strpos((string)$img, 'data:') === 0) ? $img : BASE_URL . '/public/images/' . $img;
+            ?>
+                <button type="button" class="rounded overflow-hidden border border-borderGray bg-dark p-0" onclick="setLightboxImage(<?= $idx; ?>)"><img src="<?= htmlspecialchars($url); ?>" alt="" class="h-12 object-cover"></button>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
     function openLightbox() {
+        openLightboxAtIndex(0);
+    }
+
+    function openLightboxAtIndex(idx) {
         const modal = document.getElementById('lightboxModal');
         const img = document.getElementById('lightboxImg');
-        
+        const imgs = <?= json_encode($images); ?>;
+        const raw = imgs[idx] || imgs[0] || '';
+        const url = (raw && (raw.indexOf('http') === 0 || raw.indexOf('data:') === 0)) ? raw : (raw ? '<?= BASE_URL; ?>' + '/public/images/' + raw : '');
+
+        img.src = url;
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-        
-        // Small delay to allow display:block to paint before animating
+
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
-            
             img.classList.remove('scale-95', 'opacity-0');
             img.classList.add('scale-100', 'opacity-100');
         }, 20);
     }
 
+    function setLightboxImage(idx) {
+        openLightboxAtIndex(idx);
+    }
+
     function closeLightbox() {
         const modal = document.getElementById('lightboxModal');
         const img = document.getElementById('lightboxImg');
-        
+
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0');
-        
         img.classList.remove('scale-100', 'opacity-100');
         img.classList.add('scale-95', 'opacity-0');
-        
+
         setTimeout(() => {
             modal.classList.add('hidden');
             document.body.style.overflow = '';
-        }, 500); // Wait for transition to complete
+        }, 500);
+    }
+
+    function setGemImage(idx) {
+        const imgs = <?= json_encode($images); ?>;
+        const raw = imgs[idx] || imgs[0] || '';
+        const url = (raw && (raw.indexOf('http') === 0 || raw.indexOf('data:') === 0)) ? raw : (raw ? '<?= BASE_URL; ?>' + '/public/images/' + raw : '');
+        const el = document.getElementById('gemMainImage');
+        if (el) el.src = url;
     }
 </script>

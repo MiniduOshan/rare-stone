@@ -9,9 +9,7 @@ $activeTab = $activeTab ?? 'feedbacks';
     <div class="p-6 border-b border-borderGray">
         <div class="flex items-center justify-between">
             <a href="<?= BASE_URL; ?>/" class="flex items-center space-x-3 group">
-                <div class="w-8 h-8 rounded-full border border-gold flex items-center justify-center text-gold bg-gold/10">
-                    <i data-lucide="gem" class="w-4 h-4"></i>
-                </div>
+                <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-10 w-10 object-contain shrink-0">
                 <div class="text-left">
                     <span class="block tracking-[0.2em] font-light text-white text-sm uppercase">Rare Stones</span>
                     <span class="block text-[9px] tracking-widest text-gold uppercase font-medium">Control Panel</span>

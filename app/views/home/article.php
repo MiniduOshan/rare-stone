@@ -34,24 +34,59 @@
 
 <!-- FEATURED IMAGE ALIGNED PERFECTLY WITH CONTENT COLUMN -->
 <section class="px-8 md:px-16 max-w-4xl mx-auto relative z-20 mb-12">
-    <div class="aspect-[16/9] w-full rounded-3xl overflow-hidden border border-borderGray bg-surface shadow-2xl relative">
-        <?php 
-        $imgSrc = $article['image'];
-        if (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) {
-            $imgUrl = $imgSrc;
+    <?php
+    // Support multiple images stored as JSON array or a single image string
+    $images = [];
+    if (!empty($article['image'])) {
+        $try = json_decode($article['image'], true);
+        if (is_array($try)) {
+            $images = $try;
         } else {
-            $imgUrl = BASE_URL . '/public/images/' . $imgSrc;
+            $images = [$article['image']];
         }
-        ?>
-        <img src="<?= htmlspecialchars($imgUrl); ?>" alt="<?= htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
+    }
+    $featuredImg = isset($images[0]) ? $images[0] : '';
+    if (strpos((string)$featuredImg, 'http') === 0 || strpos((string)$featuredImg, 'data:') === 0) {
+        $featuredUrl = $featuredImg;
+    } else {
+        $featuredUrl = !empty($featuredImg) ? BASE_URL . '/public/images/' . $featuredImg : '';
+    }
+    ?>
+    <div class="aspect-[16/9] w-full rounded-3xl overflow-hidden border border-borderGray bg-surface shadow-2xl relative">
+        <?php if (!empty($featuredUrl)): ?>
+            <img src="<?= htmlspecialchars($featuredUrl); ?>" alt="<?= htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
+        <?php else: ?>
+            <div class="w-full h-full flex items-center justify-center text-gray-500">No image available</div>
+        <?php endif; ?>
     </div>
+
+    <?php if (count($images) > 1): ?>
+    <div class="mt-4 grid grid-cols-4 gap-3 max-w-4xl">
+        <?php foreach ($images as $img):
+            $url = (strpos((string)$img, 'http') === 0 || strpos((string)$img, 'data:') === 0) ? $img : BASE_URL . '/public/images/' . $img;
+        ?>
+            <div class="rounded overflow-hidden border border-borderGray bg-dark">
+                <img src="<?= htmlspecialchars($url); ?>" alt="" class="w-full h-24 object-cover">
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 </section>
 
 <!-- ARTICLE BODY CONTENT -->
 <section class="px-8 md:px-16 max-w-4xl mx-auto relative z-20 pb-32">
     
     <div class="font-sans text-sm md:text-base text-gray-300 font-light leading-relaxed tracking-wide space-y-6 editorial-content max-w-3xl">
-        <?= $article['content']; ?>
+        <?php
+        $body = $article['content'] ?? '';
+        // If body already contains HTML tags, output as-is (it's sanitized on save);
+        // otherwise convert newlines to <br> for line-by-line input.
+        if ($body !== strip_tags($body)) {
+            echo $body;
+        } else {
+            echo nl2br(htmlspecialchars($body));
+        }
+        ?>
     </div>
 
     <!-- Article Footer / CTA -->

@@ -4,12 +4,10 @@
             
             <!-- Brand Column -->
             <div class="md:col-span-6 space-y-6">
-                <div class="flex items-center space-x-3 group">
-                    <div class="w-7 h-7 rounded-full border border-gray-600 flex items-center justify-center text-white">
-                        <i data-lucide="gem" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <span class="tracking-[0.3em] font-light text-white text-base uppercase">Rare Stones</span>
-                </div>
+                <a href="<?= BASE_URL; ?>/" class="inline-flex items-center space-x-3 group">
+                    <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-12 w-12 object-contain shrink-0 group-hover:opacity-90 transition-opacity duration-300">
+                    <span class="tracking-[0.22em] font-light text-white text-sm md:text-base uppercase whitespace-nowrap">Rare Stones</span>
+                </a>
                 <p class="max-w-md leading-relaxed text-gray-400 font-light text-sm">
                     Sri Lanka's premier private gemstone brand. Discover world-class unheated sapphires, historic rubies, and bespoke high jewelry directly from our private island vaults.
                 </p>

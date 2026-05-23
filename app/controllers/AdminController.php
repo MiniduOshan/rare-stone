@@ -50,6 +50,35 @@ class AdminController {
     }
 
     /**
+     * Handle multiple uploaded image files (from inputs named name[])
+     * Returns array of uploaded filenames.
+     */
+    protected function handleMultipleUploads($key) {
+        $uploaded = [];
+        if (!isset($_FILES[$key])) return $uploaded;
+
+        $files = $_FILES[$key];
+        if (!is_array($files['name'])) return $uploaded;
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $targetDir = APP_ROOT . '/../public/images';
+        if (!file_exists($targetDir)) mkdir($targetDir, 0755, true);
+
+        foreach ($files['name'] as $i => $originalName) {
+            if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            if (!in_array($extension, $allowedExtensions)) continue;
+            $tmpPath = $files['tmp_name'][$i];
+            $newFilename = uniqid('upload_', true) . '.' . $extension;
+            $targetPath = $targetDir . '/' . $newFilename;
+            if (move_uploaded_file($tmpPath, $targetPath)) {
+                $uploaded[] = $newFilename;
+            }
+        }
+        return $uploaded;
+    }
+
+    /**
      * Dashboard Home: Feedback Moderation Queue & Master Layout
      */
     public function index() {
@@ -183,7 +212,21 @@ class AdminController {
             $allowedStatuses = ['INQUIRE', 'UPON REQUEST', 'PRIVATE SALE', 'RESERVED'];
             if (!in_array($status, $allowedStatuses)) $status = 'INQUIRE';
 
-            $image = $this->handleImageUpload('image_file', $image);
+            // Support multiple image uploads from admin: prefer uploaded files, but preserve text fallback
+            $singleFallback = $image;
+            $uploadedMultiple = $this->handleMultipleUploads('image_files');
+            // Also keep existing single-file handling for backwards-compat
+            $singleUpload = $this->handleImageUpload('image_file', '');
+
+            $images = [];
+            if (!empty($singleFallback)) $images[] = $singleFallback;
+            if (!empty($singleUpload)) $images[] = $singleUpload;
+            if (!empty($uploadedMultiple) && is_array($uploadedMultiple)) {
+                $images = array_merge($images, $uploadedMultiple);
+            }
+
+            // Store images as a JSON array string (keeps backward compatibility if single)
+            $image = json_encode(array_values($images));
 
             if (empty($title) || empty($origin) || empty($location) || empty($carats) || empty($cut) || empty($status) || empty($image) || empty($description) || empty($price_tier)) {
                 $_SESSION['admin_error'] = 'All fields are required to save the gemstone.';

@@ -194,8 +194,10 @@
                                         <td class="px-6 py-4 flex items-center space-x-3">
                                             <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
                                                 <?php 
-                                                $imgSrc = $gem['image'];
-                                                $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                                                $imgSrc = $gem['image'] ?? '';
+                                                $decoded = json_decode($imgSrc, true);
+                                                if (is_array($decoded) && count($decoded) > 0) $useImg = $decoded[0]; else $useImg = $imgSrc;
+                                                $imgUrl = (strpos((string)$useImg, 'http') === 0 || strpos((string)$useImg, 'data:') === 0) ? $useImg : BASE_URL . '/public/images/' . $useImg;
                                                 ?>
                                                 <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-contain">
                                             </div>

@@ -66,9 +66,7 @@
     <!-- Mobile Admin Header -->
     <header class="md:hidden w-full bg-surface border-b border-borderGray flex items-center justify-between p-4 sticky top-0 z-40">
         <a href="<?= BASE_URL; ?>/" class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-full border border-gold flex items-center justify-center text-gold bg-gold/10">
-                <i data-lucide="gem" class="w-4 h-4"></i>
-            </div>
+            <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-8 w-8 object-contain shrink-0">
             <span class="tracking-[0.2em] font-light text-white text-sm uppercase">Rare Stones</span>
         </a>
         <button class="p-2 text-gray-400 hover:text-white transition-colors" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation">
@@ -306,6 +304,7 @@
                                 <div class="space-y-2">
                                     <input type="text" name="image" id="gem-image" placeholder="Paste URL/Filename (e.g. ceylon-blue-sapphire.jpg)" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                                     <input type="file" name="image_file" accept="image/*" class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
+                                    <input type="file" name="image_files[]" accept="image/*" multiple class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
                                 </div>
                             </div>
                             <div>
@@ -353,8 +352,10 @@
                                             <td class="px-4 py-4 flex items-center space-x-3">
                                                 <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
                                                     <?php 
-                                                    $imgSrc = $gem['image'];
-                                                    $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                                                    $imgSrc = $gem['image'] ?? '';
+                                                    $decoded = json_decode($imgSrc, true);
+                                                    if (is_array($decoded) && count($decoded) > 0) $useImg = $decoded[0]; else $useImg = $imgSrc;
+                                                    $imgUrl = (strpos((string)$useImg, 'http') === 0 || strpos((string)$useImg, 'data:') === 0) ? $useImg : BASE_URL . '/public/images/' . $useImg;
                                                     ?>
                                                     <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-contain">
                                                 </div>
@@ -452,6 +453,7 @@
                             <div class="space-y-2">
                                 <input type="text" name="image" id="news-image" placeholder="Paste URL/Filename (e.g. news-bracelet.jpg)" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                                 <input type="file" name="image_file" accept="image/*" class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
+                                <input type="file" name="image_files[]" accept="image/*" multiple class="w-full bg-dark border border-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:bg-white/10 file:text-white file:hover:bg-white/20 text-[10px] text-gray-400 rounded-xl py-1 px-2 focus:outline-none">
                             </div>
                         </div>
 
@@ -494,7 +496,14 @@
                                                 <div class="w-10 h-10 rounded border border-gray-800 bg-dark overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
                                                     <?php 
                                                     $imgSrc = $art['image'];
-                                                    $imgUrl = (strpos($imgSrc, 'http') === 0 || strpos($imgSrc, 'data:') === 0) ? $imgSrc : BASE_URL . '/public/images/' . $imgSrc;
+                                                    $imgToUse = '';
+                                                    $decoded = json_decode($imgSrc, true);
+                                                    if (is_array($decoded) && count($decoded) > 0) {
+                                                        $imgToUse = $decoded[0];
+                                                    } else {
+                                                        $imgToUse = $imgSrc;
+                                                    }
+                                                    $imgUrl = (strpos((string)$imgToUse, 'http') === 0 || strpos((string)$imgToUse, 'data:') === 0) ? $imgToUse : BASE_URL . '/public/images/' . $imgToUse;
                                                     ?>
                                                     <img src="<?= htmlspecialchars($imgUrl); ?>" alt="" class="max-h-full max-w-full object-cover">
                                                 </div>
