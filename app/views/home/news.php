@@ -119,41 +119,6 @@
                 <div class="text-gray-500 italic font-light">More insights will be published soon.</div>
             <?php endif; ?>
         </div>
-                    <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
-                        <?php 
-                        $secImgSrc = $art['image'];
-                        if (strpos($secImgSrc, 'http') === 0 || strpos($secImgSrc, 'data:') === 0) {
-                            $secImgUrl = $secImgSrc;
-                        } else {
-                            $secImgUrl = BASE_URL . '/public/images/' . $secImgSrc;
-                        }
-                        ?>
-                        <img src="<?= htmlspecialchars($secImgUrl); ?>" alt="<?= htmlspecialchars($art['title']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
-                    </div>
-
-                    <div class="space-y-3 font-sans">
-                        <div class="flex items-center space-x-2 text-[9px] tracking-[0.2em] uppercase font-medium">
-                            <span class="text-gold"><?= htmlspecialchars(explode('•', $art['meta'])[0] ?? 'Insight'); ?></span>
-                            <span class="text-gray-600">•</span>
-                            <span class="text-gray-500"><?= htmlspecialchars(trim(explode('•', $art['meta'])[1] ?? 'Recent')); ?></span>
-                        </div>
-
-                        <h3 class="font-serif text-xl text-white font-light leading-snug group-hover:text-gold transition-colors">
-                            <?= htmlspecialchars($art['title']); ?>
-                        </h3>
-
-                        <div class="inline-flex items-center space-x-1 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-400 group-hover:text-white transition-colors">
-                            <span>Read</span>
-                            <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
-                        </div>
-                    </div>
-                </a>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="text-gray-500 italic font-light">More insights will be published soon.</div>
-            <?php endif; ?>
-
-        </div>
 
     </div>
 
