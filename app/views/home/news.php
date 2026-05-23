@@ -72,13 +72,13 @@
             </div>
         </div>
 
-        <!-- Secondary Articles List (full width below featured) -->
-        <div class="col-span-1 space-y-12">
+        <!-- Secondary Articles List (responsive grid below featured) -->
+        <div class="col-span-1 grid grid-cols-1 md:grid-cols-2 gap-12">
             
             <?php if (!empty($others)): ?>
                 <?php foreach ($others as $art): ?>
                     <?php if ($featured && $art['slug'] === $featured['slug']) continue; ?>
-                <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer border-b border-borderGray/50 pb-8 last:border-0 block">
+                <a href="<?= BASE_URL; ?>/article/<?= urlencode($art['slug']); ?>/" class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 group cursor-pointer bg-surface rounded-xl overflow-hidden border border-borderGray p-4 hover:shadow-xl transition-shadow">
                     <div class="relative w-full sm:w-36 h-36 aspect-square bg-surface rounded-xl overflow-hidden flex-shrink-0 border border-borderGray shadow-xl">
                         <?php 
                         $secImgSrc = $art['image'];
