@@ -1,10 +1,10 @@
 <!-- DEDICATED GEMSTONE SPECIFICATION VIEW -->
-<section class="pt-32 pb-24 px-8 md:px-16 max-w-7xl mx-auto relative z-20 min-h-screen flex items-center">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<section class="pt-32 pb-24 px-8 md:px-16 max-w-7xl mx-auto relative z-20 min-h-screen flex items-start">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
         
         <!-- Left Column: Cinematic High-Fidelity Image Presentation -->
-        <div class="lg:col-span-6">
-            <div class="relative bg-surface border border-borderGray p-8 md:p-12 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center aspect-[4/5] group cursor-pointer" onclick="openLightbox()">
+        <div class="lg:col-span-5">
+            <div class="relative bg-surface border border-borderGray p-4 md:p-6 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center aspect-square group cursor-pointer" onclick="openLightbox()">
                 <div class="absolute inset-0 bg-radial-gradient opacity-80 z-0"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-50"></div>
                 
@@ -32,10 +32,19 @@
                             $featuredUrl = !empty($featured) ? BASE_URL . '/public/images/' . $featured : '';
                         }
                         ?>
-                        <img id="gemMainImage" src="<?= htmlspecialchars($featuredUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.9)] relative z-20">
-                
-                <!-- Ambient Backlight -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-gold/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
+                        <img id="gemMainImage" src="<?= htmlspecialchars($featuredUrl); ?>" alt="<?= htmlspecialchars($gem['title']); ?>" class="block mx-auto max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.9)] relative z-20">
+
+                        <?php if (count($images) > 1): ?>
+                            <button type="button" onclick="event.stopPropagation(); prevGemImage();" aria-label="Previous image" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full border border-gray-700 bg-black/50 text-white hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center">
+                                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                            </button>
+                            <button type="button" onclick="event.stopPropagation(); nextGemImage();" aria-label="Next image" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full border border-gray-700 bg-black/50 text-white hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center">
+                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                        <?php endif; ?>
+
+                        <!-- Ambient Backlight -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-gold/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
                 
                 <!-- Hover Expand Icon -->
                 <div class="absolute bottom-6 right-6 z-30 text-white/40 group-hover:text-white transition-colors bg-black/40 p-2.5 rounded-full backdrop-blur-md opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 duration-300">
@@ -45,7 +54,7 @@
         </div>
 
         <!-- Right Column: Dossier & Specifications -->
-        <div class="lg:col-span-6 space-y-8">
+        <div class="lg:col-span-7 space-y-8">
             
             <!-- Breadcrumbs & Status Tag -->
             <div class="flex items-center justify-between border-b border-borderGray pb-6">
@@ -68,9 +77,9 @@
                 </p>
             </div>
 
-            <!-- Detailed Description -->
+            <!-- Detailed Description (preserve line breaks) -->
             <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
-                <?= htmlspecialchars($gem['description']); ?>
+                <?= nl2br(htmlspecialchars($gem['description'])); ?>
             </p>
 
             <!-- Technical Specifications Dossier Table -->
@@ -118,17 +127,6 @@
 
         </div>
 
-        <?php if (count($images) > 1): ?>
-            <div class="mt-4 grid grid-cols-4 gap-3">
-                <?php foreach ($images as $idx => $img):
-                    $url = (strpos((string)$img, 'http') === 0 || strpos((string)$img, 'data:') === 0) ? $img : BASE_URL . '/public/images/' . ltrim((string)$img, '/');
-                ?>
-                    <button type="button" class="rounded overflow-hidden border border-borderGray bg-dark p-0 focus:outline-none" onclick="setGemImage(<?= $idx; ?>)">
-                        <img src="<?= htmlspecialchars($url); ?>" alt="" class="w-full h-20 object-cover">
-                    </button>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
     </div>
 </section>
 
@@ -341,9 +339,10 @@
 <script>
     const gemImages = <?= json_encode(array_values($images)); ?>;
     let currentLightboxIndex = 0;
+    let currentGemIndex = 0;
 
     function openLightbox() {
-        openLightboxAtIndex(0);
+        openLightboxAtIndex(currentGemIndex || 0);
     }
 
     function openLightboxAtIndex(idx) {
@@ -353,6 +352,7 @@
         const url = (raw && (raw.indexOf('http') === 0 || raw.indexOf('data:') === 0)) ? raw : (raw ? '<?= BASE_URL; ?>' + '/public/images/' + raw : '');
 
         currentLightboxIndex = gemImages.length ? ((idx % gemImages.length) + gemImages.length) % gemImages.length : 0;
+        currentGemIndex = currentLightboxIndex;
 
         img.src = url;
         modal.classList.remove('hidden');
@@ -391,25 +391,42 @@
     }
 
     function setGemImage(idx) {
+        if (!gemImages.length) return;
         const raw = gemImages[idx] || gemImages[0] || '';
         const url = (raw && (raw.indexOf('http') === 0 || raw.indexOf('data:') === 0)) ? raw : (raw ? '<?= BASE_URL; ?>' + '/public/images/' + raw : '');
         const el = document.getElementById('gemMainImage');
         if (el) el.src = url;
+        currentGemIndex = gemImages.length ? ((idx % gemImages.length) + gemImages.length) % gemImages.length : 0;
+    }
+
+    function prevGemImage() {
+        if (!gemImages.length) return;
+        setGemImage((currentGemIndex - 1 + gemImages.length) % gemImages.length);
+    }
+
+    function nextGemImage() {
+        if (!gemImages.length) return;
+        setGemImage((currentGemIndex + 1) % gemImages.length);
     }
 
     document.addEventListener('keydown', function (event) {
         const modal = document.getElementById('lightboxModal');
-        if (!modal || modal.classList.contains('hidden')) return;
+        const modalOpen = modal && !modal.classList.contains('hidden');
         if (event.key === 'ArrowLeft') {
             event.preventDefault();
-            stepLightbox(-1);
+            if (modalOpen) stepLightbox(-1); else prevGemImage();
         }
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            stepLightbox(1);
+            if (modalOpen) stepLightbox(1); else nextGemImage();
         }
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && modalOpen) {
             closeLightbox();
         }
+    });
+
+    // Initialize main image on load (ensure correct index if images present)
+    document.addEventListener('DOMContentLoaded', function () {
+        setGemImage(0);
     });
 </script>
