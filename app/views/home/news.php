@@ -30,10 +30,10 @@
     ?>
 
     <?php if ($featured): ?>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-16">
+    <div class="grid grid-cols-1 gap-16">
         
-        <!-- Left Column: Featured Main Article -->
-        <div class="lg:col-span-7 space-y-6 lg:border-r lg:border-borderGray lg:pr-16">
+        <!-- Featured Main Article (full width) -->
+        <div class="col-span-1 space-y-6">
             <a href="<?= BASE_URL; ?>/article/<?= urlencode($featured['slug']); ?>/" class="block relative aspect-[16/10] bg-surface rounded-2xl overflow-hidden border border-borderGray shadow-2xl group cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
                 <?php 
@@ -72,8 +72,8 @@
             </div>
         </div>
 
-        <!-- Right Column: Secondary Articles List -->
-        <div class="lg:col-span-5 space-y-12">
+        <!-- Secondary Articles List (full width below featured) -->
+        <div class="col-span-1 space-y-12">
             
             <?php if (!empty($others)): ?>
                 <?php foreach ($others as $art): ?>
