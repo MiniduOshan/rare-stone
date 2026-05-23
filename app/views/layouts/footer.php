@@ -130,7 +130,11 @@
                 <a href="https://instagram.com/<?= htmlspecialchars($instagram); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#E1306C] transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-[#E1306C]/10 border border-[#E1306C]/30 flex items-center justify-center text-[#E1306C] group-hover:scale-110 transition-transform">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-none stroke-current stroke-[1.8]">
+                                <rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect>
+                                <circle cx="12" cy="12" r="3.8"></circle>
+                                <circle cx="17.25" cy="6.75" r="1.1" fill="currentColor" stroke="none"></circle>
+                            </svg>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Instagram Previews</div>
@@ -144,7 +148,9 @@
                 <a href="https://facebook.com/<?= htmlspecialchars($facebook); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#1877F2] transition-all group block">
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/30 flex items-center justify-center text-[#1877F2] group-hover:scale-110 transition-transform">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current">
+                                <path d="M14 8.5V7c0-.8.5-1.2 1.1-1.2H17V3h-2c-2.7 0-4.5 1.7-4.5 4.5v1H8v3h2.5V21H14v-9.5H16.8l.4-3H14Z"></path>
+                            </svg>
                         </div>
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">Facebook Official Page</div>
