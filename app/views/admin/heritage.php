@@ -110,11 +110,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Network Headline Title</label>
-                        <input type="text" name="title" required value="<?= htmlspecialchars($article['title']); ?>" placeholder="e.g. The Private Network" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="title" value="<?= htmlspecialchars($article['title']); ?>" placeholder="e.g. The Private Network" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Hero Subtitle</label>
-                        <input type="text" name="subtitle" required value="<?= htmlspecialchars($article['subtitle']); ?>" placeholder="e.g. Founded on the principles of trust, discretion..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="subtitle" value="<?= htmlspecialchars($article['subtitle']); ?>" placeholder="e.g. Founded on the principles of trust, discretion..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                 </div>
 
@@ -122,18 +122,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Hero Image URL or Local Filename</label>
-                        <input type="text" name="image" required value="<?= htmlspecialchars($article['image']); ?>" placeholder="e.g. heritage-earrings.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="image" value="<?= htmlspecialchars($article['image']); ?>" placeholder="e.g. heritage-earrings.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Philosophy Statement / Quote</label>
-                        <input type="text" name="quote" required value="<?= htmlspecialchars($article['author']); ?>" placeholder="e.g. True luxury is found in absolute rarity..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="quote" value="<?= htmlspecialchars($article['author']); ?>" placeholder="e.g. True luxury is found in absolute rarity..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                 </div>
 
                 <!-- Editorial Content Body -->
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Heritage Detailed Narrative Content (HTML Supported)</label>
-                    <textarea name="content" required rows="10" placeholder="Narrate the historic philosophies of the vault..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($article['content']); ?></textarea>
+                    <textarea name="content" rows="10" placeholder="Narrate the historic philosophies of the vault..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($article['content']); ?></textarea>
                 </div>
 
                 <div class="pt-4 flex justify-end">

@@ -263,28 +263,28 @@
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Gem Title</label>
-                            <input type="text" name="title" id="gem-title" required placeholder="e.g. Ceylon Blue Sapphire" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" id="gem-title" placeholder="e.g. Ceylon Blue Sapphire" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Origin Source</label>
-                                <input type="text" name="origin" id="gem-origin" required placeholder="e.g. Sri Lanka" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="origin" id="gem-origin" placeholder="e.g. Sri Lanka" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Selling Area / Branch</label>
-                                <input type="text" name="location" id="gem-location" required placeholder="e.g. Ratnapura Branch" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="location" id="gem-location" placeholder="e.g. Ratnapura Branch" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Carat Weight</label>
-                                <input type="text" name="carats" id="gem-carats" required placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="carats" id="gem-carats" placeholder="e.g. 8.12 ct" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Optical Cut</label>
-                                <input type="text" name="cut" id="gem-cut" required placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="cut" id="gem-cut" placeholder="e.g. Cushion Cut" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
@@ -310,13 +310,13 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Valuation Tier</label>
-                                <input type="text" name="price_tier" id="gem-price_tier" required placeholder="e.g. Investment Grade" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="price_tier" id="gem-price_tier" placeholder="e.g. Investment Grade" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Detailed Monograph Description</label>
-                            <textarea name="description" id="gem-description" required rows="3" placeholder="Enter micro-level gemological details..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none"></textarea>
+                            <textarea name="description" id="gem-description" rows="3" placeholder="Enter micro-level gemological details..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none"></textarea>
                         </div>
 
                         <div class="flex items-center space-x-3 pt-2">
@@ -418,17 +418,17 @@
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Title</label>
-                            <input type="text" name="title" id="news-title" required placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" id="news-title" placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Subtitle / Excerpt</label>
-                            <input type="text" name="subtitle" id="news-subtitle" required placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="subtitle" id="news-subtitle" placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Meta Details</label>
-                                <input type="text" name="meta" id="news-meta" required placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="meta" id="news-meta" placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Custom URL Slug</label>
@@ -439,11 +439,11 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Name</label>
-                                <input type="text" name="author" id="news-author" required placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="author" id="news-author" placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Role</label>
-                                <input type="text" name="author_role" id="news-author-role" required placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                <input type="text" name="author_role" id="news-author-role" placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                             </div>
                         </div>
 
@@ -457,7 +457,7 @@
 
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Content (HTML Supported)</label>
-                            <textarea name="content" id="news-content" required rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
+                            <textarea name="content" id="news-content" rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
                         </div>
 
                         <div class="flex items-center space-x-3 pt-2">
@@ -577,11 +577,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Network Headline Title</label>
-                            <input type="text" name="title" required value="<?= htmlspecialchars($heritageArticle['title']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" value="<?= htmlspecialchars($heritageArticle['title']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Hero Subtitle</label>
-                            <input type="text" name="subtitle" required value="<?= htmlspecialchars($heritageArticle['subtitle']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="subtitle" value="<?= htmlspecialchars($heritageArticle['subtitle']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
@@ -595,13 +595,13 @@
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Philosophy Statement / Quote</label>
-                            <input type="text" name="quote" required value="<?= htmlspecialchars($heritageArticle['author']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="quote" value="<?= htmlspecialchars($heritageArticle['author']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Heritage Detailed Narrative Content (HTML Supported)</label>
-                        <textarea name="content" required rows="10" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($heritageArticle['content']); ?></textarea>
+                        <textarea name="content" rows="10" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($heritageArticle['content']); ?></textarea>
                     </div>
 
                     <div class="pt-4 flex justify-end">
@@ -640,11 +640,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Page Title</label>
-                            <input type="text" name="title" required value="<?= htmlspecialchars($discoverArticle['title']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="title" value="<?= htmlspecialchars($discoverArticle['title']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Page Subtitle</label>
-                            <input type="text" name="subtitle" required value="<?= htmlspecialchars($discoverArticle['subtitle']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="subtitle" value="<?= htmlspecialchars($discoverArticle['subtitle']); ?>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
@@ -660,7 +660,7 @@
                         $decoded = json_decode($jsonContent, true);
                         $prettyJson = $decoded ? json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : $jsonContent;
                         ?>
-                        <textarea name="content" required rows="12" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs font-mono focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($prettyJson); ?></textarea>
+                        <textarea name="content" rows="12" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs font-mono focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($prettyJson); ?></textarea>
                     </div>
 
                     <div class="pt-4 flex justify-end">
@@ -703,28 +703,28 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="message-circle" class="w-3 h-3 text-[#25D366]"></i> <span>WhatsApp Number</span></label>
-                            <input type="text" name="whatsapp" required value="<?= htmlspecialchars($whatsapp); ?>" placeholder="+94 77 123 4567" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="whatsapp" value="<?= htmlspecialchars($whatsapp); ?>" placeholder="+94 77 123 4567" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="phone" class="w-3 h-3 text-gold"></i> <span>Direct Phone Line</span></label>
-                            <input type="text" name="phone" required value="<?= htmlspecialchars($phone); ?>" placeholder="+94 11 234 5678" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="phone" value="<?= htmlspecialchars($phone); ?>" placeholder="+94 11 234 5678" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="mail" class="w-3 h-3 text-white"></i> <span>Secure Email</span></label>
-                            <input type="email" name="email" required value="<?= htmlspecialchars($email); ?>" placeholder="concierge@rarestones.lk" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="email" name="email" value="<?= htmlspecialchars($email); ?>" placeholder="concierge@rarestones.lk" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="instagram" class="w-3 h-3 text-[#E1306C]"></i> <span>Instagram Handle</span></label>
-                            <input type="text" name="instagram" required value="<?= htmlspecialchars($instagram); ?>" placeholder="rarestones.ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="instagram" value="<?= htmlspecialchars($instagram); ?>" placeholder="rarestones.ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="facebook" class="w-3 h-3 text-[#1877F2]"></i> <span>Facebook Page Name</span></label>
-                        <input type="text" name="facebook" required value="<?= htmlspecialchars($facebook); ?>" placeholder="Rare Stones Ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="facebook" value="<?= htmlspecialchars($facebook); ?>" placeholder="Rare Stones Ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
 
                     <div class="pt-4 flex justify-end">

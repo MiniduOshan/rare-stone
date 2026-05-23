@@ -110,11 +110,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Page Title</label>
-                        <input type="text" name="title" required value="<?= htmlspecialchars($article['title']); ?>" placeholder="e.g. Rare Stones Vaults" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="title" value="<?= htmlspecialchars($article['title']); ?>" placeholder="e.g. Rare Stones Vaults" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Page Subtitle</label>
-                        <input type="text" name="subtitle" required value="<?= htmlspecialchars($article['subtitle']); ?>" placeholder="e.g. Explore our exclusive island-wide private viewing salons..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="subtitle" value="<?= htmlspecialchars($article['subtitle']); ?>" placeholder="e.g. Explore our exclusive island-wide private viewing salons..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                     $decoded = json_decode($jsonContent, true);
                     $prettyJson = $decoded ? json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : $jsonContent;
                     ?>
-                    <textarea name="content" required rows="12" placeholder='Enter branches in JSON format...' class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs font-mono focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($prettyJson); ?></textarea>
+                    <textarea name="content" rows="12" placeholder='Enter branches in JSON format...' class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs font-mono focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-64"><?= htmlspecialchars($prettyJson); ?></textarea>
                 </div>
 
                 <div class="pt-4 flex justify-end">

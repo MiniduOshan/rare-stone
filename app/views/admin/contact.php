@@ -113,28 +113,28 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="message-circle" class="w-3 h-3 text-[#25D366]"></i> <span>WhatsApp Number</span></label>
-                        <input type="text" name="whatsapp" required value="<?= htmlspecialchars($whatsapp); ?>" placeholder="+94 77 123 4567" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="whatsapp" value="<?= htmlspecialchars($whatsapp); ?>" placeholder="+94 77 123 4567" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="phone" class="w-3 h-3 text-gold"></i> <span>Direct Phone Line</span></label>
-                        <input type="text" name="phone" required value="<?= htmlspecialchars($phone); ?>" placeholder="+94 11 234 5678" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="phone" value="<?= htmlspecialchars($phone); ?>" placeholder="+94 11 234 5678" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="mail" class="w-3 h-3 text-white"></i> <span>Secure Email</span></label>
-                        <input type="email" name="email" required value="<?= htmlspecialchars($email); ?>" placeholder="concierge@rarestones.lk" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="email" name="email" value="<?= htmlspecialchars($email); ?>" placeholder="concierge@rarestones.lk" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="instagram" class="w-3 h-3 text-[#E1306C]"></i> <span>Instagram Handle</span></label>
-                        <input type="text" name="instagram" required value="<?= htmlspecialchars($instagram); ?>" placeholder="rarestones.ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="instagram" value="<?= htmlspecialchars($instagram); ?>" placeholder="rarestones.ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="facebook" class="w-3 h-3 text-[#1877F2]"></i> <span>Facebook Page Name</span></label>
-                    <input type="text" name="facebook" required value="<?= htmlspecialchars($facebook); ?>" placeholder="Rare Stones Ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                    <input type="text" name="facebook" value="<?= htmlspecialchars($facebook); ?>" placeholder="Rare Stones Ceylon" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                 </div>
 
                 <div class="pt-4 flex justify-end">

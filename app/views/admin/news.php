@@ -109,20 +109,20 @@
                     <!-- Title -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Title</label>
-                        <input type="text" name="title" required placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="title" placeholder="e.g. Ratnapura Mining Season: 2026 Quality Outlook" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
 
                     <!-- Subtitle -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Subtitle / Excerpt</label>
-                        <input type="text" name="subtitle" required placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="subtitle" placeholder="e.g. Demand for rare gems is surging..." class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                     </div>
 
                     <!-- Meta and Slug Row -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Meta (e.g. Topic • Date • Time)</label>
-                            <input type="text" name="meta" required placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="meta" placeholder="Origin Report • April 28, 2026 • 4 min read" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Custom URL Slug (Optional)</label>
@@ -134,25 +134,25 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Name</label>
-                            <input type="text" name="author" required placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="author" placeholder="e.g. Elena Vance" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Author Role</label>
-                            <input type="text" name="author_role" required placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                            <input type="text" name="author_role" placeholder="e.g. Field Inspection Lead" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         </div>
                     </div>
 
                     <!-- Image path -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Image URL or Local Filename</label>
-                        <input type="text" name="image" required placeholder="e.g. https://example.com/news.jpg or news-bracelet.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                        <input type="text" name="image" placeholder="e.g. https://example.com/news.jpg or news-bracelet.jpg" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
                         <span class="text-[9px] text-gray-500 font-light mt-1 block">Paste an image URL or input a local filename located inside /public/images/</span>
                     </div>
 
                     <!-- Content Body -->
                     <div>
                         <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Article Content (HTML Supported)</label>
-                        <textarea name="content" required rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
+                        <textarea name="content" rows="6" placeholder="<p>Enter the full body of the article using paragraph tags...</p>" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors resize-none h-40"></textarea>
                     </div>
 
                     <button type="submit" class="w-full bg-white text-black font-semibold tracking-[0.2em] text-xs uppercase py-3.5 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:shadow-white/10 flex items-center justify-center space-x-2">
