@@ -1,31 +1,42 @@
-<!-- GEM STONES COMPACT HEADER -->
 <section class="pt-28 pb-6 px-8 md:px-16 max-w-7xl mx-auto relative z-20 border-b border-borderGray mb-8">
-    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
-        <div class="space-y-2">
-            <div class="text-[10px] tracking-[0.3em] uppercase font-medium text-gold">
-                Vault Catalog
-            </div>
-            <h1 class="font-serif text-4xl md:text-5xl text-white font-light tracking-tight leading-tight">
-                Rare & Master-Cut <span class="italic text-gradient">Gem Stones</span>
-            </h1>
-            <p class="text-xs md:text-sm text-gray-400 font-light max-w-lg tracking-wide">
-                Investment-grade natural sapphires, rubies, emeralds, and diamonds with certified provenance.
-            </p>
+
+    <!-- Top Content -->
+    <div class="space-y-2 mb-8">
+        <div class="text-[10px] tracking-[0.3em] uppercase font-medium text-gold">
+            Vault Catalog
         </div>
 
-        <!-- Category Filter Bar -->
-        <div class="flex flex-wrap gap-2 lg:gap-3 text-[11px] uppercase tracking-[0.2em] font-medium">
-            <button onclick="filterGems('all', this)"
-                class="gem-filter-btn px-5 py-2 rounded-full border border-white text-white bg-white/10 transition-all">All
-                Vault</button>
-            <?php if (!empty($categories)): ?>
-                <?php foreach ($categories as $cat): ?>
-                    <button onclick="filterGems('<?= htmlspecialchars($cat['slug']); ?>', this)"
-                        class="gem-filter-btn px-5 py-2 rounded-full border border-gray-800 text-gray-400 hover:border-gray-500 hover:text-white transition-all"><?= htmlspecialchars($cat['name']); ?></button>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+        <h1 class="font-serif text-4xl md:text-5xl text-white font-light tracking-tight leading-tight">
+            Rare & Master-Cut <span class="italic text-gradient">Gem Stones</span>
+        </h1>
+
+        <p class="text-xs md:text-sm text-gray-400 font-light max-w-lg tracking-wide">
+            Investment-grade natural sapphires, rubies, emeralds, and diamonds with certified provenance.
+        </p>
     </div>
+
+    <!-- Category Filter Bar -->
+    <div class="flex flex-wrap gap-2 lg:gap-3 text-[11px] uppercase tracking-[0.2em] font-medium">
+        <button onclick="filterGems('all', this)"
+            class="gem-filter-btn px-5 py-2 rounded-full border border-white text-white bg-white/10 transition-all">
+            All Vault
+        </button>
+
+        <?php if (!empty($categories)): ?>
+            <?php foreach ($categories as $cat): ?>
+                <button onclick="filterGems('<?= htmlspecialchars($cat['slug']); ?>', this)"
+                    class="gem-filter-btn px-5 py-2 rounded-full border border-gray-800 text-gray-400 hover:border-gray-500 hover:text-white transition-all">
+                    <?= htmlspecialchars($cat['name']); ?>
+                </button>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <button onclick="filterGems('jewelry', this)"
+            class="gem-filter-btn px-5 py-2 rounded-full border border-gray-800 text-gray-400 hover:border-gray-500 hover:text-white transition-all highlight-jewelry">
+            Jewelry
+        </button>
+    </div>
+
 </section>
 
 <!-- GEM STONES CATALOG GRID -->
@@ -71,7 +82,8 @@
 
                 <div class="flex items-baseline justify-between text-white font-serif tracking-wide mb-1">
                     <h3 class="text-xl font-light text-gray-100 group-hover:text-white transition-colors">
-                        <?= htmlspecialchars($gem['title']); ?></h3>
+                        <?= htmlspecialchars($gem['title']); ?>
+                    </h3>
                     <span
                         class="text-[10px] tracking-[0.2em] uppercase font-sans font-medium text-gray-400 px-2 py-0.5 border border-gray-800 rounded bg-dark">
                         <?= htmlspecialchars($gem['status']); ?>

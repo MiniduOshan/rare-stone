@@ -29,10 +29,13 @@ html {
 
 /* Slow Pulse Animation for Hero Gem */
 @keyframes pulseSlow {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1.05);
         opacity: 0.85;
     }
+
     50% {
         transform: scale(1.08);
         opacity: 1;
@@ -48,6 +51,7 @@ html {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -83,17 +87,20 @@ html {
 
 /* Premium Infinite Scrolling Marquee */
 @keyframes scrollMarquee {
-    0% {
+    from {
         transform: translateX(0);
     }
-    100% {
+
+    to {
         transform: translateX(-50%);
     }
 }
 
 .animate-marquee {
     display: flex;
-    width: max-content;
+    flex-wrap: nowrap;
+    width: fit-content;
+    min-width: 200%;
     animation: scrollMarquee 30s linear infinite;
 }
 
@@ -143,3 +150,10 @@ html {
     transform: translateY(-2px);
 }
 
+/* Highlight for Jewelry filter button */
+.highlight-jewelry {
+    border-color: #d4af37 !important;
+    /* Gold-like color */
+    color: #d4af37 !important;
+    background-color: rgba(212, 175, 55, 0.1) !important;
+}

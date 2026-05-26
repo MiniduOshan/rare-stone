@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         $allGemstones = Gemstone::getCuratedAcquisitions();
         $featuredGemstones = array_slice($allGemstones, 0, 3);
-        $reviews = Feedback::getApproved();
+        $reviews = array_slice(Feedback::getApproved(), 0, 2);
 
         $data = [
             'pageTitle' => 'Rare Stones | Rare & Exceptional Gemstones',

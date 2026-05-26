@@ -46,6 +46,8 @@ class AdminController
 
                 $targetPath = $targetDir . '/' . $newFilename;
                 if (move_uploaded_file($tmpPath, $targetPath)) {
+                    // Resize image after upload
+                    $this->resizeImage($targetPath, 800, 800);
                     return $newFilename;
                 }
             }
@@ -82,6 +84,8 @@ class AdminController
             $newFilename = uniqid('upload_', true) . '.' . $extension;
             $targetPath = $targetDir . '/' . $newFilename;
             if (move_uploaded_file($tmpPath, $targetPath)) {
+                // Resize image after upload
+                $this->resizeImage($targetPath, 800, 800);
                 $uploaded[] = $newFilename;
             }
         }
@@ -105,6 +109,102 @@ class AdminController
         }
 
         return [trim($imageValue)];
+    }
+
+    /**
+     * Resizes an image while maintaining aspect ratio.
+     *
+     * @param string $filePath The absolute path to the image file.
+     * @param int $maxWidth The maximum width for the resized image.
+     * @param int $maxHeight The maximum height for the resized image.
+     * @return bool True on success, false on failure.
+     */
+    protected function resizeImage(string $filePath, int $maxWidth, int $maxHeight): bool
+    {
+        list($width, $height, $type) = getimagesize($filePath);
+
+        $newWidth = $width;
+        $newHeight = $height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if ($width > $maxWidth || $height > $maxHeight) {
+            $ratio = $width / $height;
+            if ($ratio > 1) { // Landscape or square
+                $newWidth = $maxWidth;
+                $newHeight = (int) ($maxWidth / $ratio);
+            } else { // Portrait
+                $newHeight = $maxHeight;
+                $newWidth = (int) ($maxHeight * $ratio);
+            }
+        }
+
+        // Create image from file
+        switch ($type) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($filePath);
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($filePath);
+                break;
+            case IMAGETYPE_GIF:
+                $sourceImage = imagecreatefromgif($filePath);
+                break;
+            case IMAGETYPE_WEBP:
+                if (function_exists('imagecreatefromwebp')) {
+                    $sourceImage = imagecreatefromwebp($filePath);
+                } else {
+                    error_log('WEBP support not available. Skipping resize for ' . $filePath);
+                    return false;
+                }
+                break;
+            default:
+                error_log('Unsupported image type for resizing: ' . $filePath);
+                return false;
+        }
+
+        if (!$sourceImage) {
+            error_log('Failed to create image from file: ' . $filePath);
+            return false;
+        }
+
+        $destImage = imagecreatetruecolor($newWidth, $newHeight);
+
+        // Preserve transparency for PNG and GIF
+        if ($type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF) {
+            imagealphablending($destImage, false);
+            imagesavealpha($destImage, true);
+            $transparent = imagecolorallocatealpha($destImage, 255, 255, 255, 127);
+            imagefilledrectangle($destImage, 0, 0, $newWidth, $newHeight, $transparent);
+        }
+
+        imagecopyresampled($destImage, $sourceImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+        // Save the resized image, overwriting the original
+        switch ($type) {
+            case IMAGETYPE_JPEG:
+                imagejpeg($destImage, $filePath, 90); // 90% quality
+                break;
+            case IMAGETYPE_PNG:
+                imagepng($destImage, $filePath);
+                break;
+            case IMAGETYPE_GIF:
+                imagegif($destImage, $filePath);
+                break;
+            case IMAGETYPE_WEBP:
+                if (function_exists('imagewebp')) {
+                    imagewebp($destImage, $filePath);
+                } else {
+                    error_log('WEBP support not available for saving. Skipping save for ' . $filePath);
+                    imagedestroy($sourceImage);
+                    imagedestroy($destImage);
+                    return false;
+                }
+                break;
+        }
+
+        imagedestroy($sourceImage);
+        imagedestroy($destImage);
+        return true;
     }
 
     /**
