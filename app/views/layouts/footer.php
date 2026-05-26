@@ -5,7 +5,7 @@
             <!-- Brand Column -->
             <div class="md:col-span-6 space-y-6">
                 <a href="<?= BASE_URL; ?>/" class="inline-flex items-center space-x-3 group">
-                    <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-12 w-12 object-contain shrink-0 group-hover:opacity-90 transition-opacity duration-300">
+                    <img src="<?= BASE_URL; ?>/public/images/logo.png" alt="Rare Stones" class="h-12 w-12 object-contain shrink-0 group-hover:opacity-90 transition-opacity duration-300">
                     <span class="tracking-[0.22em] font-light text-white text-sm md:text-base uppercase whitespace-nowrap">Rare Stones</span>
                 </a>
                 <p class="max-w-md leading-relaxed text-gray-400 font-light text-sm">
