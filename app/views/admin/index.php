@@ -66,7 +66,7 @@
     <!-- Mobile Admin Header -->
     <header class="md:hidden w-full bg-surface border-b border-borderGray flex items-center justify-between p-4 sticky top-0 z-40">
         <a href="<?= BASE_URL; ?>/" class="flex items-center space-x-3">
-            <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-8 w-8 object-contain shrink-0">
+            <img src="<?= BASE_URL; ?>/public/images/logo.png" alt="Rare Stones" class="h-8 w-8 object-contain shrink-0">
             <span class="tracking-[0.2em] font-light text-white text-sm uppercase">Rare Stones</span>
         </a>
         <button class="p-2 text-gray-400 hover:text-white transition-colors" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation">

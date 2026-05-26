@@ -62,7 +62,7 @@
             
             <!-- Logo -->
             <a href="<?= BASE_URL; ?>" class="flex items-center space-x-3 group">
-                <img src="<?= BASE_URL; ?>/public/images/logo-mark.png" alt="Rare Stones" class="h-10 w-10 object-contain shrink-0 group-hover:opacity-90 transition-opacity duration-300">
+                <img src="<?= BASE_URL; ?>/public/images/logo.png" alt="Rare Stones" class="h-10 w-10">
                 <span class="tracking-[0.22em] font-light text-white text-sm md:text-base uppercase whitespace-nowrap">Rare Stones</span>
             </a>
 
