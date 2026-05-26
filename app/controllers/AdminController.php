@@ -4,14 +4,17 @@ require_once APP_ROOT . '/models/User.php';
 require_once APP_ROOT . '/models/Gemstone.php';
 require_once APP_ROOT . '/models/Article.php';
 require_once APP_ROOT . '/models/Feedback.php';
+require_once APP_ROOT . '/models/Category.php';
 require_once APP_ROOT . '/helpers/Security.php';
 
-class AdminController {
-    
+class AdminController
+{
+
     /**
      * Helper to render admin dashboard views
      */
-    protected function renderAdmin($view, $data = []) {
+    protected function renderAdmin($view, $data = [])
+    {
         extract($data);
         $viewPath = APP_ROOT . '/views/admin/' . $view . '.php';
         if (file_exists($viewPath)) {
@@ -25,21 +28,22 @@ class AdminController {
     /**
      * Helper to upload image file and return new name, otherwise fallback
      */
-    protected function handleImageUpload($key, $fallback) {
+    protected function handleImageUpload($key, $fallback)
+    {
         if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
             $tmpPath = $_FILES[$key]['tmp_name'];
             $originalName = $_FILES[$key]['name'];
             $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-            
+
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
             if (in_array($extension, $allowedExtensions)) {
                 $newFilename = uniqid('upload_', true) . '.' . $extension;
                 $targetDir = APP_ROOT . '/../public/images';
-                
+
                 if (!file_exists($targetDir)) {
                     mkdir($targetDir, 0755, true);
                 }
-                
+
                 $targetPath = $targetDir . '/' . $newFilename;
                 if (move_uploaded_file($tmpPath, $targetPath)) {
                     return $newFilename;
@@ -53,21 +57,27 @@ class AdminController {
      * Handle multiple uploaded image files (from inputs named name[])
      * Returns array of uploaded filenames.
      */
-    protected function handleMultipleUploads($key) {
+    protected function handleMultipleUploads($key)
+    {
         $uploaded = [];
-        if (!isset($_FILES[$key])) return $uploaded;
+        if (!isset($_FILES[$key]))
+            return $uploaded;
 
         $files = $_FILES[$key];
-        if (!is_array($files['name'])) return $uploaded;
+        if (!is_array($files['name']))
+            return $uploaded;
 
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $targetDir = APP_ROOT . '/../public/images';
-        if (!file_exists($targetDir)) mkdir($targetDir, 0755, true);
+        if (!file_exists($targetDir))
+            mkdir($targetDir, 0755, true);
 
         foreach ($files['name'] as $i => $originalName) {
-            if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
+            if ($files['error'][$i] !== UPLOAD_ERR_OK)
+                continue;
             $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-            if (!in_array($extension, $allowedExtensions)) continue;
+            if (!in_array($extension, $allowedExtensions))
+                continue;
             $tmpPath = $files['tmp_name'][$i];
             $newFilename = uniqid('upload_', true) . '.' . $extension;
             $targetPath = $targetDir . '/' . $newFilename;
@@ -81,7 +91,8 @@ class AdminController {
     /**
      * Normalise a gemstone image value into an array of image references.
      */
-    protected function normalizeGemImages($imageValue) {
+    protected function normalizeGemImages($imageValue)
+    {
         if (!is_string($imageValue) || trim($imageValue) === '') {
             return [];
         }
@@ -99,13 +110,14 @@ class AdminController {
     /**
      * Dashboard Home: Feedback Moderation Queue & Master Layout
      */
-    public function index() {
+    public function index()
+    {
         $feedbacks = Feedback::getAll();
         $gems = Gemstone::getCuratedAcquisitions();
         $allArticles = Article::getAll();
-        
+
         // Filter out internal configuration pages
-        $newsArticles = array_filter($allArticles, function($art) {
+        $newsArticles = array_filter($allArticles, function ($art) {
             return !in_array($art['slug'], ['heritage-philosophies', 'discover-page', 'contact-details']);
         });
         $newsArticles = array_values($newsArticles);
@@ -113,12 +125,14 @@ class AdminController {
         // Count stats
         $totalGems = count($gems);
         $totalNews = count($newsArticles);
-        
+
         $pendingReviews = 0;
         $approvedReviews = 0;
         foreach ($feedbacks as $f) {
-            if ($f['status'] === 'pending') $pendingReviews++;
-            if ($f['status'] === 'approved') $approvedReviews++;
+            if ($f['status'] === 'pending')
+                $pendingReviews++;
+            if ($f['status'] === 'approved')
+                $approvedReviews++;
         }
 
         // Self-healing check for heritage
@@ -141,10 +155,10 @@ class AdminController {
         $discoverArticle = Article::getBySlug('discover-page');
         if (!$discoverArticle) {
             $defaultBranches = [
-                [ 'lat' => 6.9271, 'lng' => 79.8612, 'name' => 'Rare Stones - Colombo Gallery', 'city' => 'Colombo, Sri Lanka', 'listings' => '42 active lots' ],
-                [ 'lat' => 6.6828, 'lng' => 80.3992, 'name' => 'Rare Stones - Ratnapura Source', 'city' => 'Ratnapura, Sri Lanka', 'listings' => '34 active lots' ],
-                [ 'lat' => 6.0329, 'lng' => 80.2168, 'name' => 'Rare Stones - Galle Atelier', 'city' => 'Galle, Sri Lanka', 'listings' => '18 active lots' ],
-                [ 'lat' => 6.4750, 'lng' => 79.9958, 'name' => 'Rare Stones - Beruwala Syndicate', 'city' => 'Beruwala, Sri Lanka', 'listings' => '26 active lots' ]
+                ['lat' => 6.9271, 'lng' => 79.8612, 'name' => 'Rare Stones - Colombo Gallery', 'city' => 'Colombo, Sri Lanka', 'listings' => '42 active lots'],
+                ['lat' => 6.6828, 'lng' => 80.3992, 'name' => 'Rare Stones - Ratnapura Source', 'city' => 'Ratnapura, Sri Lanka', 'listings' => '34 active lots'],
+                ['lat' => 6.0329, 'lng' => 80.2168, 'name' => 'Rare Stones - Galle Atelier', 'city' => 'Galle, Sri Lanka', 'listings' => '18 active lots'],
+                ['lat' => 6.4750, 'lng' => 79.9958, 'name' => 'Rare Stones - Beruwala Syndicate', 'city' => 'Beruwala, Sri Lanka', 'listings' => '26 active lots']
             ];
             Article::add(
                 'discover-page',
@@ -169,7 +183,7 @@ class AdminController {
                 'instagram' => 'rarestones.ceylon',
                 'facebook' => 'Rare Stones Ceylon'
             ];
-            
+
             Article::add(
                 'contact-details',
                 'Contact Page',
@@ -188,6 +202,9 @@ class AdminController {
         $error = isset($_SESSION['admin_error']) ? $_SESSION['admin_error'] : '';
         unset($_SESSION['admin_success'], $_SESSION['admin_error']);
 
+        // Fetch dynamic categories for the gems tab
+        $categories = Category::getAll();
+
         $data = [
             'pageTitle' => 'Admin Control Panel | Rare Stones',
             'feedbacks' => $feedbacks,
@@ -197,6 +214,7 @@ class AdminController {
             'heritageArticle' => $heritageArticle,
             'discoverArticle' => $discoverArticle,
             'contactArticle' => $contactArticle,
+            'categories' => $categories,
             'success' => $success,
             'error' => $error,
             'stats' => [
@@ -211,9 +229,34 @@ class AdminController {
     }
 
     /**
-     * Add/Edit Gemstones Panel
+     * Display Gemstones Management Page with Filters
      */
-    public function gems() {
+    public function viewGems()
+    {
+        $gems = Gemstone::getCuratedAcquisitions();
+        $categories = Category::getAll();
+
+        // Get messages from session (if any)
+        $success = isset($_SESSION['admin_success']) ? $_SESSION['admin_success'] : '';
+        $error = isset($_SESSION['admin_error']) ? $_SESSION['admin_error'] : '';
+        unset($_SESSION['admin_success'], $_SESSION['admin_error']);
+
+        $data = [
+            'pageTitle' => 'Manage Gems | Rare Stones Admin',
+            'gems' => $gems,
+            'categories' => $categories,
+            'success' => $success,
+            'error' => $error
+        ];
+
+        $this->renderAdmin('gems', $data);
+    }
+
+    /**
+     * Add/Edit Gemstones Panel (Form Handler)
+     */
+    public function gems()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = Security::sanitizeInt($_POST['id'] ?? 0, 0);
             $title = Security::sanitizeString($_POST['title'] ?? '', 200);
@@ -225,10 +268,12 @@ class AdminController {
             $image = Security::sanitizeString($_POST['image'] ?? '', 500);
             $description = Security::sanitizeString($_POST['description'] ?? '', 5000);
             $price_tier = Security::sanitizeString($_POST['price_tier'] ?? '', 100);
+            $category = Security::sanitizeString($_POST['category'] ?? 'gemstone', 50);
 
             // Validate status against whitelist
             $allowedStatuses = ['INQUIRE', 'UPON REQUEST', 'PRIVATE SALE', 'RESERVED'];
-            if (!in_array($status, $allowedStatuses)) $status = 'INQUIRE';
+            if (!in_array($status, $allowedStatuses))
+                $status = 'INQUIRE';
 
             $existingImages = [];
             if ($id > 0) {
@@ -251,7 +296,8 @@ class AdminController {
                     $images[] = $postedImage;
                 }
             }
-            if (!empty($singleUpload)) $images[] = $singleUpload;
+            if (!empty($singleUpload))
+                $images[] = $singleUpload;
             if (!empty($uploadedMultiple) && is_array($uploadedMultiple)) {
                 $images = array_merge($images, $uploadedMultiple);
             }
@@ -265,14 +311,14 @@ class AdminController {
                 $_SESSION['admin_error'] = 'All fields are required to save the gemstone.';
             } else {
                 if ($id > 0) {
-                    $updated = Gemstone::update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
+                    $updated = Gemstone::update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier, $category);
                     if ($updated) {
                         $_SESSION['admin_success'] = 'Gemstone listing successfully updated.';
                     } else {
                         $_SESSION['admin_error'] = 'Failed to update gemstone in database.';
                     }
                 } else {
-                    $added = Gemstone::add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier);
+                    $added = Gemstone::add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier, $category);
                     if ($added) {
                         $_SESSION['admin_success'] = 'Gemstone listing successfully added to the vault.';
                     } else {
@@ -286,9 +332,50 @@ class AdminController {
     }
 
     /**
+     * Add a new category filter tag
+     */
+    public function addCategory()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = Security::sanitizeString($_POST['category_name'] ?? '', 100);
+            if (!empty($name)) {
+                if (Category::add($name)) {
+                    $_SESSION['admin_success'] = 'Filter category "' . htmlspecialchars($name) . '" added successfully.';
+                } else {
+                    $_SESSION['admin_error'] = 'Failed to add category. It may already exist.';
+                }
+            } else {
+                $_SESSION['admin_error'] = 'Category name cannot be empty.';
+            }
+        }
+        header('Location: ' . BASE_URL . '/admin/#gems');
+        exit;
+    }
+
+    /**
+     * Delete a category filter tag by ID
+     */
+    public function deleteCategory()
+    {
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            if (Category::delete($id)) {
+                $_SESSION['admin_success'] = 'Filter category removed successfully.';
+            } else {
+                $_SESSION['admin_error'] = 'Failed to remove filter category.';
+            }
+        } else {
+            $_SESSION['admin_error'] = 'Invalid category ID.';
+        }
+        header('Location: ' . BASE_URL . '/admin/#gems');
+        exit;
+    }
+
+    /**
      * Add/Edit News / Editorial Panel
      */
-    public function news() {
+    public function news()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = Security::sanitizeInt($_POST['id'] ?? 0, 0);
             $title = Security::sanitizeString($_POST['title'] ?? '', 300);
@@ -334,7 +421,8 @@ class AdminController {
     /**
      * Set a specific article as headline
      */
-    public function headline() {
+    public function headline()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
             if ($id > 0) {
@@ -354,7 +442,8 @@ class AdminController {
     /**
      * Change Heritage Article Panel
      */
-    public function heritage() {
+    public function heritage()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('heritage-philosophies');
             if ($article) {
@@ -385,7 +474,8 @@ class AdminController {
     /**
      * Moderate Customer Feedbacks Status
      */
-    public function feedbackStatus() {
+    public function feedbackStatus()
+    {
         $id = Security::sanitizeInt($_GET['id'] ?? 0, 0);
         $status = Security::sanitizeString($_GET['status'] ?? '', 20);
 
@@ -400,7 +490,8 @@ class AdminController {
     /**
      * Change Discover Page configuration
      */
-    public function discover() {
+    public function discover()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('discover-page');
             if ($article) {
@@ -433,7 +524,8 @@ class AdminController {
     /**
      * Change Contact Details configuration
      */
-    public function contact() {
+    public function contact()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = Article::getBySlug('contact-details');
             if ($article) {
@@ -467,7 +559,8 @@ class AdminController {
      * Generate and download a full project backup ZIP
      * Includes: MySQL DB export, uploaded images, all project files
      */
-    public function backup() {
+    public function backup()
+    {
         // --- Rate Limit: max 2 backups per 24 hours ---
         $maxAttempts = 2;
         $windowSeconds = 86400; // 24 hours
@@ -587,8 +680,10 @@ class AdminController {
             error_log('Backup failed: ' . $e->getMessage());
 
             // Cleanup on failure
-            if (file_exists($sqlPath)) @unlink($sqlPath);
-            if (file_exists($zipPath)) @unlink($zipPath);
+            if (file_exists($sqlPath))
+                @unlink($sqlPath);
+            if (file_exists($zipPath))
+                @unlink($zipPath);
 
             $_SESSION['admin_error'] = 'Backup generation failed: ' . $e->getMessage();
             header('Location: ' . BASE_URL . '/admin/');
@@ -603,7 +698,8 @@ class AdminController {
      * @param string $sqlPath Full path for the output .sql file
      * @return bool
      */
-    protected function exportDatabase($sqlPath) {
+    protected function exportDatabase($sqlPath)
+    {
         $dbHost = DB_HOST;
         $dbUser = DB_USER;
         $dbPass = DB_PASS;
@@ -639,7 +735,8 @@ class AdminController {
      *
      * @return string|null
      */
-    protected function findMysqldump() {
+    protected function findMysqldump()
+    {
         $paths = [
             'mysqldump',                               // system PATH
             '/usr/bin/mysqldump',                      // Linux default
@@ -677,7 +774,8 @@ class AdminController {
      * @param string $sqlPath
      * @return bool
      */
-    protected function exportDatabaseViaPDO($sqlPath) {
+    protected function exportDatabaseViaPDO($sqlPath)
+    {
         try {
             require_once APP_ROOT . '/models/Database.php';
             $pdo = Database::getConnection();
@@ -712,8 +810,9 @@ class AdminController {
                     $colList = '`' . implode('`, `', $columns) . '`';
 
                     foreach ($rows as $row) {
-                        $values = array_map(function($val) use ($pdo) {
-                            if ($val === null) return 'NULL';
+                        $values = array_map(function ($val) use ($pdo) {
+                            if ($val === null)
+                                return 'NULL';
                             return $pdo->quote($val);
                         }, array_values($row));
 
@@ -742,7 +841,8 @@ class AdminController {
      * @param string $projectRoot   Project root for relative path calculation
      * @param array  $excludeDirs   Relative dir paths to skip
      */
-    protected function addDirectoryToZip(ZipArchive $zip, $dir, $projectRoot, $excludeDirs) {
+    protected function addDirectoryToZip(ZipArchive $zip, $dir, $projectRoot, $excludeDirs)
+    {
         $iterator = new DirectoryIterator($dir);
 
         foreach ($iterator as $item) {

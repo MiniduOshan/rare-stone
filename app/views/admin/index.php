@@ -286,7 +286,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Status Tag</label>
                                 <select name="status" id="gem-status" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
@@ -294,6 +294,18 @@
                                     <option value="UPON REQUEST">UPON REQUEST</option>
                                     <option value="PRIVATE SALE">PRIVATE SALE</option>
                                     <option value="RESERVED">RESERVED</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">Product Category</label>
+                                <select name="category" id="gem-category" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                                    <?php if (!empty($categories)): ?>
+                                        <?php foreach ($categories as $cat): ?>
+                                            <option value="<?= htmlspecialchars($cat['slug']); ?>"><?= htmlspecialchars($cat['name']); ?></option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option value="gemstone">Loose Gemstone</option>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -391,6 +403,47 @@
                     </div>
                 </section>
             </div>
+
+            <!-- Filter Tag Management Panel -->
+            <section class="bg-surface border border-borderGray p-8 rounded-3xl shadow-2xl mt-8">
+                <h2 class="font-serif text-2xl text-white font-light mb-6 flex items-center space-x-2">
+                    <i data-lucide="tags" class="w-5 h-5 text-gold"></i>
+                    <span>Catalog Filter Tags</span>
+                </h2>
+                <p class="text-xs text-gray-400 font-light mb-6">Manage the category filter buttons shown on the public gemstone catalog. Adding or removing tags here will update the catalog filters in real-time.</p>
+
+                <!-- Active Tags -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <?php if (!empty($categories)): ?>
+                        <?php foreach ($categories as $cat): ?>
+                            <div class="group inline-flex items-center space-x-2 bg-dark border border-gray-800 rounded-full px-4 py-2 text-xs text-gray-300 hover:border-gray-600 transition-all">
+                                <span class="font-medium"><?= htmlspecialchars($cat['name']); ?></span>
+                                <span class="text-[9px] text-gray-500 font-light">(<?= htmlspecialchars($cat['slug']); ?>)</span>
+                                <a href="<?= BASE_URL; ?>/admin/delete-category/?id=<?= $cat['id']; ?>" 
+                                   onclick="return confirm('Remove the filter tag &quot;<?= htmlspecialchars($cat['name']); ?>&quot;? Gemstones assigned to this category will not be deleted, but they will no longer match this filter.');" 
+                                   class="w-5 h-5 inline-flex items-center justify-center rounded-full bg-red-950/50 border border-red-900/50 text-red-400 hover:bg-red-800 hover:text-white opacity-0 group-hover:opacity-100 transition-all duration-200" 
+                                   title="Delete Tag">
+                                    <i data-lucide="x" class="w-3 h-3"></i>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-xs text-gray-500 italic">No filter categories found. Add one below to get started.</p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Add New Tag Form -->
+                <form action="<?= BASE_URL; ?>/admin/add-category/" method="POST" class="flex items-end gap-3">
+                    <div class="flex-1">
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium">New Filter Tag Name</label>
+                        <input type="text" name="category_name" placeholder="e.g. Spinels, Alexandrites, Custom Cuts..." required class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                    </div>
+                    <button type="submit" class="px-6 py-2.5 bg-gold/20 border border-gold/40 text-gold hover:bg-gold/30 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center space-x-1.5 whitespace-nowrap">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                        <span>Add Tag</span>
+                    </button>
+                </form>
+            </section>
         </div>
 
         <!-- 3. NEWS & EDITORIAL TAB -->

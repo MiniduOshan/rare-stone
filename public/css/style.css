@@ -80,3 +80,66 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: #44444e;
 }
+
+/* Premium Infinite Scrolling Marquee */
+@keyframes scrollMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: scrollMarquee 30s linear infinite;
+}
+
+.marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Horizontal Fade-out Gradient Masks for both edges */
+.marquee-mask::before,
+.marquee-mask::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 15%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-mask::before {
+    left: 0;
+    background: linear-gradient(to right, #08080a 0%, transparent 100%);
+}
+
+.marquee-mask::after {
+    right: 0;
+    background: linear-gradient(to left, #08080a 0%, transparent 100%);
+}
+
+/* Luxury Card styling for quality logos */
+.partner-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 17, 21, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    transition: all 0.4s ease;
+}
+
+.partner-card:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(17, 17, 21, 0.85);
+    box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+    transform: translateY(-2px);
+}
+

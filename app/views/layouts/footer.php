@@ -39,7 +39,7 @@
         <!-- Footer Bottom -->
         <div class="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 text-[11px] text-gray-600">
             <div>
-                © 2026 Rare Stones. All rights reserved.
+                © <?= date('Y'); ?> Rare Stones. All rights reserved. FishiFox PVT Ltd.
             </div>
             <div class="flex space-x-8 tracking-wider">
                 <a href="#" class="hover:text-gray-400 transition-colors">Terms of Service</a>

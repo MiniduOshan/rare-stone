@@ -68,7 +68,7 @@
 
             <!-- Center Navigation Links -->
             <nav class="hidden md:flex items-center space-x-8 lg:space-x-12 text-xs tracking-[0.2em] uppercase font-light text-gray-400">
-                <a href="<?= BASE_URL; ?>/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Marketplace</a>
+                <a href="<?= BASE_URL; ?>/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Home</a>
                 
                 <a href="<?= BASE_URL; ?>/gemstones/" class="hover:text-white transition-colors duration-300 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white border-b-2 border-white pb-1 font-normal' : ''; ?>">Gem Stones</a>
                 
@@ -124,7 +124,7 @@
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-dark/98 backdrop-blur-lg flex flex-col justify-between pt-28 pb-12 px-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden overflow-y-auto">
         <!-- Navigation Links -->
         <nav class="flex flex-col space-y-6 text-sm tracking-[0.2em] uppercase font-light text-gray-400">
-            <a href="<?= BASE_URL; ?>/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white font-normal' : ''; ?>">Marketplace</a>
+            <a href="<?= BASE_URL; ?>/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'home') ? 'text-white font-normal' : ''; ?>">Home</a>
             <a href="<?= BASE_URL; ?>/gemstones/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'gemstones') ? 'text-white font-normal' : ''; ?>">Gem Stones</a>
             <a href="<?= BASE_URL; ?>/heritage/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'heritage') ? 'text-white font-normal' : ''; ?>">Heritage</a>
             <a href="<?= BASE_URL; ?>/news/" onclick="closeMobileMenu()" class="hover:text-white transition-colors duration-300 py-2 border-b border-gray-900 <?= (isset($activeNav) && $activeNav === 'news') ? 'text-white font-normal' : ''; ?>">News</a>

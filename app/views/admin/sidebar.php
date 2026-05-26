@@ -88,7 +88,7 @@ $activeTab = $activeTab ?? 'feedbacks';
     <div class="p-4 border-t border-borderGray bg-dark/40 space-y-2">
         <a href="<?= BASE_URL; ?>/" target="_blank" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-xs text-gray-400 hover:text-white hover:bg-white/5 transition-all uppercase tracking-wider">
             <i data-lucide="external-link" class="w-4 h-4"></i>
-            <span>View Marketplace</span>
+            <span>View Home</span>
         </a>
         
         <button onclick="toggleTheme()" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs text-gray-400 hover:text-white hover:bg-white/5 transition-all uppercase tracking-wider">

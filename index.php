@@ -89,6 +89,12 @@ if ($route === 'admin' && isset($pathSegments[1])) {
         case 'contact':
             $route = 'admin_contact';
             break;
+        case 'add-category':
+            $route = 'admin_add_category';
+            break;
+        case 'delete-category':
+            $route = 'admin_delete_category';
+            break;
     }
 }
 
@@ -166,7 +172,7 @@ switch ($route) {
     case 'discover':
         $homeController->discover();
         break;
-        
+
     // Administrative Routes
     case 'admin':
         $adminController->index();
@@ -199,8 +205,7 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->gems();
         } else {
-            header('Location: ' . BASE_URL . '/admin/#gems');
-            exit;
+            $adminController->viewGems();
         }
         break;
     case 'admin_delete_gem':
@@ -267,7 +272,18 @@ switch ($route) {
             exit;
         }
         break;
-        
+    case 'admin_add_category':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->addCategory();
+        } else {
+            header('Location: ' . BASE_URL . '/admin/#gems');
+            exit;
+        }
+        break;
+    case 'admin_delete_category':
+        $adminController->deleteCategory();
+        break;
+
     case 'home':
     default:
         $homeController->index();

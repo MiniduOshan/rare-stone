@@ -5,13 +5,16 @@ require_once APP_ROOT . '/models/Gemstone.php';
 require_once APP_ROOT . '/models/Article.php';
 require_once APP_ROOT . '/models/Feedback.php';
 require_once APP_ROOT . '/models/User.php';
+require_once APP_ROOT . '/models/Category.php';
 require_once APP_ROOT . '/helpers/Security.php';
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
     /**
      * Display the main landing page
      */
-    public function index() {
+    public function index()
+    {
         $allGemstones = Gemstone::getCuratedAcquisitions();
         $featuredGemstones = array_slice($allGemstones, 0, 3);
         $reviews = Feedback::getApproved();
@@ -31,7 +34,8 @@ class HomeController extends Controller {
     /**
      * Display dedicated gemstone view page
      */
-    public function gem() {
+    public function gem()
+    {
         $gemSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
         $gemId = isset($_GET['id']) ? trim($_GET['id']) : '';
 
@@ -63,8 +67,10 @@ class HomeController extends Controller {
     /**
      * Display the Gem Stones page
      */
-    public function gemstones() {
+    public function gemstones()
+    {
         $allGemstones = Gemstone::getCuratedAcquisitions();
+        $categories = Category::getAll();
 
         foreach ($allGemstones as &$gem) {
             $gem['slug'] = Gemstone::buildSlug($gem);
@@ -74,6 +80,7 @@ class HomeController extends Controller {
         $data = [
             'pageTitle' => 'Vault Gem Stones | Rare Stones',
             'allGemstones' => $allGemstones,
+            'categories' => $categories,
             'activeNav' => 'gemstones'
         ];
 
@@ -83,10 +90,11 @@ class HomeController extends Controller {
     /**
      * Display the Heritage page
      */
-    public function heritage() {
+    public function heritage()
+    {
         // Load the heritage article from the database using its unique slug
         $article = Article::getBySlug('heritage-philosophies');
-        
+
         // If not found in the DB (for example, if not seeded), we can show static fallbacks or create it.
         $data = [
             'pageTitle' => 'Our Heritage & Philosophy | Rare Stones',
@@ -100,14 +108,15 @@ class HomeController extends Controller {
     /**
      * Display the News & Editorial page
      */
-    public function news() {
+    public function news()
+    {
         $allArticles = Article::getAll();
-        
+
         // Filter out internal configuration pages
-        $articles = array_filter($allArticles, function($art) {
+        $articles = array_filter($allArticles, function ($art) {
             return !in_array($art['slug'], ['heritage-philosophies', 'discover-page', 'contact-details']);
         });
-        
+
         // Re-index array
         $articles = array_values($articles);
 
@@ -123,7 +132,8 @@ class HomeController extends Controller {
     /**
      * Display the Dedicated Article Reader page
      */
-    public function article() {
+    public function article()
+    {
         $articleSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
         $articleId = isset($_GET['id']) ? trim($_GET['id']) : '';
 
@@ -172,9 +182,10 @@ class HomeController extends Controller {
     /**
      * Display the Map Discovery page
      */
-    public function discover() {
+    public function discover()
+    {
         $article = Article::getBySlug('discover-page');
-        
+
         $data = [
             'pageTitle' => 'Sri Lanka Seller Network | Rare Stones',
             'activeNav' => 'discover',
@@ -187,7 +198,8 @@ class HomeController extends Controller {
     /**
      * Handle client login & guest session redirection
      */
-    public function login() {
+    public function login()
+    {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['action']) && $_POST['action'] === 'guest') {
@@ -237,13 +249,14 @@ class HomeController extends Controller {
     /**
      * Handle client registration
      */
-    public function register() {
+    public function register()
+    {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = Security::sanitizeString($_POST['name'] ?? '', 100);
             $email = Security::sanitizeEmail($_POST['email'] ?? '');
             $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-            
+
             if (empty($name) || $email === '' || empty($password)) {
                 $error = 'All fields are required.';
             } elseif (mb_strlen($password) < 6) {
@@ -273,7 +286,8 @@ class HomeController extends Controller {
     /**
      * Perform logout and redirect
      */
-    public function logout() {
+    public function logout()
+    {
         User::logout();
         header('Location: ' . BASE_URL . '/');
         exit;
@@ -282,7 +296,8 @@ class HomeController extends Controller {
     /**
      * Submit feedback (requires customer authentication)
      */
-    public function feedback() {
+    public function feedback()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = User::getCurrentUser();
             if (!$user || $user['is_guest']) {
@@ -341,7 +356,7 @@ class HomeController extends Controller {
             header('Content-Type: application/json');
             if ($success) {
                 echo json_encode([
-                    'status' => 'success', 
+                    'status' => 'success',
                     'message' => 'Thank you. Your review has been submitted for verification. It will appear once approved by our administrator.'
                 ]);
             } else {
@@ -354,7 +369,8 @@ class HomeController extends Controller {
     /**
      * Handle inquiry modal submission or data request
      */
-    public function inquire() {
+    public function inquire()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stoneId = Security::sanitizeInt($_POST['stone_id'] ?? 0, 0);
             $name = Security::sanitizeString($_POST['client_name'] ?? '', 100);
@@ -379,7 +395,8 @@ class HomeController extends Controller {
     /**
      * Handle newsletter subscription
      */
-    public function newsletter() {
+    public function newsletter()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = Security::sanitizeEmail($_POST['email'] ?? '');
 

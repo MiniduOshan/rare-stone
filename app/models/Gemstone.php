@@ -4,6 +4,7 @@ require_once APP_ROOT . '/models/Database.php';
 
 class Gemstone {
     private static $locationColumnEnsured = false;
+    private static $categoryColumnEnsured = false;
 
     /**
      * Ensure the gemstones table has a dedicated location column.
@@ -26,6 +27,29 @@ class Gemstone {
         }
 
         self::$locationColumnEnsured = true;
+    }
+
+    /**
+     * Ensure the gemstones table has a dedicated category column.
+     */
+    public static function ensureCategoryColumn() {
+        if (self::$categoryColumnEnsured) {
+            return;
+        }
+
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'gemstones' AND COLUMN_NAME = 'category'");
+            $stmt->execute();
+
+            if ((int) $stmt->fetchColumn() === 0) {
+                $db->exec("ALTER TABLE `gemstones` ADD COLUMN `category` VARCHAR(50) NOT NULL DEFAULT 'gemstone' AFTER `price_tier`");
+            }
+        } catch (PDOException $e) {
+            error_log("Error ensuring gemstone category column: " . $e->getMessage());
+        }
+
+        self::$categoryColumnEnsured = true;
     }
     /**
      * Build a URL-safe gemstone slug from the stone name and location.
@@ -74,6 +98,7 @@ class Gemstone {
     public static function getCuratedAcquisitions() {
         try {
             self::ensureLocationColumn();
+            self::ensureCategoryColumn();
             return Database::cachedQuery("SELECT * FROM `gemstones` ORDER BY `id` DESC");
         } catch (PDOException $e) {
             error_log("Error in getCuratedAcquisitions: " . $e->getMessage());
@@ -90,6 +115,7 @@ class Gemstone {
     public static function getById($id) {
         try {
             self::ensureLocationColumn();
+            self::ensureCategoryColumn();
             $db = Database::getConnection();
             $stmt = $db->prepare("SELECT * FROM `gemstones` WHERE `id` = :id");
             $stmt->execute(['id' => $id]);
@@ -150,13 +176,14 @@ class Gemstone {
      * @param string $price_tier
      * @return bool
      */
-    public static function add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier) {
+    public static function add($title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier, $category = 'gemstone') {
         try {
             self::ensureLocationColumn();
+            self::ensureCategoryColumn();
             $db = Database::getConnection();
             $stmt = $db->prepare("INSERT INTO `gemstones` 
-                (`title`, `origin`, `location`, `carats`, `cut`, `status`, `image`, `description`, `price_tier`) 
-                VALUES (:title, :origin, :location, :carats, :cut, :status, :image, :description, :price_tier)");
+                (`title`, `origin`, `location`, `carats`, `cut`, `status`, `image`, `description`, `price_tier`, `category`) 
+                VALUES (:title, :origin, :location, :carats, :cut, :status, :image, :description, :price_tier, :category)");
             return $stmt->execute([
                 'title' => $title,
                 'origin' => $origin,
@@ -166,7 +193,8 @@ class Gemstone {
                 'status' => $status,
                 'image' => $image,
                 'description' => $description,
-                'price_tier' => $price_tier
+                'price_tier' => $price_tier,
+                'category' => $category
             ]);
         } catch (PDOException $e) {
             error_log("Error in add Gemstone: " . $e->getMessage());
@@ -207,9 +235,10 @@ class Gemstone {
      * @param string $price_tier
      * @return bool
      */
-    public static function update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier) {
+    public static function update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier, $category = 'gemstone') {
         try {
             self::ensureLocationColumn();
+            self::ensureCategoryColumn();
             $db = Database::getConnection();
             $stmt = $db->prepare("UPDATE `gemstones` SET 
                 `title` = :title, 
@@ -220,7 +249,8 @@ class Gemstone {
                 `status` = :status, 
                 `image` = :image, 
                 `description` = :description, 
-                `price_tier` = :price_tier 
+                `price_tier` = :price_tier,
+                `category` = :category
                 WHERE `id` = :id");
             return $stmt->execute([
                 'id' => $id,
@@ -232,7 +262,8 @@ class Gemstone {
                 'status' => $status,
                 'image' => $image,
                 'description' => $description,
-                'price_tier' => $price_tier
+                'price_tier' => $price_tier,
+                'category' => $category
             ]);
         } catch (PDOException $e) {
             error_log("Error in update Gemstone: " . $e->getMessage());
