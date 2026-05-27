@@ -142,109 +142,48 @@
         </p>
     </div>
 
-    <!-- Infinite Scroll Container -->
-    <div class="marquee-container marquee-mask py-4">
-        <div class="animate-marquee flex gap-8">
-            <!-- Set 1 -->
-            <div class="flex gap-8">
-                <!-- GIA Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="30" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="28" fill="#d4af37" text-anchor="middle" letter-spacing="4">G I A</text>
-                        <text x="50%" y="45" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2">GEMOLOGY TRUST</text>
-                    </svg>
-                </div>
-                <!-- ISO 9001 Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="45" cy="25" r="18" stroke="#d4af37" stroke-width="1.5"/>
-                        <circle cx="45" cy="25" r="14" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="2 2"/>
-                        <text x="45" y="29" font-family="'Inter', sans-serif" font-weight="bold" font-size="10" fill="#d4af37" text-anchor="middle">ISO</text>
-                        <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">9001</text>
-                        <text x="130" y="36" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">QUALITY CERTIFIED</text>
-                    </svg>
-                </div>
-                <!-- Gübelin Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="28" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="22" fill="#ffffff" text-anchor="middle" letter-spacing="2">Gübelin</text>
-                        <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#d4af37" text-anchor="middle" letter-spacing="3">SWISS GEM LAB</text>
-                    </svg>
-                </div>
-                <!-- HACCP Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30 13 L45 8 L60 13 L60 28 C60 37 45 44 45 44 C45 44 30 37 30 28 Z" stroke="#d4af37" stroke-width="1.5" fill="none"/>
-                        <text x="45" y="27" font-family="'Inter', sans-serif" font-weight="bold" font-size="8" fill="#d4af37" text-anchor="middle">HACCP</text>
-                        <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="1">HACCP</text>
-                        <text x="130" y="36" font-family="'Inter', sans-serif" font-size="7" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">SAFETY COMPLIANT</text>
-                    </svg>
-                </div>
-                <!-- SSEF Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="28" font-family="'Inter', sans-serif" font-weight="bold" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="4">S S E F</text>
-                        <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2.5">SWISS GEMMOLOGICAL INST.</text>
-                    </svg>
-                </div>
-                <!-- Ceylon Gem Laboratory Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="26" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="20" fill="#d4af37" text-anchor="middle" letter-spacing="1">CEYLON GEM LAB</text>
-                        <text x="50%" y="40" font-family="'Inter', sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" letter-spacing="2">AUTHENTICITY SECURED</text>
-                    </svg>
-                </div>
+    <div class="py-4">
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="30" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="28" fill="#d4af37" text-anchor="middle" letter-spacing="4">G I A</text>
+                    <text x="50%" y="45" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2">GEMOLOGY TRUST</text>
+                </svg>
             </div>
-
-            <!-- Set 2 (Identical duplicate for seamless infinite scrolling loop) -->
-            <div class="flex gap-8">
-                <!-- GIA Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="30" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="28" fill="#d4af37" text-anchor="middle" letter-spacing="4">G I A</text>
-                        <text x="50%" y="45" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2">GEMOLOGY TRUST</text>
-                    </svg>
-                </div>
-                <!-- ISO 9001 Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="45" cy="25" r="18" stroke="#d4af37" stroke-width="1.5"/>
-                        <circle cx="45" cy="25" r="14" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="2 2"/>
-                        <text x="45" y="29" font-family="'Inter', sans-serif" font-weight="bold" font-size="10" fill="#d4af37" text-anchor="middle">ISO</text>
-                        <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">9001</text>
-                        <text x="130" y="36" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">QUALITY CERTIFIED</text>
-                    </svg>
-                </div>
-                <!-- Gübelin Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="28" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="22" fill="#ffffff" text-anchor="middle" letter-spacing="2">Gübelin</text>
-                        <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#d4af37" text-anchor="middle" letter-spacing="3">SWISS GEM LAB</text>
-                    </svg>
-                </div>
-                <!-- HACCP Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30 13 L45 8 L60 13 L60 28 C60 37 45 44 45 44 C45 44 30 37 30 28 Z" stroke="#d4af37" stroke-width="1.5" fill="none"/>
-                        <text x="45" y="27" font-family="'Inter', sans-serif" font-weight="bold" font-size="8" fill="#d4af37" text-anchor="middle">HACCP</text>
-                        <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="1">HACCP</text>
-                        <text x="130" y="36" font-family="'Inter', sans-serif" font-size="7" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">SAFETY COMPLIANT</text>
-                    </svg>
-                </div>
-                <!-- SSEF Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="28" font-family="'Inter', sans-serif" font-weight="bold" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="4">S S E F</text>
-                        <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2.5">SWISS GEMMOLOGICAL INST.</text>
-                    </svg>
-                </div>
-                <!-- Ceylon Gem Laboratory Card -->
-                <div class="partner-card h-24 w-56 rounded-2xl flex flex-col justify-center items-center p-4">
-                    <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="50%" y="26" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="20" fill="#d4af37" text-anchor="middle" letter-spacing="1">CEYLON GEM LAB</text>
-                        <text x="50%" y="40" font-family="'Inter', sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" letter-spacing="2">AUTHENTICITY SECURED</text>
-                    </svg>
-                </div>
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="45" cy="25" r="18" stroke="#d4af37" stroke-width="1.5"/>
+                    <circle cx="45" cy="25" r="14" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <text x="45" y="29" font-family="'Inter', sans-serif" font-weight="bold" font-size="10" fill="#d4af37" text-anchor="middle">ISO</text>
+                    <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">9001</text>
+                    <text x="130" y="36" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">QUALITY CERTIFIED</text>
+                </svg>
+            </div>
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="28" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="22" fill="#ffffff" text-anchor="middle" letter-spacing="2">Gübelin</text>
+                    <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#d4af37" text-anchor="middle" letter-spacing="3">SWISS GEM LAB</text>
+                </svg>
+            </div>
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-10 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 13 L45 8 L60 13 L60 28 C60 37 45 44 45 44 C45 44 30 37 30 28 Z" stroke="#d4af37" stroke-width="1.5" fill="none"/>
+                    <text x="45" y="27" font-family="'Inter', sans-serif" font-weight="bold" font-size="8" fill="#d4af37" text-anchor="middle">HACCP</text>
+                    <text x="130" y="24" font-family="'Inter', sans-serif" font-weight="bold" font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="1">HACCP</text>
+                    <text x="130" y="36" font-family="'Inter', sans-serif" font-size="7" fill="#a5a5b0" text-anchor="middle" letter-spacing="1.5">SAFETY COMPLIANT</text>
+                </svg>
+            </div>
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="28" font-family="'Inter', sans-serif" font-weight="bold" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="4">S S E F</text>
+                    <text x="50%" y="42" font-family="'Inter', sans-serif" font-size="8" fill="#a5a5b0" text-anchor="middle" letter-spacing="2.5">SWISS GEMMOLOGICAL INST.</text>
+                </svg>
+            </div>
+            <div class="partner-card h-24 rounded-2xl flex flex-col justify-center items-center p-4">
+                <svg class="h-8 text-gold" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="26" font-family="'Cormorant Garamond', serif" font-weight="bold" font-size="20" fill="#d4af37" text-anchor="middle" letter-spacing="1">CEYLON GEM LAB</text>
+                    <text x="50%" y="40" font-family="'Inter', sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" letter-spacing="2">AUTHENTICITY SECURED</text>
+                </svg>
             </div>
         </div>
     </div>
