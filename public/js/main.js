@@ -4,6 +4,43 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
+    // Partner marquee animation fallback
+    const marqueeTracks = document.querySelectorAll('.animate-marquee');
+    marqueeTracks.forEach((marqueeTrack) => {
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!reduceMotion) {
+            marqueeTrack.style.animation = 'none';
+
+            const marqueeItems = Array.from(marqueeTrack.children);
+            if (marqueeItems.length && marqueeTrack.children.length === marqueeItems.length) {
+                marqueeItems.forEach((item) => {
+                    marqueeTrack.appendChild(item.cloneNode(true));
+                });
+            }
+
+            const speed = 35;
+            let startTime = null;
+
+            const animate = (timestamp) => {
+                if (startTime === null) {
+                    startTime = timestamp;
+                }
+
+                const loopWidth = marqueeTrack.scrollWidth / 2;
+                if (loopWidth > 0) {
+                    const elapsedSeconds = (timestamp - startTime) / 1000;
+                    const offset = (elapsedSeconds * speed) % loopWidth;
+                    marqueeTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+                }
+
+                requestAnimationFrame(animate);
+            };
+
+            requestAnimationFrame(animate);
+        }
+    });
+
     // Navbar Scroll Effect
     const navbar = document.getElementById('navbar');
     if (navbar) {

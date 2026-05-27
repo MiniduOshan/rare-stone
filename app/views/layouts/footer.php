@@ -71,6 +71,7 @@
             }
             
             $whatsapp = $contacts['whatsapp'] ?? '+94 77 123 4567';
+            $whatsappSecondary = $contacts['whatsapp_secondary'] ?? '+94 71 411 8474';
             $phone = $contacts['phone'] ?? '+94 11 234 5678';
             $email = $contacts['email'] ?? 'concierge@rarestones.lk';
             $instagram = $contacts['instagram'] ?? 'rarestones.ceylon';
@@ -78,6 +79,7 @@
             
             // Clean phone for link
             $waLink = preg_replace('/[^0-9]/', '', $whatsapp);
+            $waSecondaryLink = preg_replace('/[^0-9]/', '', $whatsappSecondary);
             $phoneLink = preg_replace('/[^0-9+]/', '', $phone);
             ?>
 
@@ -93,6 +95,19 @@
                         <div>
                             <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">WhatsApp Concierge</div>
                             <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($whatsapp); ?></div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-1 rounded-full uppercase tracking-wider font-medium">VIP 24/7</span>
+                </a>
+
+                <a href="https://wa.me/<?= htmlspecialchars($waSecondaryLink); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-xl hover:border-[#25D366] transition-all group block">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center text-[#25D366] group-hover:scale-110 transition-transform">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">WhatsApp Concierge 2</div>
+                            <div class="text-sm font-light text-gray-200"><?= htmlspecialchars($whatsappSecondary); ?></div>
                         </div>
                     </div>
                     <span class="text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-1 rounded-full uppercase tracking-wider font-medium">VIP 24/7</span>

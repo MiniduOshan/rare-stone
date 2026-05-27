@@ -13,6 +13,10 @@
             } else {
                 document.documentElement.classList.remove('white-theme');
             }
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5 font-medium flex items-center space-x-2"><i data-lucide="message-circle" class="w-3 h-3 text-[#25D366]"></i> <span>WhatsApp Number 2</span></label>
+                        <input type="text" name="whatsapp_secondary" value="<?= htmlspecialchars($whatsappSecondary); ?>" placeholder="+94 71 411 8474" class="w-full bg-dark border border-gray-800 rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-gray-500 font-light transition-colors">
+                    </div>
         })();
     </script>
     
@@ -103,6 +107,7 @@
             <?php 
                 $contacts = json_decode($article['content'], true) ?? [];
                 $whatsapp = $contacts['whatsapp'] ?? '';
+                $whatsappSecondary = $contacts['whatsapp_secondary'] ?? '';
                 $phone = $contacts['phone'] ?? '';
                 $email = $contacts['email'] ?? '';
                 $instagram = $contacts['instagram'] ?? '';

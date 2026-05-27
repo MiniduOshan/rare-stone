@@ -4,12 +4,14 @@ $subtitleText = !empty($article['subtitle']) ? $article['subtitle'] : 'Connect d
 $contacts = is_array($contacts ?? null) ? $contacts : [];
 
 $whatsapp = $contacts['whatsapp'] ?? '+94 77 123 4567';
+$whatsappSecondary = $contacts['whatsapp_secondary'] ?? '+94 71 411 8474';
 $phone = $contacts['phone'] ?? '+94 11 234 5678';
 $email = $contacts['email'] ?? 'concierge@rarestones.lk';
 $instagram = $contacts['instagram'] ?? 'rarestones.ceylon';
 $facebook = $contacts['facebook'] ?? 'Rare Stones Ceylon';
 
 $waLink = preg_replace('/[^0-9]/', '', $whatsapp);
+$waSecondaryLink = preg_replace('/[^0-9]/', '', $whatsappSecondary);
 $phoneLink = preg_replace('/[^0-9+]/', '', $phone);
 ?>
 
@@ -37,6 +39,14 @@ $phoneLink = preg_replace('/[^0-9+]/', '', $phone);
                     <div>
                         <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">WhatsApp Concierge</div>
                         <div class="text-sm font-light text-gray-200 mt-1"><?= htmlspecialchars($whatsapp); ?></div>
+                    </div>
+                    <span class="text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-1 rounded-full uppercase tracking-wider font-medium">VIP 24/7</span>
+                </a>
+
+                <a href="https://wa.me/<?= htmlspecialchars($waSecondaryLink); ?>" target="_blank" class="flex items-center justify-between p-4 bg-dark border border-gray-800 rounded-2xl hover:border-[#25D366] transition-all group block">
+                    <div>
+                        <div class="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-white transition-colors">WhatsApp Concierge 2</div>
+                        <div class="text-sm font-light text-gray-200 mt-1"><?= htmlspecialchars($whatsappSecondary); ?></div>
                     </div>
                     <span class="text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-1 rounded-full uppercase tracking-wider font-medium">VIP 24/7</span>
                 </a>

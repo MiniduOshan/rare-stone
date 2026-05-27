@@ -99,9 +99,14 @@ html {
 .animate-marquee {
     display: flex;
     flex-wrap: nowrap;
-    width: fit-content;
-    min-width: 200%;
+    width: max-content;
+    min-width: max-content;
     animation: scrollMarquee 30s linear infinite;
+    will-change: transform;
+}
+
+.animate-marquee > div {
+    flex: 0 0 auto;
 }
 
 .marquee-container {

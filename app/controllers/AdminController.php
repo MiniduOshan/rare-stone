@@ -278,6 +278,7 @@ class AdminController
         if (!$contactArticle) {
             $defaultContacts = [
                 'whatsapp' => '+94 77 123 4567',
+                'whatsapp_secondary' => '+94 71 411 8474',
                 'phone' => '+94 11 234 5678',
                 'email' => 'concierge@rarestones.lk',
                 'instagram' => 'rarestones.ceylon',
@@ -630,6 +631,7 @@ class AdminController
             $article = Article::getBySlug('contact-details');
             if ($article) {
                 $whatsapp = Security::sanitizeString($_POST['whatsapp'] ?? '', 50);
+                $whatsappSecondary = Security::sanitizeString($_POST['whatsapp_secondary'] ?? '', 50);
                 $phone = Security::sanitizeString($_POST['phone'] ?? '', 50);
                 $email = Security::sanitizeEmail($_POST['email'] ?? '');
                 $instagram = Security::sanitizeString($_POST['instagram'] ?? '', 200);
@@ -637,6 +639,7 @@ class AdminController
 
                 $contacts = [
                     'whatsapp' => $whatsapp,
+                    'whatsapp_secondary' => $whatsappSecondary,
                     'phone' => $phone,
                     'email' => $email,
                     'instagram' => $instagram,
