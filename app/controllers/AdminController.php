@@ -390,13 +390,13 @@ class AdminController
             // Also keep existing single-file handling for backwards-compat
             $singleUpload = $this->handleImageUpload('image_file', '');
 
-            $images = $existingImages;
-
-            if (!empty($postedImages)) {
-                foreach ($postedImages as $postedImage) {
-                    $images[] = $postedImage;
-                }
+            $hasUploads = !empty($singleUpload) || !empty($uploadedMultiple);
+            if ($hasUploads) {
+                $images = [];
+            } else {
+                $images = !empty($postedImages) ? $postedImages : $existingImages;
             }
+
             if (!empty($singleUpload))
                 $images[] = $singleUpload;
             if (!empty($uploadedMultiple) && is_array($uploadedMultiple)) {
@@ -408,8 +408,8 @@ class AdminController
             // Store images as a JSON array string (keeps backward compatibility if single)
             $image = json_encode(array_values($images));
 
-            if (empty($title) || empty($origin) || empty($location) || empty($carats) || empty($cut) || empty($status) || empty($image) || empty($description) || empty($price_tier)) {
-                $_SESSION['admin_error'] = 'All fields are required to save the gemstone.';
+            if (empty($title)) {
+                $_SESSION['admin_error'] = 'Gemstone Title is required to save the gemstone.';
             } else {
                 if ($id > 0) {
                     $updated = Gemstone::update($id, $title, $origin, $location, $carats, $cut, $status, $image, $description, $price_tier, $category);
